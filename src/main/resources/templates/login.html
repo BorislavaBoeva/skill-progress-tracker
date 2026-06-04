@@ -23,18 +23,18 @@
     <div class="nav-left"></div>
 </header>
 <main>
-           <form class="form" action="/home" method="get">
-            <h3>Login Here</h3>
-            <label for="username">Username</label>
-            <input type="text" placeholder="Username" id="username">
+    <form class="form" th:action="@{/login}" th:object="${userRegisterRequest}"  method="post">
+        <h3>Login Here</h3>
+        <label for="username">Username</label>
+        <input type="text" placeholder="Username" id="username" th:field="${userRegisterRequest.username}">
 
-            <label for="password">Password</label>
-            <input type="password" placeholder="Password" id="password">
-            <button type="submit">Log In</button>
-            <p class="form-already">Don't have an account? <a href="/register">Register now</a>!</p>
-        </form>
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" th:field="${userRegisterRequest.password}">
+        <button type="submit">Log In</button>
+        <p class="form-already">Don't have an account? <a href="/register">Register now</a>!</p>
+    </form>
 </main>
-<<footer class="footer">
+<footer class="footer">
     © Skill Progress Tracker. All rights reserved.
 </footer>
 </body>
