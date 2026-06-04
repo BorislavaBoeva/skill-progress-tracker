@@ -22,20 +22,26 @@
     <div class="nav-left"></div>
 </header>
 <main>
-        <form class="form" action="/register" method="post">
+        <form class="form" th:action="@{/register}"th:object="${userRegisterRequest}" th:method="post">
             <h3>Register Here</h3>
+
             <label for="username">Username</label>
-            <input type="text" placeholder="Username" id="username">
+            <input type="text" placeholder="Username" id="username" th:field="*{username}">
+
             <label for="password">Password</label>
-            <input type="password" placeholder="Password" id="password">
+            <input type="password" placeholder="Password" id="password" th:field="*{password}">
+
             <label for="profilePicture">Add Profile Picture</label>
-            <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture"
-                   accept="image/*">
+            <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture" accept="image/*" th:field="*{profilePicture}">
+
             <label for="email">Email</label>
-            <input type="email" placeholder="Email" id="email">
+            <input type="email" placeholder="Email" id="email" th:field="*{email}" >
+
             <label for="fullName">Full Name</label>
-            <input type="text" placeholder="fullName" id="fullName">
+            <input type="text" placeholder="fullName" id="fullName" th:field="*{fullName}">
+
             <button>Register</button>
+
             <p class="form-already">Already have an account? <a href="/login">Login</a>!</p>
         </form>
 </main>

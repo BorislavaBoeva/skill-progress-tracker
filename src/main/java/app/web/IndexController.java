@@ -5,6 +5,8 @@ import app.model.entity.dto.user.UserRegisterRequestDto;
 import app.service.user.UserService;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -25,23 +27,33 @@ public class IndexController {
 
 
     @GetMapping("/register")
-    public String getRegister() {
-        return "register";
+    public ModelAndView getRegister() {
+        UserRegisterRequestDto userRegisterRequest = UserRegisterRequestDto.builder().build();
+        ModelAndView modelAndView = new ModelAndView("register");
+        modelAndView.addObject("userRegisterRequest", userRegisterRequest);
+        return modelAndView;
+    }
+
+    @PostMapping("/register")
+    public ModelAndView registerUser(@ModelAttribute UserRegisterRequestDto userRegisterRequest) {
+        userService.register(userRegisterRequest);
+
+        return new ModelAndView("redirect:/home");
     }
 
     @GetMapping("/login")
     public ModelAndView getLogin() {
         //празна форма-> object
-        UserRegisterRequestDto userRegisterRequest = UserRegisterRequestDto.builder().build();
+        UserLoginRequestDto userLoginRequest = UserLoginRequestDto.builder().build();
         ModelAndView modelAndView = new ModelAndView("login");
-        modelAndView.addObject("userRegisterRequest", userRegisterRequest);
-
+        modelAndView.addObject("userLoginRequest", userLoginRequest);
         return modelAndView;
     }
 
-    @GetMapping("/login")
-    public ModelAndView getLogin(@RequestParam UserLoginRequestDto userLoginRequest) {
-      userService.login(userLoginRequest);
+    @PostMapping("/login")
+    public ModelAndView login(@ModelAttribute UserLoginRequestDto userLoginRequest) {
+        userService.login(userLoginRequest);
+
         return new ModelAndView("redirect:/home");
     }
 
