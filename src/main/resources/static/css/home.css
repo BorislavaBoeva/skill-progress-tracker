@@ -1,0 +1,57 @@
+/* Текстът най-отгоре */
+.subtitle {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    font-size: 22px;
+    font-weight: 600;
+    opacity: 0.9;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Контейнер на формата (базиран на .skill-form, но по-малък и по-прозрачен) */
+.home-form {
+    width: 480px;
+    margin: 0 auto 40px auto;
+    padding: 35px 40px;
+    background: rgba(255, 255, 255, 0.35); /* максимално прозрачна */
+    backdrop-filter: blur(22px); /* силен glass ефект */
+    -webkit-backdrop-filter: blur(22px);
+    border-radius: 12px; /* същият радиус като skill-form */
+    border: 1px solid rgba(255,255,255,0.18);
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15); /* същата сянка */
+    text-align: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Заглавие вътре във формата */
+.home-form h3 {
+    text-align: center;
+    margin-bottom: 25px;
+    font-size: 26px;
+    font-weight: 600;
+}
+
+/* Бутоните вътре във формата — базирани на submit-btn */
+.home-btn {
+    display: block;
+    width: 100%;
+    margin: 15px 0;
+    padding: 14px;
+
+    background: rgba(74, 108, 247, 0.35); /* по-прозрачен от skill бутона */
+    backdrop-filter: blur(6px);
+    border: 1px solid rgba(255,255,255,0.4);
+
+    color: white;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.home-btn:hover {
+    background: rgba(74, 108, 247, 0.55);
+}
