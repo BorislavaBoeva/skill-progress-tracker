@@ -1,6 +1,5 @@
 package app.repository.skill;
 
-import app.model.entity.activity.SkillCategory;
 import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,7 +13,7 @@ public interface SkillProgressRepository extends JpaRepository<SkillProgress, UU
     List<SkillProgress> findAllByOwner_Id(UUID userId);
     List<SkillProgress> findAllByOwner(User owner);
 
-     //activityType
-    List<SkillProgress> findAllByActivityType_Id(UUID activityTypeId);
-    List<SkillProgress> findAllByActivityType_Category(SkillCategory category);
+     //activity
+    List<SkillProgress> findAllByActivity_Id(UUID activityTypeId);
+
 }

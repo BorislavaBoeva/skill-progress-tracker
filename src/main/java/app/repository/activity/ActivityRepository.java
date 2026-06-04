@@ -1,15 +1,14 @@
 package app.repository.activity;
 
-import app.model.entity.activity.ActivityType;
+import app.model.entity.activity.Activity;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-public interface ActivityTypeRepository extends JpaRepository<ActivityType, UUID> {
+public interface ActivityRepository extends JpaRepository<Activity, UUID> {
     //unique = true , не може да има дубликация!
-    ActivityType findByName(String name);
+    Activity findByName(String name);
     boolean existsByName(String name);
 }

@@ -1,6 +1,6 @@
 package app.model.entity.sklill;
 
-import app.model.entity.activity.ActivityType;
+import app.model.entity.activity.Activity;
 import app.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -14,7 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "skill_progress_entries")
+@Table(name = "skill_progress")
 public class SkillProgress {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -34,6 +34,6 @@ public class SkillProgress {
     private User owner;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "activity_type_id", nullable = false)
-    private ActivityType activityType;
+    @JoinColumn(name = "activity_id", nullable = false)
+    private Activity activity;
 }

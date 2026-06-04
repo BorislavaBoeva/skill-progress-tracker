@@ -8,15 +8,15 @@ import lombok.NoArgsConstructor;
 public class SkillProgressMapper {
 
     public static SkillProgressDto toDto(SkillProgress skillProgress) {
-        if (skillProgress == null) {return null;}
-
+        if (skillProgress == null) {
+            return null;
+        }
         return SkillProgressDto.builder()
                 .id(skillProgress.getId())
-                .category(skillProgress.getActivityType().getCategory())
                 .date(skillProgress.getDate())
                 .hours(skillProgress.getHours())
                 .description(skillProgress.getDescription())
-                .activityName(skillProgress.getActivityType().getName())
+                .activityName(skillProgress.getActivity().getName())
                 .build();
     }
 }

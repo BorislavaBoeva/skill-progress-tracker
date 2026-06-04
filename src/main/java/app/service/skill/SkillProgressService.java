@@ -1,6 +1,6 @@
 package app.service.skill;
 
-import app.model.entity.activity.SkillCategory;
+import app.model.entity.category.Category;
 import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
@@ -30,16 +30,17 @@ public class SkillProgressService {
         skillProgressRepository.save(skillProgress);
 
         // 3) ВЗИМАМЕ КАТЕГОРИЯТА ОТ ACTIVITY TYPE
-        SkillCategory category = skillProgress.getActivityType().getCategory();
+        Category category = skillProgress.getActivity().getCategory();
+        String categoryName = category.getName();
 
         int points = skillProgress.getHours();
 
         // 4) Добавяме точки към правилната категория
-        switch (category) {
-            case EDUCATION -> user.setEducationPoints(user.getEducationPoints() + points);
-            case PHYSICAL -> user.setPhysicalPoints(user.getPhysicalPoints() + points);
-            case HOBBY -> user.setHobbyPoints(user.getHobbyPoints() + points);
-            case PROFESSIONAL -> user.setProfessionalPoints(user.getProfessionalPoints() + points);
+        switch (categoryName) {
+            case "EDUCATION" -> user.setEducationPoints(user.getEducationPoints() + points);
+            case "PHYSICAL" -> user.setPhysicalPoints(user.getPhysicalPoints() + points);
+            case "HOBBY" -> user.setHobbyPoints(user.getHobbyPoints() + points);
+            case "PROFESSIONAL" -> user.setProfessionalPoints(user.getProfessionalPoints() + points);
         }
 
         // 5) Обновяваме нивата

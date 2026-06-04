@@ -43,7 +43,7 @@ public class UserMapper {
         if (user == null) {
             return null;
         }
-        // list with all activity -> skill progress/{id=1, hours=2, activityName="Yoga"} {id=2, hours=1, activityType=READING}....
+        // list with all activity -> skill progress/{id=1, hours=2, activityName="Yoga"} {id=2, hours=1, activity=READING}....
         List<SkillProgressDto> progressDto = user.getProgressEntries()
                 .stream()
                 .map(SkillProgressMapper::toDto)

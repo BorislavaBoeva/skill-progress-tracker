@@ -1,6 +1,7 @@
 package app.model.entity.activity;
 
 
+import app.model.entity.category.Category;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -12,16 +13,18 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "activity_types")
-public class ActivityType {
+@Table(name = "activity")
+public class Activity {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    // EDUCATION, PHYSICAL, HOBBY, PROFESSIONAL
-    @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
-    private SkillCategory category;
     @Column(nullable = false, unique = true)
     private String name;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "category_id", nullable = false)
+    private Category category;
 }
+
+

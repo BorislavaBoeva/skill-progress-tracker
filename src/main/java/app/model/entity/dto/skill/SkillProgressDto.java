@@ -1,6 +1,5 @@
 package app.model.entity.dto.skill;
 
-import app.model.entity.activity.SkillCategory;
 import lombok.Builder;
 import lombok.Data;
 
@@ -10,11 +9,9 @@ import java.util.UUID;
 @Builder
 public class SkillProgressDto {
     private UUID id;
-    private SkillCategory category;
     private LocalDate date;
     private int hours;
     private String description;
-    private UUID activityTypeId;
+    private UUID activityId;
     private String activityName;
-
 }
