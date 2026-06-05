@@ -12,6 +12,7 @@ import java.util.UUID;
 @AllArgsConstructor
 @Entity
 @Table(name = "category")
+
 public class Category {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)

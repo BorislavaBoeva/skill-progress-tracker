@@ -20,10 +20,10 @@ public class SkillProgress {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "date", nullable = false)
+    @Column(name = "date", nullable = false, columnDefinition = "DATE DEFAULT (CURRENT_DATE)")
     private LocalDate date = LocalDate.now();
 
-    @Column(name = "hours", nullable = false)
+    @Column(name = "hours", nullable = false, columnDefinition = "INT DEFAULT 0")
     private int hours;
 
     @Column(name = "description", nullable = false)

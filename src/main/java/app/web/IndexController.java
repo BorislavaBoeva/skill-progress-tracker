@@ -38,7 +38,7 @@ public class IndexController {
     public ModelAndView registerUser(@ModelAttribute UserRegisterRequestDto userRegisterRequest) {
         userService.register(userRegisterRequest);
 
-        return new ModelAndView("redirect:/home");
+        return new ModelAndView("redirect:/login");
     }
 
     @GetMapping("/login")

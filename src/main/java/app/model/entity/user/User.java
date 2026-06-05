@@ -3,6 +3,7 @@ package app.model.entity.user;
 import app.model.entity.sklill.SkillProgress;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.boot.context.properties.bind.DefaultValue;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +26,7 @@ public class User {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "profile_picture", unique = true)
+    @Column(name = "profile_picture")
     private String profilePicture;
 
     @Column(name = "email", nullable = false, unique = true)
@@ -36,47 +37,32 @@ public class User {
 
     //BEGINNER
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
     private ProgressLevel education;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
     private ProgressLevel physical;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
     private ProgressLevel hobby;
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
     private ProgressLevel professional;
 
     // -all points are starting from 0
-    @Column(name = "education_points", nullable = false)
+    @Column(name = "education_points", nullable = false, columnDefinition = "int default 0")
     private int educationPoints;
-    @Column(name = "physical_points", nullable = false)
+    @Column(name = "physical_points", nullable = false, columnDefinition = "int default 0")
     private int physicalPoints;
-    @Column(name = "hobby_points", nullable = false)
+    @Column(name = "hobby_points", nullable = false, columnDefinition = "int default 0")
     private int hobbyPoints;
-    @Column(name = "professional_points", nullable = false)
+    @Column(name = "professional_points", nullable = false, columnDefinition = "int default 0")
     private int professionalPoints;
     // prosperity is calculated from all points in the range 0-100 in percents
-    @Column(name = "prosperity", nullable = false)
+    @Column(name = "prosperity", nullable = false, columnDefinition = "int default 0")
     private int prosperity;
 
    //history OF progress
     @OneToMany(mappedBy = "owner", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<SkillProgress> progressEntries = new ArrayList<>();
-
-    @PrePersist
-    private void initDefaults() {
-        if (education == null) education = ProgressLevel.BEGINNER;
-        if (physical == null) physical = ProgressLevel.BEGINNER;
-        if (hobby == null) hobby = ProgressLevel.BEGINNER;
-        if (professional == null) professional = ProgressLevel.BEGINNER;
-
-        educationPoints = 0;
-        physicalPoints = 0;
-        hobbyPoints = 0;
-        professionalPoints = 0;
-
-        prosperity = 0;
-    }
 }
