@@ -66,36 +66,4 @@ public class UserService {
         userRepository.save(user);
     }
 
-//    public UserProfileDto getCurrentUserProfile() {
-//        User user = getLoggedUser();
-//
-//        boolean isNew = user.getEducationPoints() == 0 &&
-//                user.getPhysicalPoints() == 0 &&
-//                user.getHobbyPoints() == 0 &&
-//                user.getProfessionalPoints() == 0;
-//
-//        UserProfileDto dto = mapper.toProfileDto(user);
-//        if (isNew) {
-//            dto.setMessage("Започваш от нула. Успех!");
-//        }
-//
-//        return dto;
-//    }
-//
-//    public UserStatsDto getUserStats(UUID userId) {
-//        User user = userRepository.findById(userId)
-//                .orElseThrow(() -> new RuntimeException("User not found"));
-//
-//        // Проверка дали е нов потребител
-//        if (user.getEducationPoints() == 0 &&
-//                user.getPhysicalPoints() == 0 &&
-//                user.getHobbyPoints() == 0 &&
-//                user.getProfessionalPoints() == 0) {
-//
-//            // Тук връщаш съобщение към контролера/фронтенда
-//            return new UserStatsDto(user, "Започваш от нула. Успех!");
-//        }
-//
-//        return new UserStatsDto(user, null);
-//    }
 }
