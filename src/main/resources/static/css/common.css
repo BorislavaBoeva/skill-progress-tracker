@@ -51,7 +51,9 @@ header {
 /* BUTTONS WRAPPER */
 .nav-left {
     display: flex;
+    flex-direction: column;
     gap: 30px;
+    align-items: flex-end; /* за да стоят вдясно */
 }
 
 /* BUTTONS */
@@ -62,12 +64,10 @@ header {
     display: flex;
     justify-content: center;
     align-items: center;
-
     font-size: 20px;
     font-weight: 600;
     color: #0d1b4c;
     text-transform: uppercase;
-
     border-radius: 8px;
     background-color: #A7C7E7;
     border: none;
@@ -91,9 +91,7 @@ header {
     text-overflow: ellipsis;
 }
 
-/* --------------------------------------------- */
 /* MAIN CONTENT */
-/* --------------------------------------------- */
 main {
     flex: 1;
     display: flex;
@@ -101,7 +99,7 @@ main {
     align-items: center;
     text-align: center;
     position: relative;
-   // margin-top: 40px;
+    margin-top: 40px;
 }
 
 /* SUBTITLE – долу, център */
@@ -124,17 +122,15 @@ main {
     width: 420px;
     margin: 80px auto;
     padding: 35px 40px;
-
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(6px);
     border-radius: 12px;
-
     box-shadow: 0 4px 20px rgba(0,0,0,0.15);
 }
 
 .form h3 {
     text-align: center;
-    font-size: 36px;
+    font-size: 24px;
     font-weight: 700;
     color: #0d1b4c;
     margin-bottom: 25px;

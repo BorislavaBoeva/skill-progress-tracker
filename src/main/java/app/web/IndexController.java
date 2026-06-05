@@ -1,5 +1,6 @@
 package app.web;
 
+import app.model.entity.dto.user.UserDto;
 import app.model.entity.dto.user.UserLoginRequestDto;
 import app.model.entity.dto.user.UserRegisterRequestDto;
 import app.service.user.UserService;
@@ -7,7 +8,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 @Controller
@@ -51,10 +51,13 @@ public class IndexController {
     }
 
     @PostMapping("/login")
-    public ModelAndView login(@ModelAttribute UserLoginRequestDto userLoginRequest) {
-        userService.login(userLoginRequest);
+    public ModelAndView loginUser(@ModelAttribute UserLoginRequestDto userLoginRequest) {
+        UserDto user = userService.login(userLoginRequest);
+        ModelAndView modelAndView = new ModelAndView();
+        modelAndView.setViewName("redirect:/home");
+        modelAndView.addObject("user", user);
 
-        return new ModelAndView("redirect:/home");
+        return modelAndView;
     }
 
     @GetMapping("/home")
