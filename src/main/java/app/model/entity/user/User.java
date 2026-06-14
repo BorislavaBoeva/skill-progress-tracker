@@ -19,22 +19,16 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-
     @Column(name = "username", nullable = false, unique = true)
     private String username;
-
     @Column(name = "password", nullable = false)
     private String password;
-
     @Column(name = "profile_picture")
     private String profilePicture;
-
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-
     @Column(name = "full_name", nullable = false)
     private String fullName;
-
     //BEGINNER
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
@@ -48,7 +42,6 @@ public class User {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
     private ProgressLevel professional;
-
     // -all points are starting from 0
     @Column(name = "education_points", nullable = false, columnDefinition = "int default 0")
     private int educationPoints;

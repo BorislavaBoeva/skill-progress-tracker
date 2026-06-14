@@ -2,35 +2,66 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Home</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;600&display=swap" rel="stylesheet">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
     <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="stylesheet" type="text/css" href="/css/home.css">
 </head>
-
 <body>
-<header>
-    <div class="logo-right">
+    <header>
+      <div class="logo-right">
         <a href="/">
             <img src="/images/logo.png" alt="Logo">
         </a>
     </div>
-    <h1 class="title-center">Skill Progress Tracker</h1>
 </header>
 <main>
-    <h2 class="subtitle">Choose what you want to do today</h2>
-    <form class="form home-form">
-        <h3>Welcome to Your Dashboard</h3>
-        <a href="/profile" class="home-btn">View Profile</a>
-        <a href="/skill" class="home-btn">Add Skill Progress</a>
-        <a href="/stats" class="home-btn">Your Statistics</a>
-    </form>
-</main>
-<footer class="footer">
-    © Skill Progress Tracker. All rights reserved.
-</footer>
+     
+
+    <div class="container">
+         <h2>Choose What You Want To Do Today …/name</h2>
+    <!-- Лява колона с двата бутона -->
+      <form class="form dashboard-form">
+
+            <h3 class="subtitle-dashbord">Dashboard</h3>
+
+            <div class="container-dashboard">
+                <a href="/profile" class="button">
+                    <img src="/images/profilePic.png" alt="profilePic" class="icon">Edit Profile</a>
+        
+                <a href="/reports" class="button">
+                        <img src="/images/reports.png" alt="reports" class="icon">Progress</a>
+                        
+                <a href="/logout" class="button">
+                        <img src="/images/logout.png" alt="logout" class="icon">Logout</a>
+            </div>
+        </form>
+      
+    <!-- Дясна колона – формата -->
+        <form class="form">
+
+            <h3 class="subtitle-category">Add Skill Progress</h3>
+
+            <div class="container-activity">
+                <a href="/categories/activities" class="button">
+                    <img src="/images/education.png" alt="Education" class="icon">Education</a>
+        
+                <a href="/categories/activities" class="button">
+                        <img src="/images/physical.png" alt="Physical" class="icon">Physical</a>
+        
+                <a href="/categories/activities" class="button">
+                            <img src="/images/professionale.png" alt="Professional" class="icon">Professional </a>
+        
+                <a href="/categories/activities" class="button">
+                    <img src="/images/hobby.png" alt="Hobby" class="icon">Hobby</a>
+            </div>
+            
+        </form>
+
+    </div> 
+   </main>
+
+   <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
 </body>
 </html>
