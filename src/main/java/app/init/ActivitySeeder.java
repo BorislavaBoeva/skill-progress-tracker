@@ -14,17 +14,19 @@ import java.util.List;
 public class ActivitySeeder {
     private final CategoryRepository categoryRepository;
     private final ActivityRepository activityRepository;
+    private final CategorySeeder categorySeeder;
 
     @Autowired
-    public ActivitySeeder(CategoryRepository categoryRepository, ActivityRepository activityRepository) {
+    public ActivitySeeder(CategoryRepository categoryRepository, ActivityRepository activityRepository, CategorySeeder categorySeeder) {
         this.categoryRepository = categoryRepository;
         this.activityRepository = activityRepository;
+        this.categorySeeder = categorySeeder;
     }
 
     @PostConstruct
     public void init() {
         // Основни активности за всяка категория
-        List<String> categories = List.of("Education", "Physical", "Hobby", "Professional");
+        List<String> categories = List.of("education", "physical", "hobby", "professional");
 
         for (String categoryName : categories) {
 
@@ -35,10 +37,10 @@ public class ActivitySeeder {
             if (activityRepository.findByCategory(category).isEmpty()) {
 
                 String defaultActivity = switch (categoryName) {
-                    case "Education" -> "Reading";
-                    case "Physical" -> "Running";
-                    case "Hobby" -> "Painting";
-                    case "Professional" -> "Coding";
+                    case "education" -> "Reading";
+                    case "physical" -> "Running";
+                    case "hobby" -> "Painting";
+                    case "professional" -> "Coding";
                     default -> "Default Activity";
                 };
 

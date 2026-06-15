@@ -1,6 +1,5 @@
 package app.web.category;
 
-import app.model.entity.activity.Activity;
 import app.model.entity.category.Category;
 import app.model.entity.dto.activity.ActivityDto;
 import app.model.entity.dto.activity.ActivitySelectDto;
@@ -9,7 +8,6 @@ import app.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -33,7 +31,7 @@ public class CategoryController {
     public ModelAndView getCategoryPage(@PathVariable String name) {
 
         Category category = categoryService.getByName(name);
-        List<Activity> activities = activityService.getActivitiesByCategoryName(name);
+        List<ActivityDto> activities = activityService.getActivitiesByCategoryName(name);
 
         ModelAndView modelAndView = new ModelAndView("category/" + name.toLowerCase());
         modelAndView.addObject("category", category);

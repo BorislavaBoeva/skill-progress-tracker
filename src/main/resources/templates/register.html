@@ -15,42 +15,41 @@
             <img src="/images/logo.png" alt="Logo">
         </a>
     </div>
-  </header>
+</header>
 <main>
-        <form class="form" th:action="@{/register}" th:object="${userRegisterRequest}" th:method="post">
-            <h3>Register Here</h3>
+    <form class="form" th:action="@{/register}" th:object="${userRegisterRequest}" th:method="post">
+        <h3>Register Here</h3>
 
-            <label for="username">Username</label>
-            <input type="text" placeholder="Username" id="username" th:field="*{username}">
-            <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+        <label for="username">Username</label>
+        <input type="text" placeholder="Username" id="username" th:field="*{username}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
-            <label for="password">Password</label>
-            <input type="password" placeholder="Password" id="password" th:field="*{password}">
-            <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+        <label for="password">Password</label>
+        <input type="password" placeholder="Password" id="password" th:field="*{password}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
-            <label for="profilePicture">Add Profile Picture</label>
-            <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture" accept="images/*" th:field="*{profilePicture}">
-            <p class="alert-warning" th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}"></p>
+        <label for="profilePicture">Add Profile Picture</label>
+        <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture" accept="images/*"
+               th:field="*{profilePicture}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}"></p>
 
-            <label for="email">Email</label>
-            <input type="email" placeholder="Email" id="email" th:field="*{email}" >
-            <p class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+        <label for="email">Email</label>
+        <input type="email" placeholder="Email" id="email" th:field="*{email}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 
-            <label for="firstName">First Name</label>
-            <input type="text" placeholder="firstName" id="firstName" th:field="*{firstName}">
-            <p class="alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
+        <label for="firstName">First Name</label>
+        <input type="text" placeholder="firstName" id="firstName" th:field="*{firstName}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
 
-            <label for="lastName">Last Name</label>
-            <input type="text" placeholder="lastName" id="lastName" th:field="*{lastName}">
-            <p class="alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
+        <label for="lastName">Last Name</label>
+        <input type="text" placeholder="lastName" id="lastName" th:field="*{lastName}">
+        <p class="alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
 
-            <button>Register</button>
+        <button>Register</button>
 
-            <p class="form-already">Already have an account? <a href="/login">Login</a>!</p>
-        </form>
+        <p class="form-already">Already have an account? <a href="/login">Login</a>!</p>
+    </form>
 </main>
-<footer class="footer">
-    © Skill Progress Tracker. All rights reserved.
-</footer>
+<footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
 </body>
 </html>

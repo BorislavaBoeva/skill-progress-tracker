@@ -9,7 +9,6 @@ import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -87,13 +86,5 @@ public class IndexController {
         modelAndView.addObject("user", user);
 
         return modelAndView;
-    }
-
-
-
-
-    @GetMapping("/skill")
-    public String skillPage() {
-        return "skill"; // skill.html
     }
 }

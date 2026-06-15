@@ -1,6 +1,5 @@
 package app.model.entity.dto.activity;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

@@ -16,6 +16,7 @@ body {
     display: flex;
     flex-direction: column;
 }
+
 .logo-left img {
     transition: transform 0.25s ease, filter 0.25s ease;
     cursor: pointer;
@@ -90,8 +91,7 @@ main {
     align-items: center;
     text-align: center;
     position: relative;
-   }
-   
+}
 
 .subtitle {
     position: absolute;
@@ -113,7 +113,7 @@ main {
     background: rgba(255, 255, 255, 0.85);
     backdrop-filter: blur(6px);
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
 .form h3 {

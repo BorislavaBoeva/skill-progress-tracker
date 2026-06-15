@@ -19,6 +19,7 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private UserRegisterRequestDto userRegisterRequest;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -28,6 +29,7 @@ public class UserService {
 
     //Account Creation, validate the user input and create a new user account
     public UserDto register(UserRegisterRequestDto userRegisterRequest) {
+        this.userRegisterRequest = userRegisterRequest;
         //check if user already exists
         userRepository.findByUsername(userRegisterRequest.getUsername()).ifPresent(user -> {
             throw new IllegalArgumentException("(User with username " + userRegisterRequest.getUsername() + " already exists)");

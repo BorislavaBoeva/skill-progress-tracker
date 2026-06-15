@@ -43,9 +43,11 @@ public class ActivityService {
         //5.Return the created activity Entity → DTO
         return ActivityMapper.toDto(newActivity);
     }
-    public List<Activity> getActivitiesByCategoryName(String categoryName) {
+    public List<ActivityDto> getActivitiesByCategoryName(String categoryName) {
         Category category = categoryService.getByName(categoryName);
-
-        return activityRepository.findByCategory(category);
+        return activityRepository.findAllByCategoryId(category.getId())
+                .stream()
+                .map(ActivityMapper::toDto)
+                .toList();
     }
 }

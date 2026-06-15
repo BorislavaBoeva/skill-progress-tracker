@@ -2,8 +2,9 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <!--/*@thymesVar id="activityDto" type="app.model.entity.dto.activity.ActivityDto"*/-->
 <!--/*@thymesVar id="activitySelectDto" type="app.model.entity.dto.activity.ActivitySelectDto"*/-->
-<!--/*@thymesVar id="activities" type="java.util.List"*/-->
+<!--/*@thymesVar id="activities" type="java.util.List<app.model.entity.dto.activity.ActivityDto>"*/-->
 <!--/*@thymesVar id="category" type="app.model.entity.category.Category"*/-->
+<!--/*@thymesVar id="activities" type="java.util.List<app.model.entity.dto.activity.ActivityDto>"*/-->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -33,10 +34,11 @@
                 <option th:each="activity : ${activities}"
                         th:text="${activity.name}"
                         th:value="${activity.id}">
-
                 </option>
             </select>
-            <div class="error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}"></div>
+            <div class="error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">
+                <p th:each="error : ${#fields.errors('id')}" th:text="${error}"></p>
+            </div>
         </div>
 
         <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>

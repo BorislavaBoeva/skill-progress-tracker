@@ -1,7 +1,5 @@
 package app.web.activity;
 
-import app.model.entity.activity.Activity;
-import app.model.entity.category.Category;
 import app.model.entity.dto.activity.ActivityDto;
 import app.model.entity.dto.activity.ActivitySelectDto;
 import app.service.activity.ActivityService;
@@ -11,9 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
-import java.util.List;
 import java.util.UUID;
 
 @Controller

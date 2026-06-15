@@ -22,10 +22,10 @@ public class CategorySeeder {
         if (categoryRepository.count() == 0) {
 
             List<String> names = List.of(
-                    "Education",
-                    "Physical",
-                    "Hobby",
-                    "Professional"
+                    "education",
+                    "physical",
+                    "hobby",
+                    "professional"
             );
 
             for (String name : names) {
