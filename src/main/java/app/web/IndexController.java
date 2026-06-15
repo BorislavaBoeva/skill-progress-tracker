@@ -30,9 +30,9 @@ public class IndexController {
 
     @GetMapping("/register")
     public ModelAndView getRegisterPage() {
-        UserRegisterRequestDto userRegisterRequest = UserRegisterRequestDto.builder().build();
+       // UserRegisterRequestDto userRegisterRequest = UserRegisterRequestDto.builder().build();
         ModelAndView modelAndView = new ModelAndView("register");
-        modelAndView.addObject("userRegisterRequest", userRegisterRequest);
+        modelAndView.addObject("userRegisterRequest", new UserRegisterRequestDto());
         return modelAndView;
     }
 
@@ -40,8 +40,7 @@ public class IndexController {
     public ModelAndView registerUser(@Valid UserRegisterRequestDto userRegisterRequest,
                                      BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView();
-            modelAndView.setViewName("register");
+            ModelAndView modelAndView = new ModelAndView("register");
             modelAndView.addObject("userRegisterRequest", userRegisterRequest);
             return modelAndView;
         }
@@ -69,11 +68,19 @@ public class IndexController {
             return modelAndView;
         }
 
-        UserDto user = userService.login(userLoginRequest);
-        session.setAttribute("user_id", user.getId());
-        session.setAttribute("user", user);
+        try {
+            UserDto user = userService.login(userLoginRequest);
+            session.setAttribute("user_id", user.getId());
+            session.setAttribute("user", user);
+            return new ModelAndView("redirect:/home");
 
-        return new ModelAndView("redirect:/home");
+        } catch (IllegalArgumentException ex) {
+            //Грешен username или password → оставаш на login
+            ModelAndView modelAndView = new ModelAndView("login");
+            modelAndView.addObject("userLoginRequest", userLoginRequest);
+            modelAndView.addObject("loginError", ex.getMessage());
+            return modelAndView;
+        }
     }
 
     @GetMapping("/home")

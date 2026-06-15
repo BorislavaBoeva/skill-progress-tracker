@@ -17,21 +17,19 @@
     </div>
 </header>
 <main>
-    <form class="form" th:action="@{/register}" th:object="${userRegisterRequest}" th:method="post">
+     <form class="form" th:action="@{/register}" th:object="${userRegisterRequest}" th:method="post">
         <h3>Register Here</h3>
 
         <label for="username">Username</label>
         <input type="text" placeholder="Username" id="username" th:field="*{username}">
-        <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
+         <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
         <label for="password">Password</label>
         <input type="password" placeholder="Password" id="password" th:field="*{password}">
-        <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
+         <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
         <label for="profilePicture">Add Profile Picture</label>
-        <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture" accept="images/*"
-               th:field="*{profilePicture}">
-        <p class="alert-warning" th:if="${#fields.hasErrors('profilePicture')}" th:errors="*{profilePicture}"></p>
+        <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture" accept="images/*" th:field="*{profilePicture}">
 
         <label for="email">Email</label>
         <input type="email" placeholder="Email" id="email" th:field="*{email}">

@@ -14,7 +14,10 @@
     <div class="logo-left">
         <img src="/images/logo.png" alt="Logo">
     </div>
-    <h3 class="title-center">Edit Your Profile</h3>
+    <div class="profile-header">
+        <h2 class="profile-name" th:text="${user.getFirstName()}"></h2>
+        <img th:src="${user.getProfilePicture()}" alt="Profile Picture" class="profile-avatar">
+    </div>
 </header>
 <main>
     <div class="home-section">

@@ -8,13 +8,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Education Activities</title>
+    <title>Professional Activities</title>
 
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
     <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/profile.css">
-    <link rel="stylesheet" type="text/css" href="/css/education.css">
+    <link rel="stylesheet" type="text/css" href="/css/category.css">
 </head>
 <body>
 <header>
@@ -23,12 +23,12 @@
             <img src="/images/logo.png" alt="Logo">
         </a>
     </div>
-    <h3 class="title-center">Education Activities</h3>
+    <h3 class="title-center">Professional Activities</h3>
 </header>
 <main>
     <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form">
         <div class="form-group">
-            <label for="activitySelect">Available Activities</label>
+            <label for="activitySelect">Professional Activities</label>
             <select id="activitySelect" th:field="*{id}" class="form-select">
                 <option value="" disabled selected>Select activity</option>
                 <option th:each="activity : ${activities}"
