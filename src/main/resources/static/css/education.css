@@ -1,0 +1,20 @@
+.form-select {
+    width: 100%;
+    padding: 12px 14px;
+    margin-bottom: 20px;
+
+    border: 2px solid #A7C7E7;
+    border-radius: 8px;
+
+    font-size: 16px;
+    color: #0d1b4c;
+    background: rgba(255, 255, 255, 0.9);
+
+    cursor: pointer;
+}
+
+.form-select:focus {
+    outline: none;
+    border-color: #8FB4D6;
+    box-shadow: 0 0 4px rgba(0,0,0,0.15);
+}

@@ -9,6 +9,7 @@ import app.service.category.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -41,5 +42,10 @@ public class ActivityService {
         activityRepository.save(newActivity);
         //5.Return the created activity Entity → DTO
         return ActivityMapper.toDto(newActivity);
+    }
+    public List<Activity> getActivitiesByCategoryName(String categoryName) {
+        Category category = categoryService.getByName(categoryName);
+
+        return activityRepository.findByCategory(category);
     }
 }

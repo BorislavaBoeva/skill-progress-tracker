@@ -73,14 +73,15 @@ public class UserService {
         userRepository.save(user);
     }
 
-    public UserDto updateProfile(UUID id, UserEditRequestDto userEditRequest) {
-        User user = getEntityById(id);
-        user.setFirstName(userEditRequest.getFirstName());
-        user.setLastName(userEditRequest.getLastName());
-        user.setEmail(userEditRequest.getEmail());
-        user.setProfilePicture(userEditRequest.getProfilePicture());
-        userRepository.save(user);
-        return UserMapper.toUserDto(user);
+    public UserDto updateProfile(String id, UserEditRequestDto userEditRequest) {
+        User entity = userRepository.findById(UUID.fromString(id))
+                .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
+        entity.setFirstName(userEditRequest.getFirstName());
+        entity.setLastName(userEditRequest.getLastName());
+        entity.setEmail(userEditRequest.getEmail());
+        entity.setProfilePicture(userEditRequest.getProfilePicture());
+       User updatedUser = userRepository.save(entity);
+       return UserMapper.toUserDto(updatedUser);
     }
 
 }

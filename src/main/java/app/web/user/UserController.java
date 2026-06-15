@@ -6,13 +6,13 @@ import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.UUID;
+
 @Controller
+@RequestMapping("/users")
 public class UserController {
     private final UserService userService;
 
@@ -21,36 +21,25 @@ public class UserController {
         this.userService = userService;
     }
 
-
-
-    @GetMapping("/profile")
-    @RequestMapping("/profile")
-    public ModelAndView getProfile(HttpSession session) {
-        UserDto user = getLoggedInUser(session);
-        if (user == null) {
-            return new ModelAndView("redirect:/login");
-        }
-        UserEditRequestDto userEditRequest = UserEditRequestDto.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .profilePicture(user.getProfilePicture())
-                .build();
-        ModelAndView modelAndView = new ModelAndView("profile");
-        modelAndView.addObject("user", user);
-        modelAndView.addObject("userEditRequest", userEditRequest);
-        return modelAndView;
+    @GetMapping("/{id}/profile")
+    public ModelAndView getProfile(@PathVariable String id) {
+      UserDto user = userService.getById(UUID.fromString(id));
+      ModelAndView modelAndView = new ModelAndView("profile");
+      modelAndView.addObject("user", user);
+      return modelAndView;
     }
 
-    @PostMapping("/profile")
-    public ModelAndView updateProfile(@ModelAttribute UserEditRequestDto userEditRequest, HttpSession session) {
+    @PutMapping("/{id}/profile")
+    public ModelAndView updateProfile(@PathVariable String id,
+                                      @ModelAttribute UserEditRequestDto userEditRequest,
+                                      HttpSession session) {
         UserDto user = getLoggedInUser(session);
         if (user == null) {
             return new ModelAndView("redirect:/login");
         }
-        UserDto updatedUser = userService.updateProfile(user.getId(), userEditRequest);
+        UserDto updatedUser = userService.updateProfile(id, userEditRequest);
         session.setAttribute("user", updatedUser);
-        return new ModelAndView("redirect:/profile");
+        return new ModelAndView("redirect:/home");
     }
 
     @GetMapping("/logout")

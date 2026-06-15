@@ -9,10 +9,10 @@ import lombok.Data;
 @Data
 @Builder
 public class UserRegisterRequestDto {
-    @Size(min = 6, message = "Username must be at least 8 characters")
+    @Size(min = 6, message = "Username must be at least 6 characters")
     private String username;
     @NotBlank(message = "Password cannot be empty")
-    @Size(min = 6, message = "Password must be at least 8 characters")
+    @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
     private String profilePicture;
     @NotBlank(message = "First name cannot be empty")

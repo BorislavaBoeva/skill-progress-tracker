@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Activities</title>
+
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+</head>
+
+<body>
+
+<header>
+    <div class="logo-left">
+        <a href="/home">
+            <img src="/images/logo.png" alt="Logo">
+        </a>
+    </div>
+    <h3 class="title-center">Professional Activities</h3>
+</header>
+
+<main>
+    <div class="home-section">
+
+        <!-- Списък с activities -->
+        <form class="form">
+            <label>Available Activities</label>
+
+            <ul>
+                <li th:each="activity : ${activities}"
+                    th:text="${activity.name}">
+                </li>
+            </ul>
+        </form>
+
+        <!-- Форма за добавяне на нова activity -->
+        <form class="form" th:action="@{/activities/add}" method="post">
+
+            <input type="hidden" name="categoryName" value="Professional"/>
+
+            <label for="name">Add New Activity</label>
+            <input type="text" id="name" name="name" placeholder="Enter activity name">
+
+            <button type="submit" class="profile-actions-button">Add Activity</button>
+        </form>
+
+    </div>
+</main>
+
+<footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
+
+</body>
+</html>

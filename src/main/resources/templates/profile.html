@@ -19,8 +19,12 @@
 </header>
 <main>
     <div class="home-section">
-        <form class="form" th:action="@{/users/{id}/profile(id=${user.getId()})}" th:object="${user}" th:method="PUT">
+        <form class="form"
+              th:action="@{/users/{id}/profile(id=${user.id})}"
+              th:object="${user}"
+              method="post">
 
+            <input type="hidden" name="_method" value="put"/>
 
             <label for="firstName">First Name</label>
             <input type="text" id="firstName" th:field="*{firstName}" placeholder="First Name">
@@ -32,7 +36,7 @@
             <input type="text" id="email" th:field="*{email}" placeholder="Email Address">
 
             <label for="profilePicture">Profile Picture URL</label>
-            <input type="text" id="profilePicture" placeholder="Image Link" th:field="*{profilePicture}">
+            <input type="text" id="profilePicture" th:field="*{profilePicture}" placeholder="Image Link">
 
             <button type="submit" class="profile-actions-button">Save</button>
         </form>

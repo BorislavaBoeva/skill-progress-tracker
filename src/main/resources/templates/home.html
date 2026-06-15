@@ -25,13 +25,13 @@
             <h3 class="subtitle-dashbord">Dashboard</h3>
 
             <div class="container-dashboard">
-                <a href="/profile" class="button">
+                <a th:href="@{/users/{id}/profile(id=${user.id})}" class="button">
                     <img src="/images/profilePic.png" alt="profilePic" class="icon">Edit Profile</a>
-        
-                <a href="/reports" class="button">
+
+                <a th:href="@{/users/{id}/progress(id=${user.id})}" class="button">
                         <img src="/images/reports.png" alt="reports" class="icon">Progress</a>
-                        
-                <a href="/logout" class="button">
+
+                <a href="/users/logout" class="button">
                         <img src="/images/logout.png" alt="logout" class="icon">Logout</a>
             </div>
         </form>
@@ -42,16 +42,16 @@
             <h3 class="subtitle-category">Add Skill Progress</h3>
 
             <div class="container-activity">
-                <a href="/categories/activities" class="button">
+                <a th:href="@{/category/education}" class="button">
                     <img src="/images/education.png" alt="Education" class="icon">Education</a>
-        
-                <a href="/categories/activities" class="button">
+
+                <a th:href="@{/category/physical}" class="button">
                         <img src="/images/physical.png" alt="Physical" class="icon">Physical</a>
-        
-                <a href="/categories/activities" class="button">
-                            <img src="/images/professionale.png" alt="Professional" class="icon">Professional </a>
-        
-                <a href="/categories/activities" class="button">
+
+                <a th:href="@{/category/professional}" class="button">
+                            <img src="/images/professionale.png" alt="Professional" class="icon">Professional</a>
+
+                <a th:href="@{/category/hobby}" class="button">
                     <img src="/images/hobby.png" alt="Hobby" class="icon">Hobby</a>
             </div>
             
