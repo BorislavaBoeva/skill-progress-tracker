@@ -4,11 +4,16 @@ import app.model.entity.dto.user.UserDto;
 import app.model.entity.dto.user.UserLoginRequestDto;
 import app.model.entity.dto.user.UserRegisterRequestDto;
 import app.service.user.UserService;
+import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.util.UUID;
 
 @Controller
 public class IndexController {
@@ -25,9 +30,8 @@ public class IndexController {
         return "index";
     }
 
-
     @GetMapping("/register")
-    public ModelAndView getRegister() {
+    public ModelAndView getRegisterPage() {
         UserRegisterRequestDto userRegisterRequest = UserRegisterRequestDto.builder().build();
         ModelAndView modelAndView = new ModelAndView("register");
         modelAndView.addObject("userRegisterRequest", userRegisterRequest);
@@ -35,7 +39,15 @@ public class IndexController {
     }
 
     @PostMapping("/register")
-    public ModelAndView registerUser(@ModelAttribute UserRegisterRequestDto userRegisterRequest) {
+    public ModelAndView registerUser(@Valid UserRegisterRequestDto userRegisterRequest,
+                                     BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("register");
+            modelAndView.addObject("userRegisterRequest", userRegisterRequest);
+            return modelAndView;
+        }
+
         userService.register(userRegisterRequest);
 
         return new ModelAndView("redirect:/login");
@@ -51,19 +63,36 @@ public class IndexController {
     }
 
     @PostMapping("/login")
-    public ModelAndView loginUser(@ModelAttribute UserLoginRequestDto userLoginRequest) {
+    public ModelAndView loginUser(@ModelAttribute UserLoginRequestDto userLoginRequest,
+                                  BindingResult bindingResult,
+                                  HttpSession session) {
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("login");
+            return modelAndView;
+        }
+
         UserDto user = userService.login(userLoginRequest);
-        ModelAndView modelAndView = new ModelAndView();
-        modelAndView.setViewName("redirect:/home");
+        session.setAttribute("user_id", user.getId());
+
+        session.setAttribute("user", user);
+        return new ModelAndView("redirect:/home");
+    }
+
+    @GetMapping("/home")
+    public ModelAndView getHomePage(HttpSession session) {
+        UUID userUUID = (UUID) session.getAttribute("user_id");
+
+        UserDto user = userService.getById(userUUID);
+
+        ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("user", user);
 
         return modelAndView;
     }
 
-    @GetMapping("/home")
-    public ModelAndView getHomePage() {
-        return new ModelAndView("home");
-    }
+
+
 
     @GetMapping("/skill")
     public String skillPage() {

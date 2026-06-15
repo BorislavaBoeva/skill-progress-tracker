@@ -1,6 +1,7 @@
 package app.service.skill;
 
 import app.model.entity.category.Category;
+import app.model.entity.dto.user.UserDto;
 import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
@@ -23,7 +24,7 @@ public class SkillProgressService {
     public void addSkillProgress(SkillProgress skillProgress) {
 
         // 1) Зареждаме user
-        User user = userService.getById(skillProgress.getOwner().getId());
+        User user = userService.getEntityById(skillProgress.getOwner().getId());
         skillProgress.setOwner(user);
 
         // 2) Записваме SkillProgress

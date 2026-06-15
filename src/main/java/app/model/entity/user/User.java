@@ -25,8 +25,11 @@ public class User {
     private String profilePicture;
     @Column(name = "email", nullable = false, unique = true)
     private String email;
-    @Column(name = "full_name", nullable = false)
-    private String fullName;
+    @Column(name = "first_name", nullable = false)
+    private String firstName;
+    @Column(name = "Last_name", nullable = false)
+    private String lastName;
+
     //BEGINNER
     @Enumerated(EnumType.STRING)
     @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")

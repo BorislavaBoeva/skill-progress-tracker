@@ -16,18 +16,18 @@ body {
     display: flex;
     flex-direction: column;
 }
-.logo-right img {
+.logo-left img {
     transition: transform 0.25s ease, filter 0.25s ease;
     cursor: pointer;
 }
 
-.logo-right img:hover {
+.logo-left img:hover {
     transform: scale(1.45);
     filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.35));
     transition: transform 0.25s ease, filter 0.25s ease;
 }
 
-.logo-right img {
+.logo-left img {
     width: 120px;
     height: auto;
     display: block;

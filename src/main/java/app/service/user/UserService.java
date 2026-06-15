@@ -1,5 +1,6 @@
 package app.service.user;
 
+import app.model.entity.dto.user.UserEditRequestDto;
 import app.model.entity.dto.user.UserDto;
 import app.model.entity.dto.user.UserLoginRequestDto;
 import app.model.entity.dto.user.UserRegisterRequestDto;
@@ -57,13 +58,29 @@ public class UserService {
         return UserMapper.toUserDto(optionalUser.get());
     }
 
-    public User getById(UUID id) {
+    public UserDto getById(UUID id) {
+        User user = userRepository.findById(id)
+                .orElseThrow(
+                        () -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
+        return UserMapper.toUserDto(user);
+    }
+    public User getEntityById(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+                .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
     }
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    public UserDto updateProfile(UUID id, UserEditRequestDto userEditRequest) {
+        User user = getEntityById(id);
+        user.setFirstName(userEditRequest.getFirstName());
+        user.setLastName(userEditRequest.getLastName());
+        user.setEmail(userEditRequest.getEmail());
+        user.setProfilePicture(userEditRequest.getProfilePicture());
+        userRepository.save(user);
+        return UserMapper.toUserDto(user);
     }
 
 }

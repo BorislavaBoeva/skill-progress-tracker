@@ -1,6 +1,7 @@
 package app.model.entity.sklill;
 
 import app.model.entity.activity.Activity;
+import app.model.entity.dto.user.UserDto;
 import app.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
@@ -36,4 +37,5 @@ public class SkillProgress {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "activity_id", nullable = false)
     private Activity activity;
+
 }

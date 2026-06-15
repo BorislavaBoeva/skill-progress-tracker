@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+</head>
+<body>
+<header>
+    <div class="logo-left">
+        <img src="/images/logo.png" alt="Logo">
+    </div>
+    <h3 class="title-center">Edit Your Profile</h3>
+
+</header>
+<main>
+    <div class="home-section">
+        <form class="form" th:action="@{/users/{id}/profile(id=${user.getId()})}" th:object="${user}" th:method="PUT">
+
+
+            <label for="firstName">First Name</label>
+            <input type="text" id="firstName" th:field="*{firstName}" placeholder="First Name">
+
+            <label for="lastName">Last Name</label>
+            <input type="text" id="lastName" th:field="*{lastName}" placeholder="Last Name">
+
+            <label for="email">Email</label>
+            <input type="text" id="email" th:field="*{email}" placeholder="Email Address">
+
+            <label for="profilePicture">Profile Picture URL</label>
+            <input type="text" id="profilePicture" placeholder="Image Link" th:field="*{profilePicture}">
+
+            <button type="submit" class="profile-actions-button">Save</button>
+        </form>
+    </div>
+</main>
+<footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
+</body>
+</html>

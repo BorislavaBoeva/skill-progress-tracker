@@ -14,7 +14,8 @@ public class UserDto {
     private String username;
     private String profilePicture;
     private String email;
-    private String fullName;
+    private String firstName;
+    private String lastName;
     private ProgressLevel education = ProgressLevel.BEGINNER;
     private ProgressLevel physical = ProgressLevel.BEGINNER;
     private ProgressLevel hobby = ProgressLevel.BEGINNER;
