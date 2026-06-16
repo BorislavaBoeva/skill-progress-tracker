@@ -18,13 +18,36 @@
     border-color: #8FB4D6;
     box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
 }
-.form-choose{
+
+.form-choose {
     height: 250px;
     margin-top: 32px;
     margin-bottom: 32px;
 }
 
-.form-add{
+.form-add {
     height: 250px;
     margin-top: 32px;
+}
+
+.error {
+    background-color: #ffe5e5;
+    border: 2px solid #ff4d4d;
+    color: #b30000;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 15px;
+}
+
+.success {
+    background-color: #e6ffe6;
+    border: 2px solid #33cc33;
+    color: #006600;
+    padding: 12px 16px;
+    margin-bottom: 20px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 15px;
 }

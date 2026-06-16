@@ -25,6 +25,13 @@
     <h3 class="title-center">Professional Activities</h3>
 </header>
 <main>
+    <div th:if="${param.error}" class="error">
+        <p th:if="${param.error[0] == 'exists'}">This activity already exists</p>
+    </div>
+
+    <div th:if="${param.success}" class="success">
+        <p>Activity added successfully</p>
+    </div>
     <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
         <div class="form-group">
             <label for="activitySelect">Professional Activities</label>
@@ -39,11 +46,9 @@
                 <p th:each="error : ${#fields.errors('id')}" th:text="${error}"></p>
             </div>
         </div>
-
         <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
         <button type="submit" class="profile-actions-button">Choose Activity</button>
     </form>
-
     <!-- Форма за добавяне на ново activity -->
     <form th:action="@{/activity/add}" method="post" class="form form-add">
         <input type="hidden" name="categoryId" th:value="${category.id}"/>
@@ -51,10 +56,7 @@
         <input type="text" id="name" name="name" placeholder="Enter activity name"/>
         <button type="submit" class="profile-actions-button">Add Activity</button>
     </form>
-
 </main>
-
 <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
-
 </body>
 </html>

@@ -26,6 +26,12 @@
     <h3 class="title-center">Hobby Activities</h3>
 </header>
 <main>
+    <div th:if="${param.error}" class="error">
+        <p th:if="${param.error[0] == 'exists'}">This activity already exists</p>
+    </div>
+    <div th:if="${param.success}" class="success">
+        <p>Activity added successfully</p>
+    </div>
     <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
         <div class="form-group">
             <label for="activitySelect">Hobby Activities</label>
@@ -52,10 +58,7 @@
         <input type="text" id="name" name="name" placeholder="Enter activity name"/>
         <button type="submit" class="profile-actions-button">Add Activity</button>
     </form>
-
 </main>
-
 <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
-
 </body>
 </html>

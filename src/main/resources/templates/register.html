@@ -30,10 +30,8 @@
         <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
         <label for="profilePicture">Add Profile Picture</label>
-<!--        <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture" accept="images/*"-->
-<!--               th:field="*{profilePicture}">-->
-        <input type="file" id="profilePicture" name="profilePicture" accept="image/*">
-
+        <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture" accept="images/*"
+               th:field="*{profilePicture}">
 
         <label for="email">Email</label>
         <input type="email" placeholder="Email" id="email" th:field="*{email}">

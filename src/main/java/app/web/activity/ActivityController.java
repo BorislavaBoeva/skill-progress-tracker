@@ -7,7 +7,6 @@ import app.service.category.CategoryService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.UUID;
@@ -24,35 +23,27 @@ public class ActivityController {
         this.categoryService = categoryService;
     }
 
-     @PostMapping("/select")
+    @PostMapping("/select")
     public String selectActivity(@ModelAttribute ActivitySelectDto activitySelectDto) {
         UUID id = activitySelectDto.getId();
         UUID categoryId = activitySelectDto.getCategoryId();
         return "redirect:/category/" + categoryService.getById(categoryId).getName().toLowerCase();
     }
 
-//    @GetMapping("/education")
-//    public ModelAndView getEducationPage() {
-//        Category category = categoryService.getByName("education");
-//        List<Activity> activities = activityService.getActivitiesByCategoryName("education");
-//
-//        ModelAndView modelAndView = new ModelAndView("category/education");
-//        modelAndView.addObject("category", category);
-//        modelAndView.addObject("activities", activities);
-//        modelAndView.addObject("activityDto", new ActivityDto());
-//        return modelAndView;
-//    }
-
-
     @PostMapping("/add")
-    public String addActivity(@Valid ActivityDto activityDto,
-                              BindingResult bindingResult) {
+    public String addActivity(@Valid ActivityDto activityDto) {
         UUID categoryId = activityDto.getCategoryId();
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
-        if (bindingResult.hasErrors()) {
-            return "redirect:/category/" + categoryName;
+        //Todo messages for errors
+        boolean exists = activityService
+                .getActivitiesByCategoryName(categoryName)
+                .stream()
+                .anyMatch(a -> a.getName().equalsIgnoreCase(activityDto.getName()));
+
+        if (exists) {
+            return "redirect:/category/" + categoryName + "?error=exists";
         }
         activityService.createActivity(activityDto);
-        return "redirect:/category/" + categoryName;
+        return "redirect:/category/" + categoryName + "?success=1";
     }
 }

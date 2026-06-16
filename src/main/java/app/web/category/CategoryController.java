@@ -37,8 +37,11 @@ public class CategoryController {
         modelAndView.addObject("category", category);
         modelAndView.addObject("activities", activities);
 
-        // DTO не е нужно да е вързан към th:object
-        modelAndView.addObject("activityDto", new ActivityDto());
+
+        ActivityDto dto = new ActivityDto();
+        dto.setCategoryId(category.getId());
+        modelAndView.addObject("activityDto", dto);
+
         modelAndView.addObject("activitySelectDto", new ActivitySelectDto());
         return modelAndView;
     }

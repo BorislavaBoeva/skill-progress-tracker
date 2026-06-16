@@ -44,26 +44,23 @@ public class IndexController {
     @PostMapping("/register")
     public ModelAndView registerUser(@Valid UserRegisterRequestDto userRegisterRequest,
                                      BindingResult bindingResult,
-                                     @RequestParam("profilePicture") MultipartFile file) {
+                                     @RequestParam(value = "profilePicture", required = false) MultipartFile file) {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("register");
             modelAndView.addObject("userRegisterRequest", userRegisterRequest);
             return modelAndView;
         }
-//        userService.register(userRegisterRequest);
-//
-//        return new ModelAndView("redirect:/login");
+
         try {
             userService.register(userRegisterRequest);
             return new ModelAndView("redirect:/login");
 
-        } catch (IllegalArgumentException ex) {
+        } catch (RuntimeException ex) {
             ModelAndView modelAndView = new ModelAndView("register");
             modelAndView.addObject("userRegisterRequest", userRegisterRequest);
             modelAndView.addObject("registerError", ex.getMessage());
             return modelAndView;
         }
-
     }
 
     @GetMapping("/login")
