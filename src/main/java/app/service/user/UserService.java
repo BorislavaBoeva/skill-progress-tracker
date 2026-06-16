@@ -19,7 +19,6 @@ import java.util.UUID;
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private UserRegisterRequestDto userRegisterRequest;
 
     @Autowired
     public UserService(UserRepository userRepository, PasswordEncoder passwordEncoder) {
@@ -29,11 +28,11 @@ public class UserService {
 
     //Account Creation, validate the user input and create a new user account
     public UserDto register(UserRegisterRequestDto userRegisterRequest) {
-        this.userRegisterRequest = userRegisterRequest;
         //check if user already exists
-        userRepository.findByUsername(userRegisterRequest.getUsername()).ifPresent(user -> {
-            throw new IllegalArgumentException("(User with username " + userRegisterRequest.getUsername() + " already exists)");
-        });
+        userRepository.findByUsername(userRegisterRequest.getUsername())
+                .ifPresent(user -> {
+                    throw new IllegalArgumentException("(User with username " + userRegisterRequest.getUsername() + " already exists)");
+                });
 
         //encoding the password
         String encodedPassword = passwordEncoder.encode(userRegisterRequest.getPassword());
@@ -66,6 +65,7 @@ public class UserService {
                         () -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
         return UserMapper.toUserDto(user);
     }
+
     public User getEntityById(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
@@ -82,8 +82,8 @@ public class UserService {
         entity.setLastName(userEditRequest.getLastName());
         entity.setEmail(userEditRequest.getEmail());
         entity.setProfilePicture(userEditRequest.getProfilePicture());
-       User updatedUser = userRepository.save(entity);
-       return UserMapper.toUserDto(updatedUser);
+        User updatedUser = userRepository.save(entity);
+        return UserMapper.toUserDto(updatedUser);
     }
 
 }

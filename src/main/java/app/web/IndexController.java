@@ -6,19 +6,24 @@ import app.model.entity.dto.user.UserRegisterRequestDto;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
 
+@Slf4j
 @Controller
 public class IndexController {
 
     private final UserService userService;
-
+@Autowired
     public IndexController(UserService userService) {
         this.userService = userService;
     }
@@ -30,7 +35,7 @@ public class IndexController {
 
     @GetMapping("/register")
     public ModelAndView getRegisterPage() {
-       // UserRegisterRequestDto userRegisterRequest = UserRegisterRequestDto.builder().build();
+        // UserRegisterRequestDto userRegisterRequest = UserRegisterRequestDto.builder().build();
         ModelAndView modelAndView = new ModelAndView("register");
         modelAndView.addObject("userRegisterRequest", new UserRegisterRequestDto());
         return modelAndView;
@@ -38,15 +43,27 @@ public class IndexController {
 
     @PostMapping("/register")
     public ModelAndView registerUser(@Valid UserRegisterRequestDto userRegisterRequest,
-                                     BindingResult bindingResult) {
+                                     BindingResult bindingResult,
+                                     @RequestParam("profilePicture") MultipartFile file) {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("register");
             modelAndView.addObject("userRegisterRequest", userRegisterRequest);
             return modelAndView;
         }
-        userService.register(userRegisterRequest);
+//        userService.register(userRegisterRequest);
+//
+//        return new ModelAndView("redirect:/login");
+        try {
+            userService.register(userRegisterRequest);
+            return new ModelAndView("redirect:/login");
 
-        return new ModelAndView("redirect:/login");
+        } catch (IllegalArgumentException ex) {
+            ModelAndView modelAndView = new ModelAndView("register");
+            modelAndView.addObject("userRegisterRequest", userRegisterRequest);
+            modelAndView.addObject("registerError", ex.getMessage());
+            return modelAndView;
+        }
+
     }
 
     @GetMapping("/login")

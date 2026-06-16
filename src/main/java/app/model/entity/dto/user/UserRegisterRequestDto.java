@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.web.multipart.MultipartFile;
 
 @Data
 @Builder
@@ -21,7 +22,8 @@ public class UserRegisterRequestDto {
     @Size(min = 6, message = "Password must be at least 6 characters")
     private String password;
 
-    private String profilePicture;
+    private MultipartFile profilePicture;
+
     @NotBlank(message = "First name cannot be empty")
     private String firstName;
 

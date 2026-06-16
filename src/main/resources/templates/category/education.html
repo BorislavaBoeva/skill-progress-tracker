@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/profile.css">
     <link rel="stylesheet" type="text/css" href="/css/category.css">
-</head>
+   </head>
 <body>
 <header>
     <div class="logo-left">
@@ -26,7 +26,7 @@
     <h3 class="title-center">Education Activities</h3>
 </header>
 <main>
-    <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form">
+    <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
         <div class="form-group">
             <label for="activitySelect">Education Activities</label>
             <select id="activitySelect" th:field="*{id}" class="form-select">
@@ -46,7 +46,7 @@
     </form>
 
     <!-- Форма за добавяне на ново activity -->
-    <form th:action="@{/activity/add}" method="post" class="form">
+    <form th:action="@{/activity/add}" method="post" class="form form-add">
         <input type="hidden" name="categoryId" th:value="${category.id}"/>
         <label for="name">Add New Activity</label>
         <input type="text" id="name" name="name" placeholder="Enter activity name"/>

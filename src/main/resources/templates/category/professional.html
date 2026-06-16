@@ -9,7 +9,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Professional Activities</title>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
     <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
@@ -26,7 +25,7 @@
     <h3 class="title-center">Professional Activities</h3>
 </header>
 <main>
-    <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form">
+    <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
         <div class="form-group">
             <label for="activitySelect">Professional Activities</label>
             <select id="activitySelect" th:field="*{id}" class="form-select">
@@ -46,7 +45,7 @@
     </form>
 
     <!-- Форма за добавяне на ново activity -->
-    <form th:action="@{/activity/add}" method="post" class="form">
+    <form th:action="@{/activity/add}" method="post" class="form form-add">
         <input type="hidden" name="categoryId" th:value="${category.id}"/>
         <label for="name">Add New Activity</label>
         <input type="text" id="name" name="name" placeholder="Enter activity name"/>

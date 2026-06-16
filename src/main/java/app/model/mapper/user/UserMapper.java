@@ -25,7 +25,7 @@ public class UserMapper {
                 .email(userRegisterRequest.getEmail())
                 .firstName(userRegisterRequest.getFirstName())
                 .lastName(userRegisterRequest.getLastName())
-                .profilePicture(userRegisterRequest.getProfilePicture())
+                .profilePicture(String.valueOf(userRegisterRequest.getProfilePicture()))
                 .education(ProgressLevel.BEGINNER)
                 .physical(ProgressLevel.BEGINNER)
                 .hobby(ProgressLevel.BEGINNER)
@@ -44,7 +44,7 @@ public class UserMapper {
         if (user == null) {
             return null;
         }
-        // list with all activity -> skill progress/{id=1, hours=2, activityName="Yoga"} {id=2, hours=1, activity=READING}....
+        // list with all activity -> skill progress/{id=1, hours=2, activityName="Yoga"} {id=2, hours=1, activity=READING}...
         List<SkillProgressDto> progressDto = user.getProgressEntries()
                 .stream()
                 .map(SkillProgressMapper::toDto)
