@@ -15,7 +15,7 @@
     <link rel="stylesheet" type="text/css" href="/css/form.css">
     <link rel="stylesheet" type="text/css" href="/css/profile.css">
     <link rel="stylesheet" type="text/css" href="/css/category.css">
-   </head>
+</head>
 <body>
 <header>
     <div class="logo-left">
@@ -32,9 +32,13 @@
     <div th:if="${param.success}" class="success">
         <p>Activity added successfully</p>
     </div>
+    <div th:if="${param.deleted}" class="success">
+        <p>Activity deleted successfully</p>
+    </div>
+
     <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
         <div class="form-group">
-            <label for="activitySelect">Education Activities</label>
+            <label for="activitySelect">Education</label>
             <select id="activitySelect" th:field="*{id}" class="form-select">
                 <option value="" disabled selected>Select activity</option>
                 <option th:each="activity : ${activities}"
@@ -49,12 +53,30 @@
         <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
         <button type="submit" class="profile-actions-button">Choose Activity</button>
     </form>
-    <!-- Форма за добавяне на ново activity -->
-    <form th:action="@{/activity/add}" method="post" class="form form-add">
-        <input type="hidden" name="categoryId" th:value="${category.id}"/>
-        <label for="name">Add New Activity</label>
-        <input type="text" id="name" name="name" placeholder="Enter activity name"/>
-        <button type="submit" class="profile-actions-button">Add Activity</button>
+
+        <!-- Форма за добавяне на ново activity -->
+        <form th:action="@{/activity/add}" method="post" class="form form-add">
+            <input type="hidden" name="categoryId" th:value="${category.id}"/>
+            <label for="name">Add New Activity</label>
+            <input type="text" id="name" name="name" placeholder="Enter activity name"/>
+            <button type="submit" class="profile-actions-button">Add Activity</button>
+        </form>
+    <!-- Списък с activities + Delete -->
+    <form th:action="@{/activity/delete}" method="post" class="form form-delete">
+        <div class="form-group">
+            <label for="activityDeleteSelect">Delete Activity</label>
+            <select id="activityDeleteSelect" name="id" class="form-select">
+                <option value="" disabled selected>Select activity to delete</option>
+                <option th:each="activity : ${activities}"
+                        th:text="${activity.name}"
+                        th:value="${activity.id}">
+                </option>
+            </select>
+        </div>
+
+        <input type="hidden" name="categoryId" th:value="${category.id}">
+
+        <button type="submit" class="profile-actions-button">Delete</button>
     </form>
 </main>
 <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>

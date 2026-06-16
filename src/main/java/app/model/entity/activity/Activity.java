@@ -2,6 +2,7 @@ package app.model.entity.activity;
 
 
 import app.model.entity.category.Category;
+import app.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -19,12 +20,16 @@ public class Activity {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false)
     private String name;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
+
+    @ManyToOne(optional = true)
+    @JoinColumn(name = "user_id")
+    private User user;
 }
 
 

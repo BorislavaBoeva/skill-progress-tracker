@@ -11,11 +11,9 @@ import java.util.UUID;
 
 @Repository
 public interface ActivityRepository extends JpaRepository<Activity, UUID> {
-    //unique = true , не може да има дубликация!
-    Activity findByName(String name);
-    boolean existsByName(String name);
-    List<Activity> findByCategory(Category category);
+    boolean existsByNameAndUserId(String name, UUID userId);
 
     List<Activity> findAllByCategoryId(UUID categoryId);
 
+    List<Activity> findAllByCategoryIdAndUserId(UUID categoryId, UUID userId);
 }

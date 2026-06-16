@@ -9,8 +9,8 @@
     <link rel="stylesheet" type="text/css" href="/css/home.css">
 </head>
 <body>
-    <header>
-      <div class="logo-left">
+<header>
+    <div class="logo-left">
         <a href="/">
             <img src="/images/logo.png" alt="Logo">
         </a>
@@ -18,24 +18,24 @@
 </header>
 <main>
     <div class="container">
-         <h2>Choose What You Want To Do Today …/name</h2>
-    <!-- Лява колона с двата бутона -->
-      <form class="form dashboard-form">
+        <h2>Choose What You Want To Do Today …/name</h2>
+        <!-- Лява колона с двата бутона -->
+        <form class="form dashboard-form">
             <h3 class="subtitle-dashbord">Dashboard</h3>
 
             <div class="container-dashboard">
                 <a th:href="@{/users/{id}/profile(id=${user.id})}" class="button">
-                    <img src="/images/profilePic.png" alt="profilePic" class="icon">Edit Profile</a>
+                    <img th:src="@{${user.profilePicture}}" alt="picture" class="icon">Edit Profile</a>
 
                 <a th:href="@{/users/{id}/progress(id=${user.id})}" class="button">
-                        <img src="/images/reports.png" alt="reports" class="icon">Progress</a>
+                    <img src="/images/reports.png" alt="reports" class="icon">Progress</a>
 
                 <a href="/users/logout" class="button">
-                        <img src="/images/logout.png" alt="logout" class="icon">Logout</a>
+                    <img src="/images/logout.png" alt="logout" class="icon">Logout</a>
             </div>
         </form>
-      
-    <!-- Дясна колона – формата -->
+
+        <!-- Дясна колона – формата -->
         <form class="form">
             <h3 class="subtitle-category">Add Skill Progress</h3>
 
@@ -44,19 +44,18 @@
                     <img src="/images/education.png" alt="Education" class="icon">Education</a>
 
                 <a th:href="@{/category/physical}" class="button">
-                        <img src="/images/physical.png" alt="Physical" class="icon">Physical</a>
+                    <img src="/images/physical.png" alt="Physical" class="icon">Physical</a>
 
                 <a th:href="@{/category/professional}" class="button">
-                            <img src="/images/professionale.png" alt="Professional" class="icon">Professional</a>
+                    <img src="/images/professionale.png" alt="Professional" class="icon">Professional</a>
 
                 <a th:href="@{/category/hobby}" class="button">
                     <img src="/images/hobby.png" alt="Hobby" class="icon">Hobby</a>
             </div>
-            
         </form>
     </div>
-   </main>
+</main>
 
-   <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
+<footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
 </body>
 </html>
