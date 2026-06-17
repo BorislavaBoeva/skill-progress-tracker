@@ -61,7 +61,9 @@
 
             <button type="submit" class="profile-actions-button">Delete</button>
         </form>
+    </div>
 
+    <div class="forms-wrapper wrapper-select">
         <!-- Form to SELECT activity -->
         <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
             <div class="form-group">
@@ -80,7 +82,6 @@
             <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
             <button type="submit" class="profile-actions-button">Select</button>
         </form>
-
     </div>
 </main>
 <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>

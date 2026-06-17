@@ -3,13 +3,11 @@ package app.service.activity;
 import app.model.entity.activity.Activity;
 import app.model.entity.category.Category;
 import app.model.entity.dto.activity.ActivityDto;
-import app.model.entity.dto.user.UserDto;
 import app.model.entity.user.User;
 import app.model.mapper.activity.ActivityMapper;
 import app.repository.activity.ActivityRepository;
 import app.service.category.CategoryService;
 import app.service.user.UserService;
-import jakarta.validation.constraints.NotBlank;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

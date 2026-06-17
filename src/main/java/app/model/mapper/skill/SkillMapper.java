@@ -1,20 +1,24 @@
 package app.model.mapper.skill;
 
+import app.model.entity.dto.skill.SkillDto;
 import app.model.entity.dto.skill.SkillProgressDto;
 import app.model.entity.sklill.SkillProgress;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
-public class SkillProgressMapper {
+public class SkillMapper {
 
-    public static SkillProgressDto toDto(SkillProgress skillProgress) {
+    public static SkillDto toDto(SkillProgress skillProgress) {
         if (skillProgress == null) {
             return null;
         }
-        return SkillProgressDto.builder()
-                .activityId(skillProgress.getActivity().getId())
+        return SkillDto.builder()
+                .id(skillProgress.getId())
+                .date(skillProgress.getDate())
                 .hours(skillProgress.getHours())
                 .description(skillProgress.getDescription())
+                .owner(skillProgress.getOwner())
+                .activityId(skillProgress.getActivity())
                 .build();
     }
 }
