@@ -49,10 +49,11 @@ public class SkillProgressService {
 
         // 4) Добавяме точки към правилната категория
         switch (categoryName) {
-            case "EDUCATION" -> user.setEducationPoints(user.getEducationPoints() + points);
-            case "PHYSICAL" -> user.setPhysicalPoints(user.getPhysicalPoints() + points);
-            case "HOBBY" -> user.setHobbyPoints(user.getHobbyPoints() + points);
-            case "PROFESSIONAL" -> user.setProfessionalPoints(user.getProfessionalPoints() + points);
+            case "education" -> user.setEducationPoints(user.getEducationPoints() + points);
+            case "physical" -> user.setPhysicalPoints(user.getPhysicalPoints() + points);
+            case "hobby" -> user.setHobbyPoints(user.getHobbyPoints() + points);
+            case "professional" -> user.setProfessionalPoints(user.getProfessionalPoints() + points);
+            default -> throw new IllegalStateException("Unknown category: " + categoryName);
         }
 
         // 5) Обновяваме нивата
@@ -76,20 +77,17 @@ public class SkillProgressService {
     }
 
     private int calculateProsperity(User user) {
-        int sum =
-                levelToPoints(user.getEducation()) +
-                        levelToPoints(user.getPhysical()) +
-                        levelToPoints(user.getHobby()) +
-                        levelToPoints(user.getProfessional());
-        return (sum * 100) / 16;
+        int sum = levelToPoints(user.getEducation()) + levelToPoints(user.getPhysical())
+                + levelToPoints(user.getHobby()) + levelToPoints(user.getProfessional());
+        return (sum * 100) / 12;
     }
 
     private int levelToPoints(ProgressLevel level) {
         return switch (level) {
-            case BEGINNER -> 1;
-            case INTERMEDIATE -> 2;
-            case ADVANCED -> 3;
-            case MASTER -> 4;
+            case BEGINNER -> 0;
+            case INTERMEDIATE -> 1;
+            case ADVANCED -> 2;
+            case MASTER -> 3;
         };
     }
 
