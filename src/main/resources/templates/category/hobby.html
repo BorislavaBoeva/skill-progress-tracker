@@ -32,32 +32,58 @@
     <div th:if="${param.success}" class="success">
         <p>Activity added successfully</p>
     </div>
-    <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
-        <div class="form-group">
-            <label for="activitySelect">Hobby Activities</label>
-            <select id="activitySelect" th:field="*{id}" class="form-select">
-                <option value="" disabled selected>Select activity</option>
-                <option th:each="activity : ${activities}"
-                        th:text="${activity.name}"
-                        th:value="${activity.id}">
-                </option>
-            </select>
-            <div class="error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">
-                <p th:each="error : ${#fields.errors('id')}" th:text="${error}"></p>
+    <div th:if="${param.deleted}" class="success">
+        <p>Activity deleted successfully</p>
+    </div>
+
+    <div class="forms-wrapper">
+        <!-- Form to ADD activity -->
+        <form th:action="@{/activity/add}" th:object="${activityDto}" method="post" class="form form-add">
+            <input type="hidden" name="categoryId" th:value="${category.id}"/>
+            <label for="name">Add New Activity</label>
+            <input type="text" id="name"  th:field="*{name}" placeholder="Enter activity name"/>
+            <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <button type="submit" class="profile-actions-button">Add</button>
+        </form>
+
+        <!-- Form to SELECT activity -->
+        <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
+            <div class="form-group">
+                <label for="activitySelect">Choose activity</label>
+                <select id="activitySelect" th:field="*{id}" class="form-select">
+                    <option value="" disabled selected>Select</option>
+                    <option th:each="activity : ${activities}"
+                            th:text="${activity.name}"
+                            th:value="${activity.id}">
+                    </option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">
+                    <p th:each="error : ${#fields.errors('id')}" th:text="${error}"></p>
+                </div>
             </div>
-        </div>
+            <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
+            <button type="submit" class="profile-actions-button">Select</button>
+        </form>
 
-        <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
-        <button type="submit" class="profile-actions-button">Choose Activity</button>
-    </form>
+        <!-- Form: List activities + Delete -->
+        <form th:action="@{/activity/delete}" method="post" class="form form-delete">
+            <div class="form-group">
+                <label for="activityDeleteSelect">Delete Activity</label>
+                <select id="activityDeleteSelect" name="id" class="form-select">
+                    <option value="" disabled selected>Select activity to delete</option>
+                    <option th:each="activity : ${activities}"
+                            th:text="${activity.name}"
+                            th:value="${activity.id}">
+                    </option>
+                </select>
+            </div>
 
-    <!-- Форма за добавяне на ново activity -->
-    <form th:action="@{/activity/add}" method="post" class="form form-add">
-        <input type="hidden" name="categoryId" th:value="${category.id}"/>
-        <label for="name">Add New Activity</label>
-        <input type="text" id="name" name="name" placeholder="Enter activity name"/>
-        <button type="submit" class="profile-actions-button">Add Activity</button>
-    </form>
+            <input type="hidden" name="categoryId" th:value="${category.id}">
+
+            <button type="submit" class="profile-actions-button">Delete</button>
+        </form>
+
+    </div>
 </main>
 <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
 </body>

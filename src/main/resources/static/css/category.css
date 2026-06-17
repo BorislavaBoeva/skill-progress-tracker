@@ -1,61 +1,65 @@
-.title-center{
+.title-center {
     font-size: 30px;
-    margin-top: 0;
+    margin: 0 auto;
 }
 
-.form-select {
+/* Wrapper */
+.forms-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
     width: 100%;
-    padding: 12px 14px;
-    border: 2px solid #A7C7E7;
-    border-radius: 8px;
-    font-size: 16px;
-    color: #0d1b4c;
-    background: rgba(255, 255, 255, 0.9);
-    cursor: pointer;
+    margin-top: 20px;
 }
 
-.form-select:focus {
-    outline: none;
-    border-color: #8FB4D6;
-    box-shadow: 0 0 4px rgba(0, 0, 0, 0.15);
+.forms-wrapper .form {
+    margin: 0;
 }
 
-.form-choose {
-    height: 200px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
-
-.form-add {
-    height: 200px;
-    margin-top: 8px;
-    margin-bottom: 8px;
-}
-
+/* FORM CONTAINERS */
+.form-choose,
+.form-add,
 .form-delete {
     height: 200px;
     margin-top: 8px;
     margin-bottom: 8px;
 }
 
+/* UNIFIED INPUT + SELECT STYLE */
+.forms-wrapper select,
+.forms-wrapper input[type="text"] {
+    width: 100%;
+    padding: 12px 14px;
+    font-size: 16px;
+}
+
+.forms-wrapper select:focus,
+.forms-wrapper input[type="text"]:focus {
+    outline: none;
+}
+
+.form-choose select,
+.form-delete select {
+    margin-bottom: 16px;
+}
+
+/* MESSAGES */
+.error, .success {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 12px;
+}
+
 .error {
     background-color: #ffe5e5;
     border: 2px solid #ff4d4d;
     color: #b30000;
-    padding: 4px 8px;
-    /*margin-bottom: 10px;*/
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 12px;
 }
 
 .success {
     background-color: #e6ffe6;
     border: 2px solid #33cc33;
     color: #006600;
-    padding: 4px 8px;
-    /*margin-bottom: 10px;*/
-    border-radius: 6px;
-    font-weight: 600;
-    font-size: 12px;
 }

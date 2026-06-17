@@ -8,7 +8,9 @@ import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
 
@@ -37,37 +39,51 @@ public class ActivityController {
     }
 
     @PostMapping("/add")
-    public String addActivity(@Valid ActivityDto activityDto,
+    public ModelAndView addActivity(@Valid @ModelAttribute("activityDto") ActivityDto activityDto,
+                              BindingResult bindingResult,
                               HttpSession session) {
+
         UUID userId = (UUID) session.getAttribute("user_id");
         if (userId == null) {
-            return "redirect:/login";
+            return new ModelAndView("redirect:/login");
         }
 
         UUID categoryId = activityDto.getCategoryId();
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
-        //Todo messages for errors
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView();
+            modelAndView.setViewName("category/" + categoryName);
+            modelAndView.addObject("activities", activityService.getActivitiesByCategoryNameAndUser(categoryName, userId));
+            modelAndView.addObject("category", categoryService.getById(categoryId));
+            modelAndView.addObject("activityDto", activityDto);
+            modelAndView.addObject("activitySelectDto", new ActivitySelectDto());
+            modelAndView.addObject("error", bindingResult.getFieldError("name"));
+            return modelAndView;
+        }
+
         boolean exists = activityService
                 .getActivitiesByCategoryNameAndUser(categoryName, userId)
                 .stream()
                 .anyMatch(a -> a.getName().equalsIgnoreCase(activityDto.getName()));
 
         if (exists) {
-            return "redirect:/category/" + categoryName + "?error=exists";
+            return new ModelAndView("redirect:/category/" + categoryName + "?error=exists");
         }
         activityService.createActivity(activityDto, userId);
-        return "redirect:/category/" + categoryName + "?success=1";
+        return new ModelAndView("redirect:/category/" + categoryName + "?success=1");
     }
+
     @PostMapping("/delete")
-    public String deleteActivity(@RequestParam UUID id,
+    public ModelAndView deleteActivity(@RequestParam UUID id,
                                  @RequestParam UUID categoryId,
                                  HttpSession session) {
         UUID userId = (UUID) session.getAttribute("user_id");
         if (userId == null) {
-            return "redirect:/login";
+            return new ModelAndView("redirect:/login");
         }
-
+        String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
         activityService.deleteActivity(id, userId);
-        return "redirect:/category/education?deleted=success";
+        return new ModelAndView("redirect:/category/" + categoryName + "?deleted=success");
     }
 }
