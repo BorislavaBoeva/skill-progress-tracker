@@ -41,28 +41,9 @@
         <form th:action="@{/activity/add}" th:object="${activityDto}" method="post" class="form form-add">
             <input type="hidden" name="categoryId" th:value="${category.id}"/>
             <label for="name">Add New Activity</label>
-            <input type="text" id="name"  th:field="*{name}" placeholder="Enter activity name"/>
+            <input type="text" id="name" th:field="*{name}" placeholder="Enter activity name"/>
             <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             <button type="submit" class="profile-actions-button">Add</button>
-        </form>
-
-        <!-- Form to SELECT activity -->
-        <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
-            <div class="form-group">
-                <label for="activitySelect">Choose activity</label>
-                <select id="activitySelect" th:field="*{id}" class="form-select">
-                    <option value="" disabled selected>Select</option>
-                    <option th:each="activity : ${activities}"
-                            th:text="${activity.name}"
-                            th:value="${activity.id}">
-                    </option>
-                </select>
-                <div class="error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">
-                    <p th:each="error : ${#fields.errors('id')}" th:text="${error}"></p>
-                </div>
-            </div>
-            <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
-            <button type="submit" class="profile-actions-button">Select</button>
         </form>
 
         <!-- Form: List activities + Delete -->
@@ -81,7 +62,27 @@
 
             <button type="submit" class="profile-actions-button">Delete</button>
         </form>
+    </div>
 
+    <div class="forms-wrapper wrapper-select">
+        <!-- Form to SELECT activity -->
+        <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
+            <div class="form-group">
+                <label for="activitySelect">Choose activity</label>
+                <select id="activitySelect" th:field="*{id}" class="form-select">
+                    <option value="" disabled selected>Select</option>
+                    <option th:each="activity : ${activities}"
+                            th:text="${activity.name}"
+                            th:value="${activity.id}">
+                    </option>
+                </select>
+                <div class="error" th:if="${#fields.hasErrors('id')}" th:errors="*{id}">
+                    <p th:each="error : ${#fields.errors('id')}" th:text="${error}"></p>
+                </div>
+            </div>
+            <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
+            <button type="submit" class="profile-actions-button">Select</button>
+        </form>
     </div>
 </main>
 <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>

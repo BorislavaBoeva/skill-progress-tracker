@@ -41,9 +41,26 @@
         <form th:action="@{/activity/add}" th:object="${activityDto}" method="post" class="form form-add">
             <input type="hidden" name="categoryId" th:value="${category.id}"/>
             <label for="name">Add New Activity</label>
-            <input type="text" id="name"  th:field="*{name}" placeholder="Enter activity name"/>
-            <span class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></span>
+            <input type="text" id="name" th:field="*{name}" placeholder="Enter activity name"/>
+            <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
             <button type="submit" class="profile-actions-button">Add</button>
+        </form>
+
+        <!-- Form: List activities + Delete -->
+        <form th:action="@{/activity/delete}" method="post" class="form form-delete">
+            <div class="form-group">
+                <label for="activityDeleteSelect">Delete Activity</label>
+                <select id="activityDeleteSelect" name="id" class="form-select">
+                    <option value="" disabled selected>Select activity to delete</option>
+                    <option th:each="activity : ${activities}"
+                            th:text="${activity.name}"
+                            th:value="${activity.id}">
+                    </option>
+                </select>
+            </div>
+            <input type="hidden" name="categoryId" th:value="${category.id}">
+
+            <button type="submit" class="profile-actions-button">Delete</button>
         </form>
 
         <!-- Form to SELECT activity -->
@@ -63,24 +80,6 @@
             </div>
             <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
             <button type="submit" class="profile-actions-button">Select</button>
-        </form>
-
-        <!-- Form: List activities + Delete -->
-        <form th:action="@{/activity/delete}" method="post" class="form form-delete">
-            <div class="form-group">
-                <label for="activityDeleteSelect">Delete Activity</label>
-                <select id="activityDeleteSelect" name="id" class="form-select">
-                    <option value="" disabled selected>Select activity to delete</option>
-                    <option th:each="activity : ${activities}"
-                            th:text="${activity.name}"
-                            th:value="${activity.id}">
-                    </option>
-                </select>
-            </div>
-
-            <input type="hidden" name="categoryId" th:value="${category.id}">
-
-            <button type="submit" class="profile-actions-button">Delete</button>
         </form>
 
     </div>

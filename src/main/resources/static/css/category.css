@@ -1,20 +1,33 @@
+main {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    gap: 60px;
+    margin: 0 40px;
+}
+
 .title-center {
     font-size: 30px;
     margin: 0 auto;
 }
 
-/* Wrapper */
 .forms-wrapper {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
+    flex-direction: column;
+    align-items: flex-start;
     gap: 20px;
-    width: 100%;
-    margin-top: 20px;
+
 }
 
 .forms-wrapper .form {
     margin: 0;
+}
+
+.wrapper-select {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
 }
 
 /* FORM CONTAINERS */
