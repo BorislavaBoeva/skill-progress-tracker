@@ -8,6 +8,7 @@ import app.model.entity.user.User;
 import app.model.mapper.user.UserMapper;
 import app.repository.user.UserRepository;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -16,6 +17,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
@@ -27,7 +29,7 @@ public class UserService {
     }
 
     //Account Creation, validate the user input and create a new user account
-    public UserDto register(UserRegisterRequestDto userRegisterRequest) {
+    public void Register(UserRegisterRequestDto userRegisterRequest) {
         //check if user already exists
         userRepository.findByUsername(userRegisterRequest.getUsername())
                 .ifPresent(user -> {
@@ -43,7 +45,7 @@ public class UserService {
 
         //save user
         userRepository.save(userEntity);
-        return UserMapper.toUserDto(userEntity);
+        //return UserMapper.toUserDto(userEntity);
     }
 
     //log in registered user

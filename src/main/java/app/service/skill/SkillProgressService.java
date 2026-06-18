@@ -10,6 +10,7 @@ import app.repository.skill.SkillProgressRepository;
 import app.service.activity.ActivityService;
 import app.service.category.CategoryService;
 import app.service.user.UserService;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class SkillProgressService {
     private final SkillProgressRepository skillProgressRepository;
     private final CategoryService categoryService;
@@ -79,7 +81,7 @@ public class SkillProgressService {
     private int calculateProsperity(User user) {
         int sum = levelToPoints(user.getEducation()) + levelToPoints(user.getPhysical())
                 + levelToPoints(user.getHobby()) + levelToPoints(user.getProfessional());
-        return (sum * 100) / 12;
+        return (sum * 100) / 4;
     }
 
     private int levelToPoints(ProgressLevel level) {

@@ -17,6 +17,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class SkillProgressDto {
     private UUID activityId;
+    private String activityName;   // ← ново
+    private UUID categoryId;
+    private String categoryName;   // ← ново
 
     @NotNull(message = "Hours cannot be empty")
     @Positive(message = "Hours must be positive")
@@ -25,6 +28,4 @@ public class SkillProgressDto {
     @NotNull(message = "Description cannot be empty")
     @Size(min = 3, max = 100, message = "Description must be between 3 and 100 characters")
     private String description;
-
-    private UUID categoryId;
 }

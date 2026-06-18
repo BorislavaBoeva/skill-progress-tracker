@@ -8,6 +8,7 @@ import app.model.mapper.activity.ActivityMapper;
 import app.repository.activity.ActivityRepository;
 import app.service.category.CategoryService;
 import app.service.user.UserService;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Service
+@Transactional
 public class ActivityService {
     private final ActivityRepository activityRepository;
     private final CategoryService categoryService;

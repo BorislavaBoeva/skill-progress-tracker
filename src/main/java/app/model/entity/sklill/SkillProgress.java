@@ -26,9 +26,10 @@ public class SkillProgress {
     @Column(name = "hours", nullable = false, columnDefinition = "INT DEFAULT 0")
     private int hours;
 
-    @Column(name = "description", nullable = false)
+    @Column(name = "description", nullable = false, columnDefinition = "VARCHAR(100)")
     private String description;
 
+    //TODO: delete second relation of user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User owner;

@@ -13,6 +13,9 @@ public class SkillProgressMapper {
         }
         return SkillProgressDto.builder()
                 .activityId(skillProgress.getActivity().getId())
+                .activityName(skillProgress.getActivity().getName())
+                .categoryId(skillProgress.getActivity().getCategory().getId())
+                .categoryName(skillProgress.getActivity().getCategory().getName())
                 .hours(skillProgress.getHours())
                 .description(skillProgress.getDescription())
                 .build();
