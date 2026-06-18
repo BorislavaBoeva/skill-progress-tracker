@@ -7,6 +7,7 @@ import app.model.entity.user.User;
 import app.model.mapper.user.UserMapper;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -59,6 +60,7 @@ public class UserController {
         return null;
     }
 
+    @Transactional
     @GetMapping("/{id}/progress")
     public ModelAndView showProgress(@PathVariable UUID id) {
         User user = userService.getEntityById(id);
@@ -66,7 +68,6 @@ public class UserController {
 
         ModelAndView modelAndView = new ModelAndView("progress");
         modelAndView.addObject("progress", progressDto);
-
         return modelAndView;
     }
 }

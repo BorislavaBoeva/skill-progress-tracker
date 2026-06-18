@@ -56,7 +56,7 @@ public class User {
     @Column(name = "prosperity", nullable = false, columnDefinition = "int default 0")
     private int prosperity;
 
-   //history OF progress
-    @OneToMany(mappedBy = "owner", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
+    //history OF progress
+    @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<SkillProgress> progressEntries = new ArrayList<>();
 }

@@ -1,9 +1,12 @@
 package app.model.mapper.user;
 
+import app.model.entity.dto.activity.ActivityEntryDto;
+import app.model.entity.dto.category.CategoryProgressDto;
 import app.model.entity.dto.skill.SkillProgressDto;
 import app.model.entity.dto.user.UserDto;
 import app.model.entity.dto.user.UserProgressDto;
 import app.model.entity.dto.user.UserRegisterRequestDto;
+import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
 import app.model.mapper.skill.SkillProgressMapper;
@@ -11,6 +14,8 @@ import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @NoArgsConstructor
@@ -67,36 +72,51 @@ public class UserMapper {
                 .hobbyPoints(user.getHobbyPoints())
                 .professionalPoints(user.getProfessionalPoints())
                 .prosperity(user.getProsperity())
-                .progressEntries(progressDto)
                 .build();
     }
-    public static UserProgressDto toUserProgressDto(User user) {
-        if (user == null) {
-            return null;
-        }
 
-        List<SkillProgressDto> progressDto = user.getProgressEntries()
+    public static UserProgressDto toUserProgressDto(User user) {
+        if (user == null) return null;
+
+        // Двойно групиране: първо по категория, после по активити → сумираме часовете
+        Map<String, List<ActivityEntryDto>> byCategory = user.getProgressEntries()
                 .stream()
-                .map(SkillProgressMapper::toDto)
-                .toList();
+                .collect(Collectors.groupingBy(
+                        entry -> entry.getActivity().getCategory().getName(),
+                        Collectors.collectingAndThen(
+                                Collectors.groupingBy(
+                                        entry -> entry.getActivity().getName(),
+                                        Collectors.summingInt(SkillProgress::getHours)
+                                ),
+                                map -> map.entrySet().stream()
+                                        .map(e -> ActivityEntryDto.builder()
+                                                .activityName(e.getKey())
+                                                .hours(e.getValue())
+                                                .build())
+                                        .toList()
+                        )
+                ));
+
+        List<CategoryProgressDto> categories = List.of(
+                buildCategory("education", user.getEducation(), user.getEducationPoints(), byCategory),
+                buildCategory("physical", user.getPhysical(), user.getPhysicalPoints(), byCategory),
+                buildCategory("hobby", user.getHobby(), user.getHobbyPoints(), byCategory),
+                buildCategory("professional", user.getProfessional(), user.getProfessionalPoints(), byCategory)
+        );
 
         return UserProgressDto.builder()
-                .education(user.getEducation())
-                .educationPoints(user.getEducationPoints())
-
-                .physical(user.getPhysical())
-                .physicalPoints(user.getPhysicalPoints())
-
-                .hobby(user.getHobby())
-                .hobbyPoints(user.getHobbyPoints())
-
-                .professional(user.getProfessional())
-                .professionalPoints(user.getProfessionalPoints())
-
-                .prosperity(user.getProsperity())
-
-                .progressEntries(progressDto)
+                .id(user.getId())
+                .categories(categories)
                 .build();
     }
 
+    private static CategoryProgressDto buildCategory(String name, ProgressLevel level, int points,
+                                                     Map<String, List<ActivityEntryDto>> byCategory) {
+        return CategoryProgressDto.builder()
+                .categoryName(name)
+                .level(level)
+                .points(points)
+                .activities(byCategory.getOrDefault(name, List.of()))
+                .build();
+    }
 }

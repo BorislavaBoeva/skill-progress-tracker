@@ -87,5 +87,4 @@ public class UserService {
         User updatedUser = userRepository.save(entity);
         return UserMapper.toUserDto(updatedUser);
     }
-
 }

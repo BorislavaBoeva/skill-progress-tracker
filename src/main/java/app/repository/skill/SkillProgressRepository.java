@@ -7,13 +7,13 @@ import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.util.UUID;
+
 @Repository
 public interface SkillProgressRepository extends JpaRepository<SkillProgress, UUID> {
     //user
-    List<SkillProgress> findAllByOwner_Id(UUID userId);
-    List<SkillProgress> findAllByOwner(User owner);
+       List<SkillProgress> findAllByUser(User owner);
 
-     //activity
+    //activity
     List<SkillProgress> findAllByActivity_Id(UUID activityTypeId);
 
 }

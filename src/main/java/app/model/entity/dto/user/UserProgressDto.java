@@ -1,5 +1,6 @@
 package app.model.entity.dto.user;
 
+import app.model.entity.dto.category.CategoryProgressDto;
 import app.model.entity.dto.skill.SkillProgressDto;
 import app.model.entity.user.ProgressLevel;
 import lombok.AllArgsConstructor;
@@ -16,15 +17,6 @@ import java.util.UUID;
 @AllArgsConstructor
 public class UserProgressDto {
     private UUID id;
-    private ProgressLevel education = ProgressLevel.BEGINNER;
-    private ProgressLevel physical = ProgressLevel.BEGINNER;
-    private ProgressLevel hobby = ProgressLevel.BEGINNER;
-    private ProgressLevel professional = ProgressLevel.BEGINNER;
-    private int educationPoints;
-    private int physicalPoints;
-    private int hobbyPoints;
-    private int professionalPoints;
+    private List<CategoryProgressDto> categories;
 
-    private int prosperity;
-    private List<SkillProgressDto> progressEntries;
 }

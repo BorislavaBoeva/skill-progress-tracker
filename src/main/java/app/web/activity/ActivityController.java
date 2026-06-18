@@ -81,7 +81,7 @@ public class ActivityController {
 
     @PostMapping("/select")
     public ModelAndView selectActivity(@ModelAttribute ActivitySelectDto activitySelectDto,
-                                 HttpSession session) {
+                                       HttpSession session) {
         UUID userId = (UUID) session.getAttribute("user_id");
         if (userId == null) {
             return new ModelAndView("redirect:/login");

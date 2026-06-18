@@ -8,28 +8,24 @@ import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
 import app.repository.skill.SkillProgressRepository;
 import app.service.activity.ActivityService;
-import app.service.category.CategoryService;
 import app.service.user.UserService;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDate;
 import java.util.UUID;
 
 @Service
 @Transactional
 public class SkillProgressService {
     private final SkillProgressRepository skillProgressRepository;
-    private final CategoryService categoryService;
     private final ActivityService activityService;
     private final UserService userService;
 
     @Autowired
-    public SkillProgressService(SkillProgressRepository skillProgressRepository, CategoryService categoryService, ActivityService activityService, UserService userService) {
+    public SkillProgressService(SkillProgressRepository skillProgressRepository, ActivityService activityService, UserService userService) {
         this.skillProgressRepository = skillProgressRepository;
-        this.categoryService = categoryService;
         this.activityService = activityService;
         this.userService = userService;
     }
@@ -37,8 +33,8 @@ public class SkillProgressService {
     public void addSkillProgress(SkillProgress skillProgress) {
 
         // 1) Зареждаме user
-        User user = userService.getEntityById(skillProgress.getOwner().getId());
-        skillProgress.setOwner(user);
+        User user = userService.getEntityById(skillProgress.getUser().getId());
+        skillProgress.setUser(user);
 
         // 2) Записваме SkillProgress
         skillProgressRepository.save(skillProgress);
@@ -64,10 +60,6 @@ public class SkillProgressService {
         user.setHobby(increaseLevel(user.getHobbyPoints()));
         user.setProfessional(increaseLevel(user.getProfessionalPoints()));
 
-        // 6) Обновяваме общия прогрес
-        user.setProsperity(calculateProsperity(user));
-
-        // 7) Записваме user
         userService.save(user);
     }
 
@@ -78,22 +70,7 @@ public class SkillProgressService {
         return ProgressLevel.MASTER;
     }
 
-    private int calculateProsperity(User user) {
-        int sum = levelToPoints(user.getEducation()) + levelToPoints(user.getPhysical())
-                + levelToPoints(user.getHobby()) + levelToPoints(user.getProfessional());
-        return (sum * 100) / 4;
-    }
-
-    private int levelToPoints(ProgressLevel level) {
-        return switch (level) {
-            case BEGINNER -> 0;
-            case INTERMEDIATE -> 1;
-            case ADVANCED -> 2;
-            case MASTER -> 3;
-        };
-    }
-
-    public UUID getCategoryIdByActivity(UUID activityId) {
+     public UUID getCategoryIdByActivity(UUID activityId) {
         Activity activity = activityService.getById(activityId);
         return activity.getCategory().getId();
     }
@@ -103,11 +80,10 @@ public class SkillProgressService {
         Activity activity = activityService.getById(dto.getActivityId());
 
         SkillProgress skillProgress = new SkillProgress();
-        skillProgress.setOwner(user);
+        skillProgress.setUser(user);
         skillProgress.setActivity(activity);
         skillProgress.setHours(dto.getHours());
         skillProgress.setDescription(dto.getDescription());
-        skillProgress.setDate(LocalDate.now());
 
         // reuse the addSkillProgress method
         addSkillProgress(skillProgress);

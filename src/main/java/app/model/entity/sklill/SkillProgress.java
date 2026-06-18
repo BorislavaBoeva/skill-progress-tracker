@@ -20,9 +20,6 @@ public class SkillProgress {
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
 
-    @Column(name = "date", nullable = false, columnDefinition = "DATE DEFAULT (CURRENT_DATE)")
-    private LocalDate date = LocalDate.now();
-
     @Column(name = "hours", nullable = false, columnDefinition = "INT DEFAULT 0")
     private int hours;
 
@@ -32,7 +29,7 @@ public class SkillProgress {
     //TODO: delete second relation of user
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
-    private User owner;
+    private User user;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "activity_id", nullable = false)

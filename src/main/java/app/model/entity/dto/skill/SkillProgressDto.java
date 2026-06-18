@@ -1,6 +1,6 @@
 package app.model.entity.dto.skill;
 
-import jakarta.validation.constraints.NotBlank;
+import app.model.entity.user.ProgressLevel;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;
@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
 import java.util.UUID;
 @Data
 @Builder
@@ -17,9 +16,9 @@ import java.util.UUID;
 @NoArgsConstructor
 public class SkillProgressDto {
     private UUID activityId;
-    private String activityName;   // ← ново
+    private String activityName;
     private UUID categoryId;
-    private String categoryName;   // ← ново
+    private String categoryName;
 
     @NotNull(message = "Hours cannot be empty")
     @Positive(message = "Hours must be positive")

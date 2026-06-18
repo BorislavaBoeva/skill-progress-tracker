@@ -2,6 +2,9 @@ package app.model.entity.dto.user;
 
 import app.model.entity.dto.skill.SkillProgressDto;
 import app.model.entity.user.ProgressLevel;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Builder;
 import lombok.Data;
 

@@ -1,6 +1,5 @@
 package app.model.entity.activity;
 
-
 import app.model.entity.category.Category;
 import app.model.entity.user.User;
 import jakarta.persistence.*;
