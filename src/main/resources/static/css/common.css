@@ -7,6 +7,7 @@
     padding: 0;
 }
 
+/* BODY */
 body {
     font-family: 'Poppins', sans-serif;
     color: #0d1b4c;
@@ -17,15 +18,9 @@ body {
     flex-direction: column;
 }
 
-.logo-left img {
-    transition: transform 0.25s ease, filter 0.25s ease;
-    cursor: pointer;
-}
-
-.logo-left img:hover {
-    transform: scale(1.45);
-    filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.35));
-    transition: transform 0.25s ease, filter 0.25s ease;
+/* LOGO */
+.logo-left {
+    position: relative;
 }
 
 .logo-left img {
@@ -34,16 +29,53 @@ body {
     display: block;
     margin-left: -20px;
     margin-top: -10px;
+    cursor: pointer;
+    transition: transform 0.25s ease, filter 0.25s ease;
 }
 
+.logo-left img:hover {
+    transform: scale(1.45);
+    filter: drop-shadow(0 0 12px rgba(0, 0, 0, 0.35));
+}
+
+/* Tooltip ONLY on internal pages */
+.logo-left a[href="/home"]:hover::after {
+    content: "Home";
+    position: absolute;
+    top: 100%;
+    left: 10px;
+    padding: 4px 8px;
+    font-size: 14px;
+    color: #0d1b4c;
+    background: rgb(241 223 129);
+    border-radius: 6px;
+    white-space: nowrap;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+    margin-top: 4px;
+}
+
+/* Disable hover on HOME page */
+.home-header .logo-left img {
+    cursor: default;
+    transition: none;
+}
+
+.home-header .logo-left img:hover {
+    transform: none;
+    filter: none;
+}
+
+/* HEADER */
 header {
     width: 100%;
     padding: 20px;
+    margin-top: 20px;
     display: flex;
     align-items: flex-start;
     justify-content: space-between;
 }
 
+/* NAV BUTTONS */
 .nav-left {
     display: flex;
     flex-direction: column;
@@ -72,6 +104,7 @@ header {
     background: rgba(255, 255, 255, 0.7);
 }
 
+/* TITLE */
 .title-center {
     margin-top: 20px;
     font-size: 48px;
@@ -84,6 +117,7 @@ header {
     text-overflow: ellipsis;
 }
 
+/* MAIN */
 main {
     flex: 1;
     display: flex;
@@ -103,9 +137,9 @@ main {
     text-align: center;
     font-size: 20px;
     line-height: 1.5;
-    white-space: normal;
 }
 
+/* FORM */
 .form {
     width: 420px;
     margin: 80px auto;
@@ -136,10 +170,8 @@ main {
     width: 100%;
     padding: 12px 14px;
     margin-bottom: 20px;
-
     border: 2px solid #A7C7E7;
     border-radius: 8px;
-
     font-size: 16px;
     color: #0d1b4c;
     background: rgba(255, 255, 255, 0.9);
@@ -170,6 +202,7 @@ main {
     font-weight: 600;
 }
 
+/* FOOTER */
 .footer {
     text-align: center;
     margin: 20px auto;

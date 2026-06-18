@@ -2,6 +2,7 @@ package app.model.mapper.user;
 
 import app.model.entity.dto.skill.SkillProgressDto;
 import app.model.entity.dto.user.UserDto;
+import app.model.entity.dto.user.UserProgressDto;
 import app.model.entity.dto.user.UserRegisterRequestDto;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
@@ -69,4 +70,33 @@ public class UserMapper {
                 .progressEntries(progressDto)
                 .build();
     }
+    public static UserProgressDto toUserProgressDto(User user) {
+        if (user == null) {
+            return null;
+        }
+
+        List<SkillProgressDto> progressDto = user.getProgressEntries()
+                .stream()
+                .map(SkillProgressMapper::toDto)
+                .toList();
+
+        return UserProgressDto.builder()
+                .education(user.getEducation())
+                .educationPoints(user.getEducationPoints())
+
+                .physical(user.getPhysical())
+                .physicalPoints(user.getPhysicalPoints())
+
+                .hobby(user.getHobby())
+                .hobbyPoints(user.getHobbyPoints())
+
+                .professional(user.getProfessional())
+                .professionalPoints(user.getProfessionalPoints())
+
+                .prosperity(user.getProsperity())
+
+                .progressEntries(progressDto)
+                .build();
+    }
+
 }

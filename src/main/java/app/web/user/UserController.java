@@ -2,6 +2,9 @@ package app.web.user;
 
 import app.model.entity.dto.user.UserEditRequestDto;
 import app.model.entity.dto.user.UserDto;
+import app.model.entity.dto.user.UserProgressDto;
+import app.model.entity.user.User;
+import app.model.mapper.user.UserMapper;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -54,5 +57,16 @@ public class UserController {
             return user;
         }
         return null;
+    }
+
+    @GetMapping("/{id}/progress")
+    public ModelAndView showProgress(@PathVariable UUID id) {
+        User user = userService.getEntityById(id);
+        UserProgressDto progressDto = UserMapper.toUserProgressDto(user);
+
+        ModelAndView modelAndView = new ModelAndView("progress");
+        modelAndView.addObject("progress", progressDto);
+
+        return modelAndView;
     }
 }

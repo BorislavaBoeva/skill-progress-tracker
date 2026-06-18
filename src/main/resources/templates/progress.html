@@ -18,15 +18,85 @@
     </div>
 </header>
 <main>
-    <form class="form skill-form" action="/skill-progress/add" method="GET">
-        <label for="hours">Hours:</label>
-        <input type="number" id="hours" name="hours" min="1" required>
 
-        <label for="description">Description:</label>
-        <textarea id="description" name="description" required></textarea>
+    <!-- FORM – само за export към файл -->
+    <form action="/export-cv" method="post" class="form progress-wrapper">
+        <h3>User Progress Overview</h3>
 
-        <button type="submit" class="submit-btn">SAVE</button>
+        <!-- EDUCATION -->
+        <article class="progress-item"
+                 th:classappend="${progress.education.name().toLowerCase()}">
+            <h3>
+                Education —
+                <span class="level-text" th:text="${progress.education}"></span>
+            </h3>
+
+            <progress max="300" th:value="${progress.educationPoints}"></progress>
+            <p>Points: <span th:text="${progress.educationPoints}"></span></p>
+
+            <input type="hidden" name="education" th:value="${progress.education}">
+            <input type="hidden" name="educationPoints" th:value="${progress.educationPoints}">
+        </article>
+
+        <!-- PHYSICAL -->
+        <article class="progress-item"
+                 th:classappend="${progress.physical.name().toLowerCase()}">
+            <h3>
+                Physical —
+                <span class="level-text" th:text="${progress.physical}"></span>
+            </h3>
+
+            <progress max="300" th:value="${progress.physicalPoints}"></progress>
+            <p>Points: <span th:text="${progress.physicalPoints}"></span></p>
+
+            <input type="hidden" name="physical" th:value="${progress.physical}">
+            <input type="hidden" name="physicalPoints" th:value="${progress.physicalPoints}">
+        </article>
+
+        <!-- HOBBY -->
+        <article class="progress-item"
+                 th:classappend="${progress.hobby.name().toLowerCase()}">
+            <h3>
+                Hobby —
+                <span class="level-text" th:text="${progress.hobby}"></span>
+            </h3>
+
+            <progress max="300" th:value="${progress.hobbyPoints}"></progress>
+            <p>Points: <span th:text="${progress.hobbyPoints}"></span></p>
+
+            <input type="hidden" name="hobby" th:value="${progress.hobby}">
+            <input type="hidden" name="hobbyPoints" th:value="${progress.hobbyPoints}">
+        </article>
+
+        <!-- PROFESSIONAL -->
+        <article class="progress-item"
+                 th:classappend="${progress.professional.name().toLowerCase()}">
+            <h3>
+                Professional —
+                <span class="level-text" th:text="${progress.professional}"></span>
+            </h3>
+
+            <progress max="300" th:value="${progress.professionalPoints}"></progress>
+            <p>Points: <span th:text="${progress.professionalPoints}"></span></p>
+
+            <input type="hidden" name="professional" th:value="${progress.professional}">
+            <input type="hidden" name="professionalPoints" th:value="${progress.professionalPoints}">
+        </article>
+
+        <!-- PROSPERITY -->
+        <article class="progress-item total">
+            <h3>Prosperity</h3>
+
+            <progress max="100" th:value="${progress.prosperity}"></progress>
+            <p><span th:text="${progress.prosperity}"></span>%</p>
+
+            <input type="hidden" name="prosperity" th:value="${progress.prosperity}">
+        </article>
+
+        <button type="submit" class="profile-actions-button">Export to CV</button>
+
     </form>
+
 </main>
 <footer class="footer">
     © Skill Progress Tracker. All rights reserved.

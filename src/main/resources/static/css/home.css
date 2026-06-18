@@ -1,13 +1,16 @@
 body {
     background-blend-mode: multiply;
 }
+header {
+    flex-direction: row-reverse;
+    }
 
 .container {
     display: flex;
     flex-direction: row;
     justify-content: space-around;
     align-items: center;
-    gap: 100px;
+    gap: 80px;
 }
 
 h2 {
@@ -56,7 +59,7 @@ h2 {
     height: 250px;
     display: flex;
     flex-direction: row;
-    justify-content: space-between;
+    justify-content: space-around;
     align-items: center;
     gap: 50px;
     flex-wrap: nowrap;

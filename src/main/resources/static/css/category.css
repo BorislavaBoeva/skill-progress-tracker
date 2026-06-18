@@ -3,12 +3,16 @@ main {
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    gap: 60px;
-    margin: 0 40px;
+    gap: 200px;
+    margin: 0 60px;
+}
+
+header {
+    flex-direction: row-reverse;
 }
 
 .title-center {
-    font-size: 30px;
+    font-size: 60px;
     margin: 0 auto;
 }
 
@@ -16,8 +20,7 @@ main {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    gap: 20px;
-
+    gap: 120px;
 }
 
 .forms-wrapper .form {
@@ -26,14 +29,20 @@ main {
 
 .wrapper-select {
     display: flex;
-    justify-content: flex-start;
+    justify-content: space-between;
     align-items: center;
 }
 
-/* FORM CONTAINERS */
-.form-choose,
 .form-add,
 .form-delete {
+    width: 320px;
+    height: 200px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+}
+
+.form-choose {
+    width: 500px;
     height: 200px;
     margin-top: 8px;
     margin-bottom: 8px;
@@ -44,7 +53,7 @@ main {
 .forms-wrapper input[type="text"] {
     width: 100%;
     padding: 12px 14px;
-    font-size: 16px;
+    font-size: 18px;
 }
 
 .forms-wrapper select:focus,
@@ -55,6 +64,13 @@ main {
 .form-choose select,
 .form-delete select {
     margin-bottom: 16px;
+}
+
+.form-log textarea {
+    width: 100%;
+    height: 200px;
+    font-size: 18px;
+    resize: vertical;
 }
 
 /* MESSAGES */

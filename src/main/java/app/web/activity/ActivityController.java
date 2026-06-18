@@ -30,8 +30,6 @@ public class ActivityController {
         this.skillProgressService = skillProgressService;
     }
 
-
-
     @PostMapping("/add")
     public ModelAndView addActivity(@Valid @ModelAttribute("activityDto") ActivityDto activityDto,
                                     BindingResult bindingResult,
