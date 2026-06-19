@@ -1,7 +1,7 @@
 package app.model.mapper.activity;
 
 import app.model.entity.activity.Activity;
-import app.model.entity.dto.activity.ActivityDto;
+import app.model.dto.activity.ActivityDto;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor

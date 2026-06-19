@@ -1,6 +1,6 @@
-package app.model.entity.dto.user;
+package app.model.dto.user;
 
-import app.model.entity.dto.category.CategoryProgressDto;
+import app.model.dto.category.CategoryProgressDto;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

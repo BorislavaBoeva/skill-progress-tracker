@@ -1,4 +1,4 @@
-package app.model.entity.dto.skill;
+package app.model.dto.skill;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;

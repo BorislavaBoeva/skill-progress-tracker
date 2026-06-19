@@ -1,8 +1,8 @@
 package app.web;
 
-import app.model.entity.dto.user.UserDto;
-import app.model.entity.dto.user.UserLoginRequestDto;
-import app.model.entity.dto.user.UserRegisterRequestDto;
+import app.model.dto.user.UserDto;
+import app.model.dto.user.UserLoginRequestDto;
+import app.model.dto.user.UserRegisterRequestDto;
 import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
@@ -12,8 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -42,8 +40,7 @@ public class IndexController {
 
     @PostMapping("/register")
     public ModelAndView registerUser(@Valid UserRegisterRequestDto userRegisterRequest,
-                                     BindingResult bindingResult,
-                                     @RequestParam(value = "profilePicture", required = false) MultipartFile file) {
+                                     BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("register");
             modelAndView.addObject("userRegisterRequest", userRegisterRequest);

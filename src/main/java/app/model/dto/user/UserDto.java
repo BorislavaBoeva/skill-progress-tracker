@@ -1,11 +1,10 @@
-package app.model.entity.dto.user;
+package app.model.dto.user;
 
-import app.model.entity.dto.skill.SkillProgressDto;
+
 import app.model.entity.user.ProgressLevel;
 import lombok.Builder;
 import lombok.Data;
 
-import java.util.List;
 import java.util.UUID;
 @Data
 @Builder
@@ -16,15 +15,15 @@ public class UserDto {
     private String email;
     private String firstName;
     private String lastName;
-    private ProgressLevel education = ProgressLevel.BEGINNER;
-    private ProgressLevel physical = ProgressLevel.BEGINNER;
-    private ProgressLevel hobby = ProgressLevel.BEGINNER;
-    private ProgressLevel professional = ProgressLevel.BEGINNER;
+    private ProgressLevel education;
+    private ProgressLevel physical;
+    private ProgressLevel hobby;
+    private ProgressLevel professional;
     private int educationPoints;
     private int physicalPoints;
     private int hobbyPoints;
     private int professionalPoints;
 
     private int prosperity;
-    private List<SkillProgressDto> progressEntries;
+    //private List<SkillProgressDto> progressEntries;
 }

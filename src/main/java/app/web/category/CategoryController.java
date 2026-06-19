@@ -1,8 +1,8 @@
 package app.web.category;
 
 import app.model.entity.category.Category;
-import app.model.entity.dto.activity.ActivityDto;
-import app.model.entity.dto.activity.ActivitySelectDto;
+import app.model.dto.activity.ActivityDto;
+import app.model.dto.activity.ActivitySelectDto;
 import app.service.activity.ActivityService;
 import app.service.category.CategoryService;
 import jakarta.servlet.http.HttpSession;

@@ -17,32 +17,30 @@
     </div>
 </header>
 <main>
-    <form class="form" th:action="@{/register}" th:object="${userRegisterRequest}" th:method="post"
-          enctype="multipart/form-data">
+    <form class="form" th:action="@{/register}" th:object="${userRegisterRequest}" th:method="post">
         <h3>Register Here</h3>
 
         <label for="username">Username</label>
-        <input type="text" placeholder="Username" id="username" th:field="*{username}">
+        <input type="text" id="username" th:field="*{username}" placeholder="Username" required>
         <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
         <label for="password">Password</label>
-        <input type="password" placeholder="Password" id="password" th:field="*{password}">
+        <input type="password" id="password" th:field="*{password}" placeholder="Password" required>
         <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
         <label for="profilePicture">Add Profile Picture</label>
-        <input type="file" placeholder="add profile picture" id="profilePicture" name="profilePicture" accept="images/*"
-               th:field="*{profilePicture}">
+        <input type="text" placeholder="https://example.com/image.jpg" id="profilePicture" th:field="*{profilePicture}">
 
         <label for="email">Email</label>
-        <input type="email" placeholder="Email" id="email" th:field="*{email}">
+        <input type="email" id="email" th:field="*{email}" placeholder="Email" required>
         <p class="alert-warning" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
 
         <label for="firstName">First Name</label>
-        <input type="text" placeholder="firstName" id="firstName" th:field="*{firstName}">
+        <input type="text" id="firstName" th:field="*{firstName}" placeholder="firstName" required>
         <p class="alert-warning" th:if="${#fields.hasErrors('firstName')}" th:errors="*{firstName}"></p>
 
         <label for="lastName">Last Name</label>
-        <input type="text" placeholder="lastName" id="lastName" th:field="*{lastName}">
+        <input type="text" id="lastName" th:field="*{lastName}" placeholder="lastName" required>
         <p class="alert-warning" th:if="${#fields.hasErrors('lastName')}" th:errors="*{lastName}"></p>
 
         <button>Register</button>

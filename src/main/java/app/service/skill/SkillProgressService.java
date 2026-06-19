@@ -2,7 +2,7 @@ package app.service.skill;
 
 import app.model.entity.activity.Activity;
 import app.model.entity.category.Category;
-import app.model.entity.dto.skill.SkillProgressDto;
+import app.model.dto.skill.SkillProgressDto;
 import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;

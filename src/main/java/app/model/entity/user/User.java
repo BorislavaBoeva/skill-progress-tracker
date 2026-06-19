@@ -17,17 +17,17 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
     private UUID id;
-    @Column(name = "username", nullable = false, unique = true)
+    @Column(name = "username", nullable = false, unique = true,length = 20)
     private String username;
     @Column(name = "password", nullable = false)
     private String password;
     @Column(name = "profile_picture")
     private String profilePicture;
-    @Column(name = "email", nullable = false, unique = true)
+    @Column(name = "email", nullable = false, unique = true,length = 50)
     private String email;
-    @Column(name = "first_name", nullable = false)
+    @Column(name = "first_name", nullable = false,length = 50)
     private String firstName;
-    @Column(name = "Last_name", nullable = false)
+    @Column(name = "last_name", nullable = false,length = 50)
     private String lastName;
 
     //BEGINNER

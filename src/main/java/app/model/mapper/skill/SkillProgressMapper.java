@@ -1,6 +1,6 @@
 package app.model.mapper.skill;
 
-import app.model.entity.dto.skill.SkillProgressDto;
+import app.model.dto.skill.SkillProgressDto;
 import app.model.entity.sklill.SkillProgress;
 import lombok.NoArgsConstructor;
 
@@ -14,12 +14,4 @@ public class SkillProgressMapper {
                 .description(skillProgress.getDescription())
                 .build();
     }
-
-//    public static ActivityEntryDto toActivityEntryDto(SkillProgress skillProgress) {
-//        if (skillProgress == null) return null;
-//        return ActivityEntryDto.builder()
-//                .activityName(skillProgress.getActivity().getName())
-//                .hours(skillProgress.getHours())
-//                .build();
-//    }
 }

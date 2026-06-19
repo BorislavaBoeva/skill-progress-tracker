@@ -5,7 +5,7 @@
     <title>Login</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-     <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
 </head>
 <body>
@@ -18,14 +18,14 @@
     <div class="nav-left"></div>
 </header>
 <main>
-    <form class="form" th:action="@{/login}" th:object="${userLoginRequest}"  th:method="post">
+    <form class="form" th:action="@{/login}" th:object="${userLoginRequest}" th:method="post">
         <h3>Login Here</h3>
         <label for="username">Username</label>
-        <input type="text" placeholder="Username" id="username" th:field="*{username}" required>
+        <input type="text" id="username" th:field="*{username}" placeholder="Username" required>
         <p class="alert-warning" th:if="${#fields.hasErrors('username')}" th:errors="*{username}"></p>
 
         <label for="password">Password</label>
-        <input type="password" placeholder="Password" id="password" th:field="*{password}" required>
+        <input type="password" id="password" th:field="*{password}" placeholder="Password" required>
         <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
         <button type="submit">Log In</button>

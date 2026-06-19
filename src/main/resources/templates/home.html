@@ -25,10 +25,10 @@
             <h3 class="subtitle-dashbord">Dashboard</h3>
 
             <div class="container-dashboard">
-                <a th:href="@{/users/{id}/profile(id=${user.id})}" class="button">
+                <a th:href="@{/users/profile}" class="button">
                     <img th:src="@{${user.profilePicture}}" alt="picture" class="icon">Edit Profile</a>
 
-                <a th:href="@{/users/{id}/progress(id=${user.id})}" class="button">
+                <a th:href="@{/users/progress}" class="button">
                     <img src="/images/reports.png" alt="reports" class="icon">Progress</a>
 
                 <a href="/users/logout" class="button">

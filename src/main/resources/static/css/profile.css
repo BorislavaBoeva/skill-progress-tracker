@@ -1,8 +1,9 @@
 .form {
     width: 550px;
+    /*min-height: 480px;*/
+    /*height: auto;*/
     height: 480px;
-    margin-left: auto;
-    margin-right: auto;
+    margin: 20px auto;
 }
 
 header {

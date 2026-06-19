@@ -1,15 +1,13 @@
 package app.model.mapper.user;
 
-import app.model.entity.dto.activity.ActivityEntryDto;
-import app.model.entity.dto.category.CategoryProgressDto;
-import app.model.entity.dto.skill.SkillProgressDto;
-import app.model.entity.dto.user.UserDto;
-import app.model.entity.dto.user.UserProgressDto;
-import app.model.entity.dto.user.UserRegisterRequestDto;
+import app.model.dto.activity.ActivityEntryDto;
+import app.model.dto.category.CategoryProgressDto;
+import app.model.dto.user.UserDto;
+import app.model.dto.user.UserProgressDto;
+import app.model.dto.user.UserRegisterRequestDto;
 import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
-import app.model.mapper.skill.SkillProgressMapper;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
@@ -31,7 +29,7 @@ public class UserMapper {
                 .email(userRegisterRequest.getEmail())
                 .firstName(userRegisterRequest.getFirstName())
                 .lastName(userRegisterRequest.getLastName())
-                .profilePicture(String.valueOf(userRegisterRequest.getProfilePicture()))
+                .profilePicture(userRegisterRequest.getProfilePicture())
                 .education(ProgressLevel.BEGINNER)
                 .physical(ProgressLevel.BEGINNER)
                 .hobby(ProgressLevel.BEGINNER)
@@ -50,10 +48,6 @@ public class UserMapper {
         if (user == null) {
             return null;
         }
-//        List<SkillProgressDto> progressDto = user.getProgressEntries()
-//                .stream()
-//                .map(SkillProgressMapper::toDto)
-//                .toList();
 
         return UserDto.builder()
                 .id(user.getId())

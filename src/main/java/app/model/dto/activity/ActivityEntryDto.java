@@ -1,4 +1,4 @@
-package app.model.entity.dto.activity;
+package app.model.dto.activity;
 import lombok.*;
 
 

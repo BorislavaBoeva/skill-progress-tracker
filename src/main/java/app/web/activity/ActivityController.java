@@ -1,8 +1,8 @@
 package app.web.activity;
 
-import app.model.entity.dto.activity.ActivityDto;
-import app.model.entity.dto.activity.ActivitySelectDto;
-import app.model.entity.dto.skill.SkillProgressDto;
+import app.model.dto.activity.ActivityDto;
+import app.model.dto.activity.ActivitySelectDto;
+import app.model.dto.skill.SkillProgressDto;
 import app.service.activity.ActivityService;
 import app.service.category.CategoryService;
 import app.service.skill.SkillProgressService;

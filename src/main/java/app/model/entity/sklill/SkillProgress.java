@@ -22,7 +22,7 @@ public class SkillProgress {
     @Column(name = "hours", nullable = false, columnDefinition = "INT DEFAULT 0")
     private int hours;
 
-    @Column(name = "description", nullable = false, columnDefinition = "VARCHAR(100)")
+    @Column(name = "description", nullable = false, length = 200)
     private String description;
 
     //TODO: delete second relation of user

@@ -1,9 +1,9 @@
 package app.service.user;
 
-import app.model.entity.dto.user.UserEditRequestDto;
-import app.model.entity.dto.user.UserDto;
-import app.model.entity.dto.user.UserLoginRequestDto;
-import app.model.entity.dto.user.UserRegisterRequestDto;
+import app.model.dto.user.UserEditRequestDto;
+import app.model.dto.user.UserDto;
+import app.model.dto.user.UserLoginRequestDto;
+import app.model.dto.user.UserRegisterRequestDto;
 import app.model.entity.user.User;
 import app.model.mapper.user.UserMapper;
 import app.repository.user.UserRepository;
@@ -72,9 +72,26 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
     }
 
+    public UserEditRequestDto getEditRequestById(UUID id) {
+        UserDto user = getById(id);
+        return UserEditRequestDto.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .profilePicture(user.getProfilePicture())
+                .build();
+    }
+
     public UserDto updateProfile(String id, UserEditRequestDto userEditRequest) {
         User entity = userRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
+
+        userRepository.findByEmail(userEditRequest.getEmail())
+                .ifPresent(existing -> {
+                    if (!existing.getId().equals(entity.getId())) {
+                        throw new IllegalArgumentException("Email is already in use.");
+                    }
+                });
 
         entity.setFirstName(userEditRequest.getFirstName());
         entity.setLastName(userEditRequest.getLastName());

@@ -1,6 +1,6 @@
-package app.model.entity.dto.category;
+package app.model.dto.category;
 
-import app.model.entity.dto.activity.ActivityEntryDto;
+import app.model.dto.activity.ActivityEntryDto;
 import app.model.entity.user.ProgressLevel;
 import lombok.*;
 import java.util.List;

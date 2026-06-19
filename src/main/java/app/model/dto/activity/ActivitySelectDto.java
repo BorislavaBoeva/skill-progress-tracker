@@ -1,4 +1,4 @@
-package app.model.entity.dto.activity;
+package app.model.dto.activity;
 
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;

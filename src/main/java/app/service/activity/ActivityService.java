@@ -2,7 +2,7 @@ package app.service.activity;
 
 import app.model.entity.activity.Activity;
 import app.model.entity.category.Category;
-import app.model.entity.dto.activity.ActivityDto;
+import app.model.dto.activity.ActivityDto;
 import app.model.entity.user.User;
 import app.model.mapper.activity.ActivityMapper;
 import app.repository.activity.ActivityRepository;
@@ -34,7 +34,7 @@ public class ActivityService {
                 .orElseThrow(() -> new IllegalArgumentException("Activity not found"));
     }
 
-    public ActivityDto createActivity(ActivityDto activityDto, UUID userId) {
+    public void createActivity(ActivityDto activityDto, UUID userId) {
         User user = userService.getEntityById(userId);
 
 
@@ -54,15 +54,15 @@ public class ActivityService {
         activityRepository.save(newActivity);
 
         //5.Return the created activity Entity → DTO
-        return ActivityMapper.toDto(newActivity);
+        ActivityMapper.toDto(newActivity);
     }
-    public List<ActivityDto> getActivitiesByCategoryName(String categoryName) {
-        Category category = categoryService.getByName(categoryName);
-        return activityRepository.findAllByCategoryId(category.getId())
-                .stream()
-                .map(ActivityMapper::toDto)
-                .toList();
-    }
+//    public List<ActivityDto> getActivitiesByCategoryName(String categoryName) {
+//        Category category = categoryService.getByName(categoryName);
+//        return activityRepository.findAllByCategoryId(category.getId())
+//                .stream()
+//                .map(ActivityMapper::toDto)
+//                .toList();
+//    }
 
     public List<ActivityDto> getActivitiesByCategoryNameAndUser(String categoryName, UUID userId) {
         Category category = categoryService.getByName(categoryName);
