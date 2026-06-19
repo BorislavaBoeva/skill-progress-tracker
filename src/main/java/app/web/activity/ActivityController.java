@@ -67,15 +67,21 @@ public class ActivityController {
     }
 
     @PostMapping("/delete")
-    public ModelAndView deleteActivity(@RequestParam UUID id,
+    public ModelAndView deleteActivity(@RequestParam(required = false) String id,
                                        @RequestParam UUID categoryId,
                                        HttpSession session) {
         UUID userId = (UUID) session.getAttribute("user_id");
         if (userId == null) {
             return new ModelAndView("redirect:/login");
         }
+
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
-        activityService.deleteActivity(id, userId);
+
+        if (id == null || id.isBlank()) {
+            return new ModelAndView("redirect:/category/" + categoryName + "?error=noSelection");
+        }
+
+        activityService.deleteActivity(UUID.fromString(id), userId);
         return new ModelAndView("redirect:/category/" + categoryName + "?deleted=success");
     }
 

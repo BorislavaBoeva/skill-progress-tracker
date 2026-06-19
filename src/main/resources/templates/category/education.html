@@ -30,6 +30,7 @@
 <main>
     <div th:if="${param.error}" class="error">
         <p th:if="${param.error[0] == 'exists'}">This activity already exists</p>
+        <p th:if="${param.error[0] == 'noSelection'}">Please select an activity to delete</p>
     </div>
     <div th:if="${param.success}" class="success">
         <p>Activity added successfully</p>
