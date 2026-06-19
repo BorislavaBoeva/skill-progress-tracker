@@ -12,7 +12,6 @@ public class SkillMapper {
             return null;
         }
 
-
         return SkillDto.builder()
                 .id(skillProgress.getId())
                 .hours(skillProgress.getHours())

@@ -90,7 +90,6 @@
 
     <!-- LOG PROGRESS FORM -->
     <div th:if="${skillProgressDto != null}" class="form form-log">
-
         <form th:action="@{/activity/log}" method="post" th:object="${skillProgressDto}">
 
             <!-- activityId идва от Select -->
@@ -114,7 +113,6 @@
             <button type="submit" class="submit-btn">Save</button>
         </form>
     </div>
-
 </main>
 <footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
 </body>

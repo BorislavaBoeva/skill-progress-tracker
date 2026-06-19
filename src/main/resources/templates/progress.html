@@ -4,34 +4,31 @@
     <meta charset="UTF-8">
     <title>Progress</title>
     <link rel="stylesheet" type="text/css" href="/css/common.css">
-    <link rel="stylesheet" type="text/css" href="/css/home.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/progress.css">
 </head>
 <body>
 <header>
     <div class="logo-left">
         <a href="/"><img src="/images/logo.png" alt="Logo"></a>
     </div>
+
+
 </header>
 
 <main>
+    <h2>Your Progress</h2>
     <div class="progress-wrapper">
-        <h2>Your Progress</h2>
-
         <article th:each="cat : ${progress.categories}"
                  class="progress-item"
                  th:classappend="${cat.categoryName}">
-
-            <!-- Отгоре: Категория + Level -->
             <h3>
                 <span th:text="${#strings.toUpperCase(cat.categoryName)}"></span>
                 — <span class="level-text" th:text="${cat.level}"></span>
             </h3>
-
-            <!-- Points bar -->
             <progress max="300" th:value="${cat.points}"></progress>
             <p>Points: <strong th:text="${cat.points}"></strong></p>
 
-            <!-- Dropdown с активити -->
             <details th:if="${not #lists.isEmpty(cat.activities)}">
                 <summary>Activities</summary>
                 <ul class="activity-list">
@@ -43,11 +40,9 @@
             </details>
 
             <p th:if="${#lists.isEmpty(cat.activities)}">No activities yet.</p>
-
         </article>
     </div>
 </main>
-
 <footer class="footer">
     © Skill Progress Tracker. All rights reserved.
 </footer>

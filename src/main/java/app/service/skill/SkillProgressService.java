@@ -31,21 +31,17 @@ public class SkillProgressService {
     }
 
     public void addSkillProgress(SkillProgress skillProgress) {
-
-        // 1) Зареждаме user
+        // 1) Add user
         User user = userService.getEntityById(skillProgress.getUser().getId());
         skillProgress.setUser(user);
 
-        // 2) Записваме SkillProgress
         skillProgressRepository.save(skillProgress);
-
-        // 3) ВЗИМАМЕ КАТЕГОРИЯТА ОТ ACTIVITY TYPE
+        // 2) Add SkillProgress
         Category category = skillProgress.getActivity().getCategory();
         String categoryName = category.getName();
-
+       // 3) Add points to the correct category
         int points = skillProgress.getHours();
 
-        // 4) Добавяме точки към правилната категория
         switch (categoryName) {
             case "education" -> user.setEducationPoints(user.getEducationPoints() + points);
             case "physical" -> user.setPhysicalPoints(user.getPhysicalPoints() + points);
@@ -54,7 +50,7 @@ public class SkillProgressService {
             default -> throw new IllegalStateException("Unknown category: " + categoryName);
         }
 
-        // 5) Обновяваме нивата
+        // 4) Update levels
         user.setEducation(increaseLevel(user.getEducationPoints()));
         user.setPhysical(increaseLevel(user.getPhysicalPoints()));
         user.setHobby(increaseLevel(user.getHobbyPoints()));
@@ -68,11 +64,6 @@ public class SkillProgressService {
         if (points < 200) return ProgressLevel.INTERMEDIATE;
         if (points < 300) return ProgressLevel.ADVANCED;
         return ProgressLevel.MASTER;
-    }
-
-     public UUID getCategoryIdByActivity(UUID activityId) {
-        Activity activity = activityService.getById(activityId);
-        return activity.getCategory().getId();
     }
 
     public void saveLog(@Valid SkillProgressDto dto, UUID userId) {

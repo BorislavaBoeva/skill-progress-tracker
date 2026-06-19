@@ -97,7 +97,7 @@ public class ActivityController {
         modelAndView.addObject("activityDto", new ActivityDto());
 
 
-        // DTO за формата за лог
+        // DTO for log form
         SkillProgressDto logDto = SkillProgressDto.builder()
                 .activityId(activitySelectDto.getId())
                 .categoryId(activitySelectDto.getCategoryId())
@@ -134,10 +134,8 @@ public class ActivityController {
             return modelAndView;
         }
 
-        // записваме лог
         skillProgressService.saveLog(skillProgressDto, userId);
 
-        // redirect към категорията
         categoryId = skillProgressDto.getCategoryId();
         categoryName = categoryService.getById(categoryId).getName().toLowerCase();
 

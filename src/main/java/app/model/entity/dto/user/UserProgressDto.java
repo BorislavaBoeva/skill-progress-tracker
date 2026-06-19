@@ -1,8 +1,6 @@
 package app.model.entity.dto.user;
 
 import app.model.entity.dto.category.CategoryProgressDto;
-import app.model.entity.dto.skill.SkillProgressDto;
-import app.model.entity.user.ProgressLevel;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,5 +16,4 @@ import java.util.UUID;
 public class UserProgressDto {
     private UUID id;
     private List<CategoryProgressDto> categories;
-
 }

@@ -1,69 +1,62 @@
-/* Wrapper layout only */
+h2{
+    text-align: center;
+    margin-top: -80px;
+    margin-bottom: 40px;
+    font-size: 32px;
+}
+
 .progress-wrapper {
-    width: 100%;
-    max-width: 900px;
-    margin: 40px auto;
-    padding: 30px 40px;
-    display: flex;
-    flex-direction: column;
-    gap: 35px;
+    width: 720px;
+    margin: 0 auto;
+    padding: 20px;
+    text-align: center;
+    background: rgba(255, 255, 255, 0.35);
+    backdrop-filter: blur(30px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
 }
 
-/* Progress item layout only */
 .progress-item {
-    padding: 25px 30px;
-    border-radius: 14px;
-    background: rgba(255,255,255,0.9);
-    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
-    transition: transform 0.25s ease, box-shadow 0.25s ease;
+    margin-bottom: 24px;
+    text-align: left;
 }
 
-.progress-item:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 6px 18px rgba(0,0,0,0.18);
+.progress-item h3 {
+    font-size: 18px;
+    margin-bottom: 8px;
 }
 
-/* Progress bar */
-progress {
+.progress-item progress {
     width: 100%;
-    height: 22px;
-    border-radius: 12px;
-    overflow: hidden;
-    appearance: none;
 }
 
-progress::-webkit-progress-bar {
-    background: #e0e6f0;
+details summary {
+    cursor: pointer;
+    font-weight: 600;
+    margin-top: 6px;
+    list-style: none;
 }
 
-progress::-webkit-progress-value {
-    border-radius: 12px;
-    transition: width 0.4s ease;
+details summary::-webkit-details-marker {
+    display: none;
 }
 
-/* Level colors only */
-.beginner { border-left: 10px solid #F7D774; }
-.beginner progress::-webkit-progress-value { background: #F7D774; }
-
-.intermediate { border-left: 10px solid #6BA8FF; }
-.intermediate progress::-webkit-progress-value { background: #6BA8FF; }
-
-.advanced { border-left: 10px solid #6BCB77; }
-.advanced progress::-webkit-progress-value { background: #6BCB77; }
-
-.master { border-left: 10px solid #9B6BFF; }
-.master progress::-webkit-progress-value { background: #9B6BFF; }
-
-/* Prosperity */
-.progress-item.total {
-    border-left: 10px solid #0A2A43;
-}
-.progress-item.total progress::-webkit-progress-value {
-    background: #0A2A43;
+details summary::after {
+    content: " ▾";
 }
 
-/* Export button uses form.css styling */
-.export-btn {
-    width: 250px;
-    margin: 20px auto 0;
+details[open] summary::after {
+    content: " ▴";
+}
+
+.activity-list {
+    list-style: none;
+    padding: 0;
+    margin-top: 8px;
+}
+
+.activity-list li {
+    padding: 6px 0;
+    border-bottom: 1px solid rgba(13, 27, 76, 0.1);
 }

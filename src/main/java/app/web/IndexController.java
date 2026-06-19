@@ -35,7 +35,6 @@ public class IndexController {
 
     @GetMapping("/register")
     public ModelAndView getRegisterPage() {
-        // UserRegisterRequestDto userRegisterRequest = UserRegisterRequestDto.builder().build();
         ModelAndView modelAndView = new ModelAndView("register");
         modelAndView.addObject("userRegisterRequest", new UserRegisterRequestDto());
         return modelAndView;

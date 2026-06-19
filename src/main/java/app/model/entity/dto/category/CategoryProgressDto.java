@@ -10,8 +10,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CategoryProgressDto {
-    private String categoryName;   // "education", "physical" и т.н.
-    private ProgressLevel level;   // BEGINNER / INTERMEDIATE / ADVANCED / MASTER
-    private int points;            // educationPoints и т.н.
-    private List<ActivityEntryDto> activities; // всички логнати активити за тази категория
+    private String categoryName;
+    private ProgressLevel level;
+    private int points;
+    private List<ActivityEntryDto> activities;
 }

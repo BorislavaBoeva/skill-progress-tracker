@@ -45,7 +45,6 @@ public class UserService {
 
         //save user
         userRepository.save(userEntity);
-        //return UserMapper.toUserDto(userEntity);
     }
 
     //log in registered user
@@ -73,18 +72,19 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
     }
 
-    public void save(User user) {
-        userRepository.save(user);
-    }
-
     public UserDto updateProfile(String id, UserEditRequestDto userEditRequest) {
         User entity = userRepository.findById(UUID.fromString(id))
                 .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
+
         entity.setFirstName(userEditRequest.getFirstName());
         entity.setLastName(userEditRequest.getLastName());
         entity.setEmail(userEditRequest.getEmail());
         entity.setProfilePicture(userEditRequest.getProfilePicture());
         User updatedUser = userRepository.save(entity);
         return UserMapper.toUserDto(updatedUser);
+    }
+
+    public void save(User user) {
+        userRepository.save(user);
     }
 }

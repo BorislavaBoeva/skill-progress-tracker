@@ -1,7 +1,5 @@
 package app.model.entity.dto.skill;
 
-import app.model.entity.activity.Activity;
-import app.model.entity.user.User;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 import jakarta.validation.constraints.Size;

@@ -5,6 +5,8 @@
 <!--/*@thymesVar id="activities" type="java.util.List<app.model.entity.dto.activity.ActivityDto>"*/-->
 <!--/*@thymesVar id="category" type="app.model.entity.category.Category"*/-->
 <!--/*@thymesVar id="activities" type="java.util.List<app.model.entity.dto.activity.ActivityDto>"*/-->
+<!-- @thymesVar id="activitySelectDto" type="app.model.entity.dto.activity.ActivitySelectDto" -->
+<!-- @thymesVar id="skillProgressDto" type="app.model.entity.dto.skill.SkillProgressDto" -->
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -64,7 +66,7 @@
     </div>
 
     <div class="forms-wrapper wrapper-select">
-        <!-- Form to SELECT activity -->
+        <!-- UPDATE-SELECT ACTIVITY FORM -->
         <form th:action="@{/activity/select}" th:object="${activitySelectDto}" method="post" class="form form-choose">
             <div class="form-group">
                 <label for="activitySelect">Choose activity</label>
@@ -79,8 +81,35 @@
                     <p th:each="error : ${#fields.errors('id')}" th:text="${error}"></p>
                 </div>
             </div>
-            <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>
+            <!-- <input type="hidden" th:field="*{categoryId}" th:value="${category.id}"/>-->
+            <input type="hidden" name="categoryId" th:value="${category.id}"/>
             <button type="submit" class="profile-actions-button">Select</button>
+        </form>
+    </div>
+
+    <!-- LOG PROGRESS FORM -->
+    <div th:if="${skillProgressDto != null}" class="form form-log">
+        <form th:action="@{/activity/log}" method="post" th:object="${skillProgressDto}">
+
+            <!-- activityId идва от Select -->
+            <input type="hidden" th:field="*{activityId}"/>
+            <input type="hidden" th:field="*{categoryId}"/>
+
+            <div class="form-group">
+                <label for="hours">Hours:</label>
+                <input type="number" id="hours" th:field="*{hours}" min="1" required>
+                <div class="error" th:if="${#fields.hasErrors('hours')}"
+                     th:errors="*{hours}"></div>
+            </div>
+
+            <div class="form-group">
+                <label for="description">Description:</label>
+                <textarea id="description" th:field="*{description}" required></textarea>
+                <div class="error" th:if="${#fields.hasErrors('description')}"
+                     th:errors="*{description}"></div>
+            </div>
+
+            <button type="submit" class="submit-btn">Save</button>
         </form>
     </div>
 </main>

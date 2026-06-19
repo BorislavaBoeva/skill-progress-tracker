@@ -50,11 +50,10 @@ public class UserMapper {
         if (user == null) {
             return null;
         }
-        // list with all activity -> skill progress/{id=1, hours=2, activityName="Yoga"} {id=2, hours=1, activity=READING}...
-        List<SkillProgressDto> progressDto = user.getProgressEntries()
-                .stream()
-                .map(SkillProgressMapper::toDto)
-                .toList();
+//        List<SkillProgressDto> progressDto = user.getProgressEntries()
+//                .stream()
+//                .map(SkillProgressMapper::toDto)
+//                .toList();
 
         return UserDto.builder()
                 .id(user.getId())
@@ -78,7 +77,6 @@ public class UserMapper {
     public static UserProgressDto toUserProgressDto(User user) {
         if (user == null) return null;
 
-        // Двойно групиране: първо по категория, после по активити → сумираме часовете
         Map<String, List<ActivityEntryDto>> byCategory = user.getProgressEntries()
                 .stream()
                 .collect(Collectors.groupingBy(
