@@ -14,9 +14,8 @@
         <a href="/home"><img src="/images/logo.png" alt="Logo"></a>
     </div>
 </header>
-
 <main>
-    <h2>Your Progress, <span th:text="${username}"></span></h2>
+    <h2>Your Progress, <span th:text="${firstName}"></span></h2>
     <div class="progress-wrapper">
         <article th:each="cat : ${progress.categories}"
                  class="progress-item"
@@ -41,6 +40,7 @@
             <p th:if="${#lists.isEmpty(cat.activities)}">No activities yet.</p>
         </article>
     </div>
+    <a href="/home" class="button">EXPORT TO CV</a>
 </main>
 <footer class="footer">
     © Skill Progress Tracker. All rights reserved.

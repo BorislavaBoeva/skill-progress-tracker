@@ -1,12 +1,10 @@
 package app.model.entity.activity;
 
 import app.model.entity.category.Category;
-import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @Builder

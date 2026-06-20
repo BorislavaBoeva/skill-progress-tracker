@@ -1,4 +1,4 @@
-h2{
+h2 {
     text-align: center;
     margin-top: -20px;
     margin-bottom: 40px;
@@ -7,7 +7,7 @@ h2{
 
 .progress-wrapper {
     display: flex;
-    justify-content:space-evenly;
+    justify-content: space-evenly;
     width: 80%;
     height: 100%;
     margin: 40px;
@@ -62,4 +62,15 @@ details[open] summary::after {
 .activity-list li {
     padding: 6px 0;
     border-bottom: 1px solid rgba(13, 27, 76, 0.1);
+}
+
+.button {
+    width: 280px;
+    height: 80px;
+    font-size: 24px;
+    font-weight: 700;
+    padding-bottom: 0;
+    margin-top: 200px;
+    background: #b7daea;
+    backdrop-filter: blur(30px);
 }

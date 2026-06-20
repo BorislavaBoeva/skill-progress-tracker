@@ -103,6 +103,7 @@ public class IndexController {
         UserDto user = userService.getById(userUUID);
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("user", user);
+        modelAndView.addObject("firstName", user.getFirstName());
 
         return modelAndView;
     }
