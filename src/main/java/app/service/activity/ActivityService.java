@@ -37,11 +37,11 @@ public class ActivityService {
     public void createActivity(ActivityDto activityDto, UUID userId) {
         User user = userService.getEntityById(userId);
 
-
         //1.check if activity type already exists
-        if (activityRepository.existsByNameAndUserId(activityDto.getName(), userId)) {
+        if (activityRepository.existsByNameAndUserIdAndActiveTrue(activityDto.getName(), userId)) {
             throw new IllegalArgumentException("Activity already exists");
         }
+
         //2.DTO → Entity
         Activity newActivity = ActivityMapper.toEntity(activityDto);
 
@@ -56,32 +56,25 @@ public class ActivityService {
         //5.Return the created activity Entity → DTO
         ActivityMapper.toDto(newActivity);
     }
-//    public List<ActivityDto> getActivitiesByCategoryName(String categoryName) {
-//        Category category = categoryService.getByName(categoryName);
-//        return activityRepository.findAllByCategoryId(category.getId())
-//                .stream()
-//                .map(ActivityMapper::toDto)
-//                .toList();
-//    }
 
     public List<ActivityDto> getActivitiesByCategoryNameAndUser(String categoryName, UUID userId) {
         Category category = categoryService.getByName(categoryName);
 
-        return activityRepository.findAllByCategoryIdAndUserId(category.getId(), userId)
+        return activityRepository.findAllByCategoryIdAndUserIdAndActiveTrue(category.getId(), userId)
                 .stream()
                 .map(ActivityMapper::toDto)
                 .toList();
     }
 
     public void deleteActivity(UUID id, UUID userId) {
-        Activity activity = activityRepository.findById(UUID.fromString(id.toString()))
+        Activity activity = activityRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Activity not found"));
-
         // Проверка дали activity принадлежи на user-а
         if (!activity.getUser().getId().equals(userId)) {
             throw new IllegalArgumentException("You cannot delete another user's activity");
         }
 
-        activityRepository.delete(activity);
+        activity.setActive(false);
+        activityRepository.save(activity);
     }
 }

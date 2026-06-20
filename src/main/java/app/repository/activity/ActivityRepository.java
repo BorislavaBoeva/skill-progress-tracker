@@ -11,5 +11,9 @@ import java.util.UUID;
 public interface ActivityRepository extends JpaRepository<Activity, UUID> {
     boolean existsByNameAndUserId(String name, UUID userId);
 
-     List<Activity> findAllByCategoryIdAndUserId(UUID categoryId, UUID userId);
+    boolean existsByNameAndUserIdAndActiveTrue(String name, UUID userId);
+
+    List<Activity> findAllByCategoryIdAndUserId(UUID categoryId, UUID userId);
+
+    List<Activity> findAllByCategoryIdAndUserIdAndActiveTrue(UUID categoryId, UUID userId);
 }

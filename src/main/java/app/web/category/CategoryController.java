@@ -45,7 +45,6 @@ public class CategoryController {
         modelAndView.addObject("category", category);
         modelAndView.addObject("activities", activities);
 
-
         ActivityDto dto = new ActivityDto();
         dto.setCategoryId(category.getId());
         modelAndView.addObject("activityDto", dto);

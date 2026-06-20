@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 public class ActivityMapper {
-
     public static Activity toEntity(ActivityDto activityDto) {
         if (activityDto == null) {
             return null;
@@ -16,6 +15,7 @@ public class ActivityMapper {
                 .name(activityDto.getName())
                 .build();
     }
+
     //set Category only in service layer
     public static ActivityDto toDto(Activity entity) {
         if (entity == null) {

@@ -56,7 +56,7 @@ public class UserService {
             throw new IllegalArgumentException("Username or password is mismatch!");
         }
 
-        //3.Return the logged-in optionalUser
+        //2.Return the logged-in optionalUser
         return UserMapper.toUserDto(optionalUser.get());
     }
 

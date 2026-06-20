@@ -21,7 +21,8 @@ import java.util.UUID;
 public class IndexController {
 
     private final UserService userService;
-@Autowired
+
+    @Autowired
     public IndexController(UserService userService) {
         this.userService = userService;
     }

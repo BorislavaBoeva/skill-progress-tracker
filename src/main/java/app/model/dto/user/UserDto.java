@@ -25,5 +25,4 @@ public class UserDto {
     private int professionalPoints;
 
     private int prosperity;
-    //private List<SkillProgressDto> progressEntries;
-}
+ }

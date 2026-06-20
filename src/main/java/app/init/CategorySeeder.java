@@ -20,14 +20,12 @@ public class CategorySeeder {
     @PostConstruct
     public void init() {
         if (categoryRepository.count() == 0) {
-
             List<String> names = List.of(
                     "education",
                     "physical",
                     "hobby",
                     "professional"
             );
-
             for (String name : names) {
                 Category category = new Category();
                 category.setName(name);

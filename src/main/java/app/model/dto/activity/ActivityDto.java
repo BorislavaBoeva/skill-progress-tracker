@@ -18,7 +18,6 @@ public class ActivityDto {
     @NotBlank
     @Size(min = 3, max = 100, message = "Activity name must be between 3 and 100 characters")
     private String name;
-
     @NotNull(message = "Category is required")
     private UUID categoryId;
  }

@@ -29,10 +29,10 @@ public class UserController {
 
     @GetMapping("/profile")
     public ModelAndView getProfile(HttpSession session) {
-        // Взимаш UUID-а директно от сесията
+        // UUID from session
         UUID userId = (UUID) session.getAttribute("user_id");
 
-        // Ако няма сесия → не си логнат → redirect към login
+        // check if user is logged in
         if (userId == null) {
             return new ModelAndView("redirect:/login");
         }
@@ -50,16 +50,19 @@ public class UserController {
     public ModelAndView updateProfile(@Valid @ModelAttribute("userEditRequest") UserEditRequestDto userEditRequest,
                                       BindingResult bindingResult,
                                       HttpSession session) {
+        // check if user is logged in
         UserDto user = getLoggedInUser(session);
         if (user == null) {
             return new ModelAndView("redirect:/login");
         }
+        // check if form is valid
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("profile");
             modelAndView.addObject("user", userService.getById(user.getId()));
             modelAndView.addObject("userEditRequest", userEditRequest);
             return modelAndView;
         }
+        // update user
         UserDto updatedUser = userService.updateProfile(user.getId().toString(), userEditRequest);
         session.setAttribute("user", updatedUser);
         session.setAttribute("user_id", updatedUser.getId());

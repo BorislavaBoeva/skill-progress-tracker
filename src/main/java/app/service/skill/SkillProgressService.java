@@ -1,11 +1,13 @@
 package app.service.skill;
 
+import app.model.dto.activity.ActivitySelectDto;
 import app.model.entity.activity.Activity;
 import app.model.entity.category.Category;
 import app.model.dto.skill.SkillProgressDto;
 import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
+import app.model.mapper.skill.SkillProgressMapper;
 import app.repository.skill.SkillProgressRepository;
 import app.service.activity.ActivityService;
 import app.service.user.UserService;
@@ -39,7 +41,7 @@ public class SkillProgressService {
         // 2) Add SkillProgress
         Category category = skillProgress.getActivity().getCategory();
         String categoryName = category.getName();
-       // 3) Add points to the correct category
+        // 3) Add points to the correct category
         int points = skillProgress.getHours();
 
         switch (categoryName) {
@@ -79,5 +81,8 @@ public class SkillProgressService {
         // reuse the addSkillProgress method
         addSkillProgress(skillProgress);
     }
-}
 
+    public SkillProgressDto buildLogDto(ActivitySelectDto activitySelectDto) {
+        return SkillProgressMapper.fromActivitySelect(activitySelectDto);
+    }
+}

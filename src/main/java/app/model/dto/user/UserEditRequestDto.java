@@ -21,4 +21,3 @@ public class UserEditRequestDto {
     private String email;
     private String profilePicture;
 }
-

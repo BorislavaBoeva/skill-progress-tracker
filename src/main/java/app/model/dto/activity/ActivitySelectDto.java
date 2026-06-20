@@ -20,4 +20,3 @@ public class ActivitySelectDto {
     @NotNull(message = "Category is required")
     private UUID categoryId;
 }
-

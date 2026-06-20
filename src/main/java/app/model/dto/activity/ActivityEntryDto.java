@@ -1,7 +1,6 @@
 package app.model.dto.activity;
 import lombok.*;
 
-
 @Data
 @Builder
 @NoArgsConstructor

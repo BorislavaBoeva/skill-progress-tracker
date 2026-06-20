@@ -22,6 +22,10 @@ public class Activity {
     @Column(name = "name", nullable = false, length = 100)
     private String name;
 
+    @Builder.Default
+    @Column(nullable = false)
+    private boolean active = true;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id", nullable = false)
     private Category category;
@@ -29,10 +33,4 @@ public class Activity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
-
-    //todo: delete second relation of user
-  //@OneToMany(mappedBy = "activity", cascade = CascadeType.REMOVE)
-  //private List<SkillProgress> progress;
 }
-
-

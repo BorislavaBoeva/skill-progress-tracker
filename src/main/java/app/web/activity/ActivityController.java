@@ -94,7 +94,7 @@ public class ActivityController {
         if (userId == null) {
             return new ModelAndView("redirect:/login");
         }
-        //UUID id = activitySelectDto.getId();
+
         UUID categoryId = activitySelectDto.getCategoryId();
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
 
@@ -104,15 +104,7 @@ public class ActivityController {
         modelAndView.addObject("category", categoryService.getById(categoryId));
         modelAndView.addObject("activityDto", new ActivityDto());
 
-
-        // DTO for log form
-        SkillProgressDto logDto = SkillProgressDto.builder()
-                .activityId(activitySelectDto.getId())
-                .categoryId(activitySelectDto.getCategoryId())
-                .build();
-        modelAndView.addObject("skillProgressDto", logDto);
-        modelAndView.addObject("activitySelectDto", activitySelectDto);
-
+        modelAndView.addObject("skillProgressDto", skillProgressService.buildLogDto(activitySelectDto));
         return modelAndView;
     }
 
@@ -129,11 +121,9 @@ public class ActivityController {
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
 
         if (result.hasErrors()) {
-
             ModelAndView modelAndView = new ModelAndView("category/" + categoryName);
-
             modelAndView.addObject("activities",
-                    activityService.getActivitiesByCategoryNameAndUser(categoryName, userId));
+                                    activityService.getActivitiesByCategoryNameAndUser(categoryName, userId));
 
             modelAndView.addObject("category", categoryService.getById(categoryId));
             modelAndView.addObject("skillProgressDto", skillProgressDto);
@@ -143,10 +133,8 @@ public class ActivityController {
         }
 
         skillProgressService.saveLog(skillProgressDto, userId);
-
         categoryId = skillProgressDto.getCategoryId();
         categoryName = categoryService.getById(categoryId).getName().toLowerCase();
-
         return new ModelAndView("redirect:/category/" + categoryName + "?logged=true");
     }
 }

@@ -15,7 +15,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
-
 @NoArgsConstructor
 public class UserMapper {
     //DTO → Entity /POST, PUT request from user
@@ -48,7 +47,6 @@ public class UserMapper {
         if (user == null) {
             return null;
         }
-
         return UserDto.builder()
                 .id(user.getId())
                 .username(user.getUsername())
@@ -102,7 +100,9 @@ public class UserMapper {
                 .build();
     }
 
-    private static CategoryProgressDto buildCategory(String name, ProgressLevel level, int points,
+    private static CategoryProgressDto buildCategory(String name,
+                                                     ProgressLevel level,
+                                                     int points,
                                                      Map<String, List<ActivityEntryDto>> byCategory) {
         return CategoryProgressDto.builder()
                 .categoryName(name)
