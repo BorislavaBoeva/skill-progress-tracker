@@ -7,6 +7,7 @@ import app.service.activity.ActivityService;
 import app.service.category.CategoryService;
 import app.service.skill.SkillProgressService;
 import jakarta.servlet.http.HttpSession;
+import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -18,6 +19,7 @@ import java.util.UUID;
 
 @Controller
 @RequestMapping("/activity")
+@Transactional
 public class ActivityController {
     private final ActivityService activityService;
     private final CategoryService categoryService;
@@ -50,7 +52,7 @@ public class ActivityController {
             modelAndView.addObject("category", categoryService.getById(categoryId));
             modelAndView.addObject("activityDto", activityDto);
             modelAndView.addObject("activitySelectDto", new ActivitySelectDto());
-            modelAndView.addObject("error", bindingResult.getFieldError("name"));
+            modelAndView.addObject("error", bindingResult.getFieldError("name") );
             return modelAndView;
         }
 

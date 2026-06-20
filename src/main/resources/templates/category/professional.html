@@ -27,23 +27,21 @@
     <h3 class="title-center">Professional Activities</h3>
 </header>
 <main>
-    <div th:if="${param.error}" class="error">
-        <p th:if="${param.error[0] == 'exists'}">This activity already exists</p>
-    </div>
-    <div th:if="${param.success}" class="success">
-        <p>Activity added successfully</p>
-    </div>
-    <div th:if="${param.deleted}" class="success">
-        <p>Activity deleted successfully</p>
-    </div>
-
     <div class="forms-wrapper">
         <!-- Form to ADD activity -->
         <form th:action="@{/activity/add}" th:object="${activityDto}" method="post" class="form form-add">
             <input type="hidden" name="categoryId" th:value="${category.id}"/>
             <label for="name">Add New Activity</label>
             <input type="text" id="name" th:field="*{name}" placeholder="Enter activity name"/>
+
             <div class="error" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></div>
+            <div class="error" th:if="${param.error != null and param.error[0] == 'exists'}">
+                <span>This activity already exists</span>
+            </div>
+            <div class="success" th:if="${param.success}">
+                <span>Activity added successfully</span>
+            </div>
+
             <button type="submit" class="profile-actions-button">Add</button>
         </form>
 
@@ -58,6 +56,14 @@
                             th:value="${activity.id}">
                     </option>
                 </select>
+
+                <div class="error" th:if="${param.error != null and param.error[0] == 'noSelection'}">
+                    <span>Please select an activity to delete</span>
+                </div>
+                <div class="success" th:if="${param.deleted}">
+                    <span>Activity deleted successfully</span>
+                </div>
+
             </div>
             <input type="hidden" name="categoryId" th:value="${category.id}">
 

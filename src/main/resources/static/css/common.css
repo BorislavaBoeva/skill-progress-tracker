@@ -40,7 +40,7 @@ body {
 
 /* Tooltip ONLY on internal pages */
 .logo-left a[href="/home"]:hover::after {
-    content: "Home";
+    content: "Back";
     position: absolute;
     top: 100%;
     left: 10px;

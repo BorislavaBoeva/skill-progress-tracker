@@ -1,10 +1,12 @@
 package app.model.entity.activity;
 
 import app.model.entity.category.Category;
+import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
 import java.util.UUID;
 
 @Builder
@@ -29,6 +31,10 @@ public class Activity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
+
+    //todo: delete second relation of user
+  //@OneToMany(mappedBy = "activity", cascade = CascadeType.REMOVE)
+  //private List<SkillProgress> progress;
 }
 
 

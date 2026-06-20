@@ -92,6 +92,7 @@ public class UserController {
 
         ModelAndView modelAndView = new ModelAndView("progress");
         modelAndView.addObject("progress", progressDto);
+        modelAndView.addObject("username", user.getUsername());
         return modelAndView;
     }
 }

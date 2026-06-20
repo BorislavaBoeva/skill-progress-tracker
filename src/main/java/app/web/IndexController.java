@@ -96,9 +96,11 @@ public class IndexController {
     @GetMapping("/home")
     public ModelAndView getHomePage(HttpSession session) {
         UUID userUUID = (UUID) session.getAttribute("user_id");
+        if (userUUID == null) {
+            return new ModelAndView("redirect:/login");
+        }
 
         UserDto user = userService.getById(userUUID);
-
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("user", user);
 
