@@ -24,6 +24,6 @@ public class SkillProgressDto {
     private Integer hours;
 
     @NotNull(message = "Description cannot be empty")
-    @Size(min = 3, max = 100, message = "Description must be between 3 and 100 characters")
+    @Size(min = 2, max = 100, message = "Description must be between 3 and 100 characters")
     private String description;
 }

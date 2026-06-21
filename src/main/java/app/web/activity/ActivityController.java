@@ -128,6 +128,7 @@ public class ActivityController {
             modelAndView.addObject("category", categoryService.getById(categoryId));
             modelAndView.addObject("skillProgressDto", skillProgressDto);
             modelAndView.addObject("activityDto", new ActivityDto());
+            modelAndView.addObject("activitySelectDto", skillProgressService.buildSelectDto(skillProgressDto, categoryId));
 
             return modelAndView;
         }

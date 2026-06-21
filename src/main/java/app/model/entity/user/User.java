@@ -32,17 +32,21 @@ public class User {
 
     //BEGINNER
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
+    @Column(nullable = false, length = 20)
     private ProgressLevel education;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
+    @Column(nullable = false, length = 20)
     private ProgressLevel physical;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
+    @Column(nullable = false, length = 20)
     private ProgressLevel hobby;
+
     @Enumerated(EnumType.STRING)
-    @Column(nullable = false, columnDefinition = "enum('BEGINNER', 'INTERMEDIATE', 'ADVANCED') default 'BEGINNER'")
+    @Column(nullable = false, length = 20)
     private ProgressLevel professional;
+
     // -all points are starting from 0
     @Column(name = "education_points", nullable = false, columnDefinition = "int default 0")
     private int educationPoints;

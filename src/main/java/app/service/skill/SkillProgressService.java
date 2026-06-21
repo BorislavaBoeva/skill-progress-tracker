@@ -2,7 +2,6 @@ package app.service.skill;
 
 import app.model.dto.activity.ActivitySelectDto;
 import app.model.entity.activity.Activity;
-import app.model.entity.category.Category;
 import app.model.dto.skill.SkillProgressDto;
 import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
@@ -12,7 +11,6 @@ import app.repository.skill.SkillProgressRepository;
 import app.service.activity.ActivityService;
 import app.service.user.UserService;
 import jakarta.transaction.Transactional;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -33,42 +31,41 @@ public class SkillProgressService {
     }
 
     public void addSkillProgress(SkillProgress skillProgress) {
-        // 1) Add user
         User user = userService.getEntityById(skillProgress.getUser().getId());
         skillProgress.setUser(user);
 
+        accumulatePoints(user, skillProgress.getActivity().getCategory().getName(), skillProgress.getHours());
+        recalculateLevels(user);
+
         skillProgressRepository.save(skillProgress);
-        // 2) Add SkillProgress
-        Category category = skillProgress.getActivity().getCategory();
-        String categoryName = category.getName();
-        // 3) Add points to the correct category
-        int points = skillProgress.getHours();
-
-        switch (categoryName) {
-            case "education" -> user.setEducationPoints(user.getEducationPoints() + points);
-            case "physical" -> user.setPhysicalPoints(user.getPhysicalPoints() + points);
-            case "hobby" -> user.setHobbyPoints(user.getHobbyPoints() + points);
-            case "professional" -> user.setProfessionalPoints(user.getProfessionalPoints() + points);
-            default -> throw new IllegalStateException("Unknown category: " + categoryName);
-        }
-
-        // 4) Update levels
-        user.setEducation(increaseLevel(user.getEducationPoints()));
-        user.setPhysical(increaseLevel(user.getPhysicalPoints()));
-        user.setHobby(increaseLevel(user.getHobbyPoints()));
-        user.setProfessional(increaseLevel(user.getProfessionalPoints()));
-
         userService.save(user);
     }
 
-    private ProgressLevel increaseLevel(int points) {
+    private void accumulatePoints(User user, String categoryName, int points) {
+        switch (categoryName) {
+            case "education"    -> user.setEducationPoints(user.getEducationPoints() + points);
+            case "physical"     -> user.setPhysicalPoints(user.getPhysicalPoints() + points);
+            case "hobby"        -> user.setHobbyPoints(user.getHobbyPoints() + points);
+            case "professional" -> user.setProfessionalPoints(user.getProfessionalPoints() + points);
+            default -> throw new IllegalStateException("Unknown category: " + categoryName);
+        }
+    }
+
+    private void recalculateLevels(User user) {
+        user.setEducation(determineLevel(user.getEducationPoints()));
+        user.setPhysical(determineLevel(user.getPhysicalPoints()));
+        user.setHobby(determineLevel(user.getHobbyPoints()));
+        user.setProfessional(determineLevel(user.getProfessionalPoints()));
+    }
+
+    private ProgressLevel determineLevel(int points) {
         if (points < 100) return ProgressLevel.BEGINNER;
         if (points < 200) return ProgressLevel.INTERMEDIATE;
         if (points < 300) return ProgressLevel.ADVANCED;
         return ProgressLevel.MASTER;
     }
 
-    public void saveLog(@Valid SkillProgressDto dto, UUID userId) {
+   public void saveLog(SkillProgressDto dto, UUID userId) {
         User user = userService.getEntityById(userId);
         Activity activity = activityService.getById(dto.getActivityId());
 
@@ -78,11 +75,14 @@ public class SkillProgressService {
         skillProgress.setHours(dto.getHours());
         skillProgress.setDescription(dto.getDescription());
 
-        // reuse the addSkillProgress method
         addSkillProgress(skillProgress);
     }
 
     public SkillProgressDto buildLogDto(ActivitySelectDto activitySelectDto) {
         return SkillProgressMapper.fromActivitySelect(activitySelectDto);
+    }
+
+    public ActivitySelectDto buildSelectDto(SkillProgressDto skillProgressDto, UUID categoryId) {
+        return SkillProgressMapper.toActivitySelect(skillProgressDto, categoryId);
     }
 }
