@@ -16,4 +16,9 @@ public interface ActivityRepository extends JpaRepository<Activity, UUID> {
     List<Activity> findAllByCategoryIdAndUserId(UUID categoryId, UUID userId);
 
     List<Activity> findAllByCategoryIdAndUserIdAndActiveTrue(UUID categoryId, UUID userId);
-}
+
+    // Hard delete — used only for admin user deletion flow,
+    // where all related SkillProgress records are already removed first.
+    void deleteAllByUserId(UUID userId);
+
+ }

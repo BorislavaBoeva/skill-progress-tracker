@@ -85,4 +85,8 @@ public class SkillProgressService {
     public ActivitySelectDto buildSelectDto(SkillProgressDto skillProgressDto, UUID categoryId) {
         return SkillProgressMapper.toActivitySelect(skillProgressDto, categoryId);
     }
+
+    public void deleteAllByUser(UUID id) {
+        skillProgressRepository.deleteAllByUserId(id);
+    }
 }

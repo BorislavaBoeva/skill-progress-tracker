@@ -29,6 +29,8 @@ public class User {
     private String firstName;
     @Column(name = "last_name", nullable = false,length = 50)
     private String lastName;
+    @Enumerated(EnumType.STRING)
+    private UserRole role;
 
     //BEGINNER
     @Enumerated(EnumType.STRING)
@@ -61,6 +63,7 @@ public class User {
     private int prosperity;
 
     //history OF progress
+    @Builder.Default
     @OneToMany(mappedBy = "user", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     private List<SkillProgress> progressEntries = new ArrayList<>();
 }

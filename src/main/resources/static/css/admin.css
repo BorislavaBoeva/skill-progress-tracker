@@ -1,0 +1,84 @@
+h2{
+    text-align: center;
+    margin-top: -20px;
+    margin-bottom: 40px;
+    font-size: 32px;
+}
+
+/* TABLE CONTAINER */
+table {
+    width: 80%;
+    border-collapse: collapse;
+    margin-top: 20px;
+
+    /* фон и стил като формите */
+    background: rgba(255, 255, 255, 0.85);
+    backdrop-filter: blur(6px);
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.15);
+}
+
+/* HEADER CELLS */
+table th {
+    background: #A7C7E7;
+    color: #0d1b4c;
+    padding: 12px 14px;
+    font-size: 16px;
+    font-weight: 700;
+    text-align: center;
+}
+
+/* BODY CELLS */
+table td {
+    padding: 10px 14px;
+    font-size: 15px;
+    color: #0d1b4c;
+    border-bottom: 1px solid  #A7C7E7;
+}
+
+/* REMOVE BORDER ON LAST ROW */
+table tr:last-child td {
+    border-bottom: none;
+}
+
+/* ROW HOVER */
+table tr:hover {
+    background: rgba(167, 199, 231, 0.25);
+}
+
+/* DELETE BUTTON */
+table button {
+    padding: 8px 14px;
+    background: #ff4d4d;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 15px;
+    font-weight: 600;
+    transition: 0.2s ease;
+}
+
+table button:hover {
+    background: #d93636;
+}
+
+/* SUCCESS / ERROR */
+.success, .error {
+    width: 100%;
+    padding: 12px;
+    border-radius: 8px;
+    font-weight: 600;
+    margin-bottom: 20px;
+}
+
+.success {
+    background: #d4f8d4;
+    color: #2b7a2b;
+}
+
+.error {
+    background: #ffd6d6;
+    color: #a30000;
+}

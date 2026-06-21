@@ -78,6 +78,15 @@ h2 {
     background: transparent;
 }
 
+.menage-users {
+    width: 250px;
+    height: 40px;
+    margin-top: -60px;
+    font-size: 16px;
+    padding: 6px;
+    background-color: #A7C7E7;
+   }
+
 .icon {
     width: 140%;
     height: 70%;

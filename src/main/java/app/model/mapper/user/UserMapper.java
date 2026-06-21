@@ -8,16 +8,16 @@ import app.model.dto.user.UserRegisterRequestDto;
 import app.model.entity.sklill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
+import app.model.entity.user.UserRole;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
 @NoArgsConstructor
 public class UserMapper {
-    //DTO → Entity /POST, PUT request from user
+    //DTO → Entity  - for registration
     public static User toUserEntity(UserRegisterRequestDto userRegisterRequest) {
         if (userRegisterRequest == null) {
             return null;
@@ -25,24 +25,19 @@ public class UserMapper {
         return User.builder()
                 .username(userRegisterRequest.getUsername())
                 .password(userRegisterRequest.getPassword())
-                .email(userRegisterRequest.getEmail())
+                .profilePicture(userRegisterRequest.getProfilePicture())
                 .firstName(userRegisterRequest.getFirstName())
                 .lastName(userRegisterRequest.getLastName())
-                .profilePicture(userRegisterRequest.getProfilePicture())
+                .email(userRegisterRequest.getEmail())
+                .role(UserRole.USER)
                 .education(ProgressLevel.BEGINNER)
                 .physical(ProgressLevel.BEGINNER)
                 .hobby(ProgressLevel.BEGINNER)
                 .professional(ProgressLevel.BEGINNER)
-                .educationPoints(0)
-                .physicalPoints(0)
-                .hobbyPoints(0)
-                .professionalPoints(0)
-                .prosperity(0)
-                .progressEntries(new ArrayList<>())
                 .build();
     }
 
-    //DTO → Entity / GET request to user
+    //Entity → DTO - for login, getById, updateProfile
     public static UserDto toUserDto(User user) {
         if (user == null) {
             return null;
@@ -54,6 +49,7 @@ public class UserMapper {
                 .email(user.getEmail())
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
+                .role(user.getRole())
                 .education(user.getEducation())
                 .physical(user.getPhysical())
                 .hobby(user.getHobby())

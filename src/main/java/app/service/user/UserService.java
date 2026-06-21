@@ -5,14 +5,18 @@ import app.model.dto.user.UserDto;
 import app.model.dto.user.UserLoginRequestDto;
 import app.model.dto.user.UserRegisterRequestDto;
 import app.model.entity.user.User;
+import app.model.entity.user.UserRole;
 import app.model.mapper.user.UserMapper;
 import app.repository.user.UserRepository;
 
+import app.service.activity.ActivityService;
+import app.service.skill.SkillProgressService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -103,5 +107,27 @@ public class UserService {
 
     public void save(User user) {
         userRepository.save(user);
+    }
+
+    public void deleteUser(UUID userId, UUID requestingUserId) {
+        if (userId.equals(requestingUserId)) {
+            throw new IllegalArgumentException("You cannot delete your own account");
+        }
+
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+
+        if (user.getRole() == UserRole.ADMIN) {
+            throw new IllegalArgumentException("Cannot delete an admin account");
+        }
+
+        userRepository.delete(user);
+    }
+
+    public List<UserDto> getAllUsers() {
+        return userRepository.findAll()
+                .stream()
+                .map(UserMapper::toUserDto)
+                .toList();
     }
 }

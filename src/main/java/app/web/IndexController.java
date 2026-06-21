@@ -86,7 +86,7 @@ public class IndexController {
             return new ModelAndView("redirect:/home");
 
         } catch (IllegalArgumentException ex) {
-            //Грешен username или password → оставаш на login
+            //Wrong username or password → stay on login
             ModelAndView modelAndView = new ModelAndView("login");
             modelAndView.addObject("userLoginRequest", userLoginRequest);
             modelAndView.addObject("loginError", ex.getMessage());

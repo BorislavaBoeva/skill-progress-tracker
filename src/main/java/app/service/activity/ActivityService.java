@@ -69,12 +69,16 @@ public class ActivityService {
     public void deleteActivity(UUID id, UUID userId) {
         Activity activity = activityRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Activity not found"));
-        // Проверка дали activity принадлежи на user-а
+        // Check if it is this activity belong to the user
         if (!activity.getUser().getId().equals(userId)) {
             throw new IllegalArgumentException("You cannot delete another user's activity");
         }
 
         activity.setActive(false);
         activityRepository.save(activity);
+    }
+
+    public void deleteAllByUser(UUID id) {
+        activityRepository.deleteAllByUserId(id);
     }
 }

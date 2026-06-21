@@ -2,6 +2,7 @@ package app.model.dto.user;
 
 
 import app.model.entity.user.ProgressLevel;
+import app.model.entity.user.UserRole;
 import lombok.Builder;
 import lombok.Data;
 
@@ -15,6 +16,7 @@ public class UserDto {
     private String email;
     private String firstName;
     private String lastName;
+    private UserRole role;
     private ProgressLevel education;
     private ProgressLevel physical;
     private ProgressLevel hobby;
@@ -23,6 +25,5 @@ public class UserDto {
     private int physicalPoints;
     private int hobbyPoints;
     private int professionalPoints;
-
     private int prosperity;
  }

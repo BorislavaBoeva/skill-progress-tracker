@@ -35,7 +35,6 @@
                     <img src="/images/logout.png" alt="logout" class="icon">Logout</a>
             </div>
         </form>
-
         <!-- Дясна колона – формата -->
         <form class="form">
             <h3 class="subtitle-category">Add Skill Progress</h3>
@@ -54,6 +53,10 @@
                     <img src="/images/hobby.png" alt="Hobby" class="icon">Hobby</a>
             </div>
         </form>
+    </div>
+
+    <div>
+        <a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/admin/users}" class="button menage-users">Manage Users</a>
     </div>
 </main>
 
