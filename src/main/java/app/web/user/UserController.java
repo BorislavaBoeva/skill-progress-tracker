@@ -63,7 +63,7 @@ public class UserController {
             return modelAndView;
         }
         // update user
-        UserDto updatedUser = userService.updateProfile(user.getId().toString(), userEditRequest);
+        UserDto updatedUser = userService.updateProfile(user.getId(), userEditRequest);
         session.setAttribute("user", updatedUser);
         session.setAttribute("user_id", updatedUser.getId());
         return new ModelAndView("redirect:/home");

@@ -3,6 +3,7 @@ package app.model.mapper.user;
 import app.model.dto.activity.ActivityEntryDto;
 import app.model.dto.category.CategoryProgressDto;
 import app.model.dto.user.UserDto;
+import app.model.dto.user.UserEditRequestDto;
 import app.model.dto.user.UserProgressDto;
 import app.model.dto.user.UserRegisterRequestDto;
 import app.model.entity.sklill.SkillProgress;
@@ -50,6 +51,7 @@ public class UserMapper {
                 .firstName(user.getFirstName())
                 .lastName(user.getLastName())
                 .role(user.getRole())
+                .enabled(user.isEnabled())
                 .education(user.getEducation())
                 .physical(user.getPhysical())
                 .hobby(user.getHobby())
@@ -62,6 +64,17 @@ public class UserMapper {
                 .build();
     }
 
+    public static UserEditRequestDto toEditRequestDto(UserDto user) {
+        if (user == null) {
+            return null;
+        }
+        return UserEditRequestDto.builder()
+                .firstName(user.getFirstName())
+                .lastName(user.getLastName())
+                .email(user.getEmail())
+                .profilePicture(user.getProfilePicture())
+                .build();
+    }
     public static UserProgressDto toUserProgressDto(User user) {
         if (user == null) return null;
 

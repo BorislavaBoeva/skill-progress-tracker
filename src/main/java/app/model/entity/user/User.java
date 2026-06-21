@@ -31,6 +31,9 @@ public class User {
     private String lastName;
     @Enumerated(EnumType.STRING)
     private UserRole role;
+    @Column(nullable = false)
+    @Builder.Default
+    private boolean enabled = true;
 
     //BEGINNER
     @Enumerated(EnumType.STRING)

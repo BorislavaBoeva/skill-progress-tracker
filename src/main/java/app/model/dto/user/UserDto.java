@@ -17,6 +17,7 @@ public class UserDto {
     private String firstName;
     private String lastName;
     private UserRole role;
+    private boolean enabled;
     private ProgressLevel education;
     private ProgressLevel physical;
     private ProgressLevel hobby;

@@ -9,8 +9,6 @@ import app.model.entity.user.UserRole;
 import app.model.mapper.user.UserMapper;
 import app.repository.user.UserRepository;
 
-import app.service.activity.ActivityService;
-import app.service.skill.SkillProgressService;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -33,11 +31,12 @@ public class UserService {
     }
 
     //Account Creation, validate the user input and create a new user account
-    public void Register(UserRegisterRequestDto userRegisterRequest) {
+    public void register(UserRegisterRequestDto userRegisterRequest) {
         //check if user already exists
         userRepository.findByUsername(userRegisterRequest.getUsername())
                 .ifPresent(user -> {
-                    throw new IllegalArgumentException("(User with username " + userRegisterRequest.getUsername() + " already exists)");
+                    throw new IllegalArgumentException(
+                            "(User with username " + userRegisterRequest.getUsername() + " already exists)");
                 });
 
         //encoding the password
@@ -59,36 +58,30 @@ public class UserService {
                 !passwordEncoder.matches(userLoginRequestDto.getPassword(), optionalUser.get().getPassword())) {
             throw new IllegalArgumentException("Username or password is mismatch!");
         }
-
+        User user = optionalUser.get();
+        if (!user.isEnabled()) {
+            throw new IllegalArgumentException("This account has been disabled. Please contact support.");
+        }
         //2.Return the logged-in optionalUser
-        return UserMapper.toUserDto(optionalUser.get());
-    }
-
-    public UserDto getById(UUID id) {
-        User user = userRepository.findById(id)
-                .orElseThrow(
-                        () -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
         return UserMapper.toUserDto(user);
     }
 
-    public User getEntityById(UUID id) {
-        return userRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
+    public UserDto getById(UUID id) {
+        return UserMapper.toUserDto(getUserOrThrow(id));
     }
 
+    public User getEntityById(UUID id) {
+        return getUserOrThrow(id);
+    }
+
+    //check why build edit request is needed
     public UserEditRequestDto getEditRequestById(UUID id) {
         UserDto user = getById(id);
-        return UserEditRequestDto.builder()
-                .firstName(user.getFirstName())
-                .lastName(user.getLastName())
-                .email(user.getEmail())
-                .profilePicture(user.getProfilePicture())
-                .build();
+        return UserMapper.toEditRequestDto(user);
     }
 
-    public UserDto updateProfile(String id, UserEditRequestDto userEditRequest) {
-        User entity = userRepository.findById(UUID.fromString(id))
-                .orElseThrow(() -> new RuntimeException("User with id [%s] does not exist.".formatted(id)));
+    public UserDto updateProfile(UUID id, UserEditRequestDto userEditRequest) {
+        User entity = getUserOrThrow(id);
 
         userRepository.findByEmail(userEditRequest.getEmail())
                 .ifPresent(existing -> {
@@ -109,13 +102,23 @@ public class UserService {
         userRepository.save(user);
     }
 
+    public void switchStatus(UUID userId) {
+        User user = getUserOrThrow(userId);
+
+        if (user.getRole() == UserRole.ADMIN) {
+            throw new IllegalArgumentException("Cannot change status of an admin account");
+        }
+
+        user.setEnabled(!user.isEnabled());
+        userRepository.save(user);
+    }
+
     public void deleteUser(UUID userId, UUID requestingUserId) {
         if (userId.equals(requestingUserId)) {
             throw new IllegalArgumentException("You cannot delete your own account");
         }
 
-        User user = userRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("User not found"));
+        User user = getUserOrThrow(userId);
 
         if (user.getRole() == UserRole.ADMIN) {
             throw new IllegalArgumentException("Cannot delete an admin account");
@@ -129,5 +132,12 @@ public class UserService {
                 .stream()
                 .map(UserMapper::toUserDto)
                 .toList();
+    }
+
+    // общ helper — премахва дублирането от 5 метода
+    private User getUserOrThrow(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException(
+                        "User with id [%s] does not exist.".formatted(id)));
     }
 }

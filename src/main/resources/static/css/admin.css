@@ -47,21 +47,38 @@ table tr:hover {
     background: rgba(167, 199, 231, 0.25);
 }
 
-/* DELETE BUTTON */
-table button {
-    padding: 8px 14px;
-    background: #ff4d4d;
-    color: white;
+.status-btn,
+.delete-btn {
     border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    font-size: 15px;
+    border-radius: 6px;
+    padding: 6px 14px;
     font-weight: 600;
-    transition: 0.2s ease;
+    color: #fff;
+    cursor: pointer;
 }
 
-table button:hover {
-    background: #d93636;
+.status-btn.active {
+    background-color: #e74c3c; /* червено — активен, клик за деактивиране */
+}
+
+.status-btn.active:hover {
+    background-color: #c0392b;
+}
+
+.status-btn.inactive {
+    background-color: #95a5a6; /* сиво — неактивен, клик за активиране */
+}
+
+.status-btn.inactive:hover {
+    background-color: #7f8c8d;
+}
+
+.delete-btn {
+    background-color: #e74c3c;
+}
+
+.delete-btn:hover {
+    background-color: #c0392b;
 }
 
 /* SUCCESS / ERROR */

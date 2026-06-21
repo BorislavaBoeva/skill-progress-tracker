@@ -8,10 +8,7 @@ import app.service.user.UserService;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.UUID;
@@ -39,6 +36,20 @@ public class AdminController {
         ModelAndView modelAndView = new ModelAndView("admin/users");
         modelAndView.addObject("users", userService.getAllUsers());
         return modelAndView;
+    }
+
+    @PutMapping("/users/{id}/status")
+    public ModelAndView switchUserStatus(@PathVariable String id, HttpSession session) {
+        ModelAndView authCheck = requireAdmin(session);
+        if (authCheck != null) return authCheck;
+
+        try {
+            userService.switchStatus(UUID.fromString(id));
+        } catch (IllegalArgumentException e) {
+            return new ModelAndView("redirect:/admin/users?error=" + e.getMessage());
+        }
+
+        return new ModelAndView("redirect:/admin/users?statusChanged=true");
     }
 
     @PostMapping("/users/delete")

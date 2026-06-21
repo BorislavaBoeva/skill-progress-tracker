@@ -49,7 +49,7 @@ public class IndexController {
         }
 
         try {
-            userService.Register(userRegisterRequest);
+            userService.register(userRegisterRequest);
             return new ModelAndView("redirect:/login");
 
         } catch (RuntimeException ex) {
