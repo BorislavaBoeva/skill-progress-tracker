@@ -43,6 +43,8 @@ Skill Progress Tracker is a Spring Boot MVC web application where registered use
 - **Four Skill Categories** — `Education`, `Physical`, `Hobby`, `Professional`, seeded automatically on first startup.
 - **Activity Management** — Create and delete personal activities within each category.
 - **Skill Progress Logging** — Log hours spent on any activity with a short description. 1 hour = 1 point.
+- **Log History & Editing** — View all individually logged entries and edit their descriptions independently of the
+  aggregated progress dashboard.
 - **Automatic Level Progression** — Category levels update automatically when point thresholds are crossed (
   `BEGINNER → INTERMEDIATE → ADVANCED → MASTER`).
 - **Progress Dashboard** — Full overview of all category levels, points, and logged history per category.
@@ -69,20 +71,20 @@ Skill Progress Tracker is a Spring Boot MVC web application where registered use
 
 --- 
 ## Error Handling & Validation
-The application includes full server‑side validation on all forms using Jakarta Bean Validation (@Valid).
-Invalid submissions automatically redisplay the form with field‑specific error messages using Thymeleaf (th:errors).
+The application includes full server-side validation on all forms using Jakarta Bean Validation (`@Valid`).
+Invalid submissions automatically redisplay the form with field-specific error messages using Thymeleaf (`th:errors`).
 
-All business rules are enforced in the service layer through custom exceptions such as:
+All business rules are enforced in the service layer through custom exceptions, including:
 
-DuplicateResourceException
+- `DuplicateResourceException`
+- `InvalidCredentialsException`
+- `AccountDisabledException`
+- `UnauthorizedActionException`
+- `EntityNotFoundException` (with `UserNotFoundException`, `ActivityNotFoundException`, and
+  `SkillProgressNotFoundException` as subtypes)
 
-InvalidCredentialsException
-
-UnauthorizedActionException
-
-EntityNotFoundException
-
-Controllers catch these exceptions and return the appropriate page with a user‑friendly error message, ensuring the application remains stable and avoids Whitelabel Error Pages.
+A centralized `GlobalExceptionHandler` (`@ControllerAdvice`) catches these exceptions and returns the appropriate
+page with a user-friendly error message, ensuring the application remains stable and avoids Whitelabel Error Pages.
 
 ---
 
@@ -93,6 +95,7 @@ src/main/java/app/
 ├── Application.java
 ├── config/
 │   └── BeanConfiguration.java       # Bean definitions (e.g. PasswordEncoder)
+├── exception/                       # Custom exception hierarchy + GlobalExceptionHandler
 ├── init/
 │   └── CategorySeeder.java          # Seeds the 4 categories on startup
 ├── model/
@@ -109,9 +112,6 @@ src/main/resources/
 │   ├── css/                         # Per-page stylesheets
 │   └── images/                      # UI assets
 └── templates/                       # Thymeleaf HTML templates
-```
-
-```
 ```
 
 ---
@@ -162,9 +162,6 @@ spring.datasource.username=YOUR_DB_USERNAME
 spring.datasource.password=YOUR_DB_PASSWORD
 # Schema management (use 'validate' or 'none' in production)
 spring.jpa.hibernate.ddl-auto=update
-```
-
-```
 ```
 
 ---

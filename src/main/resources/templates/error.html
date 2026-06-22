@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!--/*@thymesVar id="error" type="java.lang.String"*/-->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Error</title>
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+</head>
+<body>
+<header>
+    <div class="logo-left">
+        <a href="/home"><img src="/images/logo.png" alt="Logo"></a>
+    </div>
+</header>
+<main>
+    <h2>Something went wrong</h2>
+    <div class="error" th:text="${error}"></div>
+    <a href="/home" class="profile-actions-button">Back to Home</a>
+</main>
+<footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
+</body>
+</html>
