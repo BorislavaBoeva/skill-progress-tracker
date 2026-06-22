@@ -1,7 +1,7 @@
 package app.exception;
 
 public class SkillProgressNotFoundException extends ApplicationException{
-    protected SkillProgressNotFoundException(String message) {
+    public SkillProgressNotFoundException(String message) {
         super(message);
     }
 }

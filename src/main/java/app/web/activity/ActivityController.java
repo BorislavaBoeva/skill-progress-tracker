@@ -171,10 +171,10 @@ public class ActivityController {
 
         try {
             skillProgressService.updateDescription(id, editDto.getDescription(), userId);
-        } catch (IllegalArgumentException e) {
+        } catch (RuntimeException e) {
             return new ModelAndView("redirect:/activity/log/history?error=" + e.getMessage());
         }
-
+        //  skillProgressService.updateDescription(id, editDto.getDescription(), userId);
         return new ModelAndView("redirect:/activity/log/history?updated=true");
     }
 

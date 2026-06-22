@@ -1,5 +1,6 @@
 package app.web;
 
+import app.exception.ApplicationException;
 import app.model.dto.user.UserDto;
 import app.model.dto.user.UserLoginRequestDto;
 import app.model.dto.user.UserRegisterRequestDto;
@@ -85,7 +86,7 @@ public class IndexController {
             session.setAttribute("user", user);
             return new ModelAndView("redirect:/home");
 
-        } catch (IllegalArgumentException ex) {
+        } catch (ApplicationException ex) {
             //Wrong username or password → stay on login
             ModelAndView modelAndView = new ModelAndView("login");
             modelAndView.addObject("userLoginRequest", userLoginRequest);

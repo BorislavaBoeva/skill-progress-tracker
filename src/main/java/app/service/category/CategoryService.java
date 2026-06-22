@@ -1,5 +1,6 @@
 package app.service.category;
 
+import app.exception.EntityNotFoundException;
 import app.model.entity.category.Category;
 import app.repository.category.CategoryRepository;
 import jakarta.transaction.Transactional;
@@ -20,11 +21,11 @@ public class CategoryService {
 
     public Category getById(UUID id) {
         return categoryRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Category not found"));
     }
 
     public Category getByName(String name) {
         return categoryRepository.findByName(name)
-                .orElseThrow(() -> new IllegalArgumentException("Category not found"));
+                .orElseThrow(() -> new EntityNotFoundException("Category not found"));
     }
 }

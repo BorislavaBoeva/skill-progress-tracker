@@ -1,5 +1,7 @@
 package app.service.skill;
 
+import app.exception.SkillProgressNotFoundException;
+import app.exception.UnauthorizedActionException;
 import app.model.dto.activity.ActivitySelectDto;
 import app.model.dto.skill.SkillProgressLogDto;
 import app.model.entity.activity.Activity;
@@ -101,10 +103,10 @@ public class SkillProgressService {
 
     public void updateDescription(UUID logId, String newDescription, UUID userId) {
         SkillProgress entry = skillProgressRepository.findById(logId)
-                .orElseThrow(() -> new IllegalArgumentException("Log entry not found"));
+                .orElseThrow(() -> new SkillProgressNotFoundException("Log entry not found"));
 
         if (!entry.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("You cannot edit another user's log entry");
+            throw new UnauthorizedActionException("You cannot edit another user's log entry");
         }
 
         entry.setDescription(newDescription);

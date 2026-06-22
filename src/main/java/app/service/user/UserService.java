@@ -1,5 +1,6 @@
 package app.service.user;
 
+import app.exception.*;
 import app.model.dto.user.UserEditRequestDto;
 import app.model.dto.user.UserDto;
 import app.model.dto.user.UserLoginRequestDto;
@@ -35,7 +36,7 @@ public class UserService {
         //check if user already exists
         userRepository.findByUsername(userRegisterRequest.getUsername())
                 .ifPresent(user -> {
-                    throw new IllegalArgumentException(
+                    throw new DuplicateResourceException(
                             "(User with username " + userRegisterRequest.getUsername() + " already exists)");
                 });
 
@@ -56,11 +57,11 @@ public class UserService {
         Optional<User> optionalUser = userRepository.findByUsername(userLoginRequestDto.getUsername());
         if (optionalUser.isEmpty() ||
                 !passwordEncoder.matches(userLoginRequestDto.getPassword(), optionalUser.get().getPassword())) {
-            throw new IllegalArgumentException("Username or password is mismatch!");
+            throw new InvalidCredentialsException("Username or password is mismatch!");
         }
         User user = optionalUser.get();
         if (!user.isEnabled()) {
-            throw new IllegalArgumentException("This account has been disabled. Please contact support.");
+            throw new AccountDisabledException("This account has been disabled. Please contact support.");
         }
         //2.Return the logged-in optionalUser
         return UserMapper.toUserDto(user);
@@ -86,7 +87,7 @@ public class UserService {
         userRepository.findByEmail(userEditRequest.getEmail())
                 .ifPresent(existing -> {
                     if (!existing.getId().equals(entity.getId())) {
-                        throw new IllegalArgumentException("Email is already in use.");
+                        throw new DuplicateResourceException("Email is already in use.");
                     }
                 });
 
@@ -106,7 +107,7 @@ public class UserService {
         User user = getUserOrThrow(userId);
 
         if (user.getRole() == UserRole.ADMIN) {
-            throw new IllegalArgumentException("Cannot change status of an admin account");
+            throw new UnauthorizedActionException("Cannot change status of an admin account");
         }
 
         user.setEnabled(!user.isEnabled());
@@ -115,13 +116,13 @@ public class UserService {
 
     public void deleteUser(UUID userId, UUID requestingUserId) {
         if (userId.equals(requestingUserId)) {
-            throw new IllegalArgumentException("You cannot delete your own account");
+            throw new UnauthorizedActionException("You cannot delete your own account");
         }
 
         User user = getUserOrThrow(userId);
 
         if (user.getRole() == UserRole.ADMIN) {
-            throw new IllegalArgumentException("Cannot delete an admin account");
+            throw new UnauthorizedActionException("Cannot delete an admin account");
         }
 
         userRepository.delete(user);
@@ -137,7 +138,7 @@ public class UserService {
     // общ helper — премахва дублирането от 5 метода
     private User getUserOrThrow(UUID id) {
         return userRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException(
+                .orElseThrow(() -> new UserNotFoundException(
                         "User with id [%s] does not exist.".formatted(id)));
     }
 }

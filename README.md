@@ -10,6 +10,7 @@ each skill category.
 - [Overview](#overview)
 - [Features](#features)
 - [Tech Stack](#tech-stack)
+- [Error Handling & Validation](#error-handling--validation)
 - [Project Structure](#project-structure)
 - [Getting Started](#getting-started)
 - [Configuration](#configuration)
@@ -63,6 +64,25 @@ Skill Progress Tracker is a Spring Boot MVC web application where registered use
 | Boilerplate | Lombok                                     |
 | Build       | Apache Maven (Maven Wrapper included)      |
 | Dev Tooling | Spring Boot DevTools, Spring Boot Actuator |
+
+---
+
+--- 
+## Error Handling & Validation
+The application includes full server‑side validation on all forms using Jakarta Bean Validation (@Valid).
+Invalid submissions automatically redisplay the form with field‑specific error messages using Thymeleaf (th:errors).
+
+All business rules are enforced in the service layer through custom exceptions such as:
+
+DuplicateResourceException
+
+InvalidCredentialsException
+
+UnauthorizedActionException
+
+EntityNotFoundException
+
+Controllers catch these exceptions and return the appropriate page with a user‑friendly error message, ensuring the application remains stable and avoids Whitelabel Error Pages.
 
 ---
 

@@ -1,7 +1,7 @@
 package app.exception;
 
 public class ApplicationException extends RuntimeException{
-    protected ApplicationException(String message) {
+    public ApplicationException(String message) {
         super(message);
     }
 }

@@ -1,5 +1,8 @@
 package app.service.activity;
 
+import app.exception.ActivityNotFoundException;
+import app.exception.DuplicateResourceException;
+import app.exception.UnauthorizedActionException;
 import app.model.entity.activity.Activity;
 import app.model.entity.category.Category;
 import app.model.dto.activity.ActivityDto;
@@ -31,7 +34,7 @@ public class ActivityService {
 
     public Activity getById(UUID userId) {
         return activityRepository.findById(userId)
-                .orElseThrow(() -> new IllegalArgumentException("Activity not found"));
+                .orElseThrow(() -> new ActivityNotFoundException("Activity not found"));
     }
 
     public void createActivity(ActivityDto activityDto, UUID userId) {
@@ -39,7 +42,7 @@ public class ActivityService {
 
         //1.check if activity type already exists
         if (activityRepository.existsByNameAndUserIdAndActiveTrue(activityDto.getName(), userId)) {
-            throw new IllegalArgumentException("Activity already exists");
+            throw new DuplicateResourceException("Activity already exists");
         }
 
         //2.DTO → Entity
@@ -68,10 +71,10 @@ public class ActivityService {
 
     public void deleteActivity(UUID id, UUID userId) {
         Activity activity = activityRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("Activity not found"));
+                .orElseThrow(() -> new ActivityNotFoundException("Activity not found"));
         // Check if it is this activity belong to the user
         if (!activity.getUser().getId().equals(userId)) {
-            throw new IllegalArgumentException("You cannot delete another user's activity");
+            throw new UnauthorizedActionException("You cannot delete another user's activity");
         }
 
         activity.setActive(false);

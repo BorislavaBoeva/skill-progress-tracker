@@ -1,7 +1,7 @@
 package app.exception;
 
 public class AccountDisabledException extends ApplicationException{
-    protected AccountDisabledException(String message) {
+    public AccountDisabledException(String message) {
         super(message);
     }
 }
