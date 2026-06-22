@@ -34,13 +34,17 @@ Skill Progress Tracker is a Spring Boot MVC web application where registered use
 
 - **User Registration & Login** — Secure account creation with BCrypt password hashing and session management.
 - **Profile Management** — View and update personal details (first name, last name, email, profile picture URL).
+- **Role-Based Access Control** — Two roles, `USER` and `ADMIN`, with admin-only endpoints protected by server-side
+  role checks.
+- **Admin User Management** — Admins can view all registered users, **deactivate or reactivate** any user's account
+  (blocking or restoring login access without losing their data), and **permanently delete** a user account along
+  with their related activities and progress logs.
 - **Four Skill Categories** — `Education`, `Physical`, `Hobby`, `Professional`, seeded automatically on first startup.
 - **Activity Management** — Create and delete personal activities within each category.
 - **Skill Progress Logging** — Log hours spent on any activity with a short description. 1 hour = 1 point.
 - **Automatic Level Progression** — Category levels update automatically when point thresholds are crossed (
   `BEGINNER → INTERMEDIATE → ADVANCED → MASTER`).
 - **Progress Dashboard** — Full overview of all category levels, points, and logged history per category.
-- **CSV Export** — Export personal progress data as a CSV file for future reference.
 - **Form Validation** — Full server-side validation with user-friendly error messages shown on form resubmission.
 
 ---
@@ -147,20 +151,23 @@ spring.jpa.hibernate.ddl-auto=update
 
 ## Application Pages
 
-| URL                | Description                                                        |
-|--------------------|--------------------------------------------------------------------|
-| `/`                | Landing / index page                                               |
-| `/register`        | New user registration form                                         |
-| `/login`           | Login form                                                         |
-| `/home`            | Dashboard – displays user stats and skill category levels          |
-| `/users/profile`   | View and edit user profile                                         |
-| `/users/progress`  | Full progress report across all four categories                    |
-| `/users/logout`    | Invalidates session and redirects to landing                       |
-| `/category/{name}` | Category detail page (education / physical / hobby / professional) |
-| `/activity/add`    | Add a new personal activity to a category                          |
-| `/activity/delete` | Delete a personal activity                                         |
-| `/activity/select` | Select an activity before logging progress                         |
-| `/activity/log`    | Submit an hours log entry for the selected activity                |
+| URL                        | Description                                                           |
+|----------------------------|-----------------------------------------------------------------------|
+| `/`                        | Landing / index page                                                  |
+| `/register`                | New user registration form                                            |
+| `/login`                   | Login form                                                            |
+| `/home`                    | Dashboard – displays user stats and skill category levels             |
+| `/users/profile`           | View and edit user profile                                            |
+| `/users/progress`          | Full progress report across all four categories                       |
+| `/users/logout`            | Invalidates session and redirects to landing                          |
+| `/admin/users`             | **Admin-only** — view and manage all registered users                 |
+| `/admin/users/{id}/status` | **Admin-only** — toggle a user's active/disabled status (PUT)         |
+| `/admin/users/delete`      | **Admin-only** — permanently delete a user account and all their data |
+| `/category/{name}`         | Category detail page (education / physical / hobby / professional)    |
+| `/activity/add`            | Add a new personal activity to a category                             |
+| `/activity/delete`         | Delete a personal activity                                            |
+| `/activity/select`         | Select an activity before logging progress                            |
+| `/activity/log`            | Submit an hours log entry for the selected activity                   |
 
 ---
 

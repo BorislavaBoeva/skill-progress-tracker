@@ -1,9 +1,10 @@
 package app.service.skill;
 
 import app.model.dto.activity.ActivitySelectDto;
+import app.model.dto.skill.SkillProgressLogDto;
 import app.model.entity.activity.Activity;
 import app.model.dto.skill.SkillProgressDto;
-import app.model.entity.sklill.SkillProgress;
+import app.model.entity.skill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
 import app.model.mapper.skill.SkillProgressMapper;
@@ -14,6 +15,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -89,4 +91,24 @@ public class SkillProgressService {
     public void deleteAllByUser(UUID id) {
         skillProgressRepository.deleteAllByUserId(id);
     }
+
+    public List<SkillProgressLogDto> getLogsByUser(UUID userId) {
+        return skillProgressRepository.findAllByUserId(userId)
+                .stream()
+                .map(SkillProgressMapper::toLogDto)
+                .toList();
+    }
+
+    public void updateDescription(UUID logId, String newDescription, UUID userId) {
+        SkillProgress entry = skillProgressRepository.findById(logId)
+                .orElseThrow(() -> new IllegalArgumentException("Log entry not found"));
+
+        if (!entry.getUser().getId().equals(userId)) {
+            throw new IllegalArgumentException("You cannot edit another user's log entry");
+        }
+
+        entry.setDescription(newDescription);
+        skillProgressRepository.save(entry);
+    }
+
 }

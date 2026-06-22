@@ -3,6 +3,7 @@ package app.web.activity;
 import app.model.dto.activity.ActivityDto;
 import app.model.dto.activity.ActivitySelectDto;
 import app.model.dto.skill.SkillProgressDto;
+import app.model.dto.skill.SkillProgressEditDto;
 import app.service.activity.ActivityService;
 import app.service.category.CategoryService;
 import app.service.skill.SkillProgressService;
@@ -36,7 +37,6 @@ public class ActivityController {
     public ModelAndView addActivity(@Valid @ModelAttribute("activityDto") ActivityDto activityDto,
                                     BindingResult bindingResult,
                                     HttpSession session) {
-
         UUID userId = (UUID) session.getAttribute("user_id");
         if (userId == null) {
             return new ModelAndView("redirect:/login");
@@ -138,4 +138,44 @@ public class ActivityController {
         categoryName = categoryService.getById(categoryId).getName().toLowerCase();
         return new ModelAndView("redirect:/category/" + categoryName + "?logged=true");
     }
+
+    @GetMapping("/log/history")
+    public ModelAndView viewLogHistory(HttpSession session) {
+        UUID userId = (UUID) session.getAttribute("user_id");
+        if (userId == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        ModelAndView modelAndView = new ModelAndView("activity/log-history");
+        modelAndView.addObject("logs", skillProgressService.getLogsByUser(userId));
+        modelAndView.addObject("skillProgressEditDto", new SkillProgressEditDto());
+        return modelAndView;
+    }
+
+    @PutMapping("/log/{id}")
+    public ModelAndView editLogDescription(@PathVariable UUID id,
+                                           @Valid @ModelAttribute SkillProgressEditDto editDto,
+                                           BindingResult bindingResult,
+                                           HttpSession session) {
+        UUID userId = (UUID) session.getAttribute("user_id");
+        if (userId == null) {
+            return new ModelAndView("redirect:/login");
+        }
+
+        if (bindingResult.hasErrors()) {
+            ModelAndView modelAndView = new ModelAndView("activity/log-history");
+            modelAndView.addObject("logs", skillProgressService.getLogsByUser(userId));
+            modelAndView.addObject("skillProgressEditDto", editDto);
+            return modelAndView;
+        }
+
+        try {
+            skillProgressService.updateDescription(id, editDto.getDescription(), userId);
+        } catch (IllegalArgumentException e) {
+            return new ModelAndView("redirect:/activity/log/history?error=" + e.getMessage());
+        }
+
+        return new ModelAndView("redirect:/activity/log/history?updated=true");
+    }
+
 }

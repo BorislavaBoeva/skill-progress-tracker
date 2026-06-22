@@ -1,4 +1,4 @@
-package app.model.entity.sklill;
+package app.model.entity.skill;
 
 import app.model.entity.activity.Activity;
 import app.model.entity.user.User;

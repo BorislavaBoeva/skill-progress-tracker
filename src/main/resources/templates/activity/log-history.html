@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<!-- @thymesVar id="logs" type="java.util.List<app.model.dto.skill.SkillProgressLogDto>" -->
+<!-- @thymesVar id="log" type="app.model.dto.skill.SkillProgressLogDto" -->
+<!-- @thymesVar id="skillProgressEditDto" type="app.model.dto.skill.SkillProgressEditDto" -->
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Log History</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/log-history.css">
+</head>
+<body>
+<header>
+    <div class="logo-left">
+        <a href="/home">
+            <img src="/images/logo.png" alt="Logo">
+        </a>
+    </div>
+</header>
+<main>
+    <h2>My Log History</h2>
+
+    <div th:if="${param.updated}" class="success">Description updated successfully</div>
+    <div th:if="${param.error}" class="error" th:text="${param.error[0]}"></div>
+
+    <table>
+        <tr>
+            <th>Activity</th>
+            <th>Hours</th>
+            <th>Description</th>
+        </tr>
+        <tr th:each="log : ${logs}">
+            <td th:text="${log.activityName}"></td>
+            <td th:text="${log.hours}"></td>
+            <td>
+                <form th:action="@{/activity/log/{id}(id=${log.id})}" method="post">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <label>
+                        <input type="text" name="description" th:value="${log.description}"/>
+                    </label>
+                    <button type="submit">Save</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main>
+</body>
+</html>

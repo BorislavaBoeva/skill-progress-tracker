@@ -8,4 +8,5 @@ import lombok.*;
 public class ActivityEntryDto {
     private String activityName;
     private int hours;
+    private String description;
 }

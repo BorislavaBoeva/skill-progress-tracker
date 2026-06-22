@@ -1,6 +1,6 @@
 package app.model.entity.user;
 
-import app.model.entity.sklill.SkillProgress;
+import app.model.entity.skill.SkillProgress;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.ArrayList;

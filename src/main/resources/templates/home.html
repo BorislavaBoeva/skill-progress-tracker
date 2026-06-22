@@ -54,9 +54,9 @@
             </div>
         </form>
     </div>
-
-    <div>
+    <div class="container-buttons">
         <a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/admin/users}" class="button menage-users">Manage Users</a>
+        <a th:href="@{/activity/log/history}" class="button log-history">Log Activity History</a>
     </div>
 </main>
 

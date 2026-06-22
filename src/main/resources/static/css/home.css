@@ -1,9 +1,10 @@
 body {
     background-blend-mode: multiply;
 }
+
 header {
     flex-direction: row-reverse;
-    }
+}
 
 .container {
     display: flex;
@@ -78,14 +79,25 @@ h2 {
     background: transparent;
 }
 
-.menage-users {
-    width: 250px;
-    height: 40px;
-    margin-top: -60px;
+.container-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    text-align: center;
+    gap: 40px;
+    margin-top: -80px;
+    overflow: hidden;
+}
+
+.menage-users,
+.log-history {
+    width: 180px;
+    height: 60px;
     font-size: 16px;
-    padding: 6px;
-    background-color: #A7C7E7;
-   }
+    padding: 6px 12px;
+    background-color: #add0f3;
+}
 
 .icon {
     width: 140%;

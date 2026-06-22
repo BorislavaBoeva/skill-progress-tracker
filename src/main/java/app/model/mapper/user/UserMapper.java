@@ -6,7 +6,7 @@ import app.model.dto.user.UserDto;
 import app.model.dto.user.UserEditRequestDto;
 import app.model.dto.user.UserProgressDto;
 import app.model.dto.user.UserRegisterRequestDto;
-import app.model.entity.sklill.SkillProgress;
+import app.model.entity.skill.SkillProgress;
 import app.model.entity.user.ProgressLevel;
 import app.model.entity.user.User;
 import app.model.entity.user.UserRole;
@@ -31,6 +31,7 @@ public class UserMapper {
                 .lastName(userRegisterRequest.getLastName())
                 .email(userRegisterRequest.getEmail())
                 .role(UserRole.USER)
+                .enabled(true)
                 .education(ProgressLevel.BEGINNER)
                 .physical(ProgressLevel.BEGINNER)
                 .hobby(ProgressLevel.BEGINNER)
