@@ -56,6 +56,14 @@ public class ActivityController {
             return modelAndView;
         }
 
+        // todo check if activity exists is not needed in controller!
+//        try {
+//            activityService.createActivity(activityDto, userId);
+//        } catch (DuplicateResourceException e) {
+//            return new ModelAndView("redirect:/category/" + categoryName + "?error=exists");
+//        }
+//        return new ModelAndView("redirect:/category/" + categoryName + "?success=1");
+
         boolean exists = activityService
                 .getActivitiesByCategoryNameAndUser(categoryName, userId)
                 .stream()
@@ -88,7 +96,8 @@ public class ActivityController {
     }
 
     @PostMapping("/select")
-    public ModelAndView selectActivity(@ModelAttribute ActivitySelectDto activitySelectDto,
+    public ModelAndView selectActivity(@ Valid @ModelAttribute ActivitySelectDto activitySelectDto,
+                                       BindingResult bindingResult,
                                        HttpSession session) {
         UUID userId = (UUID) session.getAttribute("user_id");
         if (userId == null) {
@@ -103,6 +112,11 @@ public class ActivityController {
         modelAndView.addObject("activities", activityService.getActivitiesByCategoryNameAndUser(categoryName, userId));
         modelAndView.addObject("category", categoryService.getById(categoryId));
         modelAndView.addObject("activityDto", new ActivityDto());
+
+        if (bindingResult.hasErrors()) {
+            modelAndView.addObject("activitySelectDto", activitySelectDto);
+            return modelAndView;
+        }
 
         modelAndView.addObject("skillProgressDto", skillProgressService.buildLogDto(activitySelectDto));
         return modelAndView;

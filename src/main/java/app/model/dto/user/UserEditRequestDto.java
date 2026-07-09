@@ -12,12 +12,15 @@ public class UserEditRequestDto {
     @NotBlank(message = "First name cannot be empty")
     @Size(min = 3, max = 50, message = "First name must be between 3 and 50 characters")
     private String firstName;
+
     @NotBlank(message = "Last name cannot be empty")
     @Size(min = 3, max = 50, message = "Last name must be between 3 and 50 characters")
     private String lastName;
+
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Invalid email format")
-    @Size(min = 5, max = 50, message = "Email must be between 5 and 50 characters")
+    @Size(max = 100, message = "Email must be at most 100 characters")
     private String email;
+
     private String profilePicture;
 }

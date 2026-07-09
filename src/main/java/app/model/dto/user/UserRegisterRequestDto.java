@@ -33,6 +33,6 @@ public class UserRegisterRequestDto {
 
     @NotBlank(message = "Email cannot be empty")
     @Email(message = "Invalid email format")
-    @Size(min = 3, max = 50, message = "Email must be between 5 and 50 characters")
+    @Size(max = 100, message = "Email must be at most 100 characters")
     private String email;
 }

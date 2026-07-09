@@ -14,6 +14,7 @@ import java.util.UUID;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ActivitySelectDto {
+    @NotNull(message = "Activity is required")
     private UUID id;
     @Size(min = 3, max = 100, message = "Name must be between 3 and 100 characters")
     private String name;

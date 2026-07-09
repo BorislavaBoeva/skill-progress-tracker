@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -28,6 +29,16 @@ public class CategoryController {
         this.categoryService = categoryService;
         this.activityService = activityService;
     }
+    @ModelAttribute("activityDto")
+    public ActivityDto activityDto() {
+        return new ActivityDto();
+    }
+
+    @ModelAttribute("activitySelectDto")
+    public ActivitySelectDto activitySelectDto() {
+        return new ActivitySelectDto();
+    }
+
 
     @GetMapping("/{name}")
     public ModelAndView getCategoryPage(@PathVariable String name,

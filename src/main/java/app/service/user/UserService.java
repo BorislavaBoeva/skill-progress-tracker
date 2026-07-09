@@ -40,6 +40,12 @@ public class UserService {
                             "(User with username " + userRegisterRequest.getUsername() + " already exists)");
                 });
 
+        userRepository.findByEmail(userRegisterRequest.getEmail())
+                .ifPresent(user -> {
+                    throw new DuplicateResourceException(
+                            "Email " + userRegisterRequest.getEmail() + " is already registered.");
+                });
+
         //encoding the password
         String encodedPassword = passwordEncoder.encode(userRegisterRequest.getPassword());
         userRegisterRequest.setPassword(encodedPassword);
