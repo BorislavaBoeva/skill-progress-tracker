@@ -1,21 +1,20 @@
 package app.web.user;
 
+import app.model.dto.user.AuthenticationUserDetails;
 import app.model.dto.user.UserEditRequestDto;
 import app.model.dto.user.UserDto;
 import app.model.dto.user.UserProgressDto;
 import app.model.entity.user.User;
 import app.model.mapper.user.UserMapper;
 import app.service.user.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.UUID;
 
 @Controller
 @RequestMapping("/users")
@@ -28,17 +27,9 @@ public class UserController {
     }
 
     @GetMapping("/profile")
-    public ModelAndView getProfile(HttpSession session) {
-        // UUID from session
-        UUID userId = (UUID) session.getAttribute("user_id");
-
-        // check if user is logged in
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
-        UserDto user = userService.getById(userId);
-        UserEditRequestDto editRequest = userService.getEditRequestById(userId);
+    public ModelAndView getProfile(@AuthenticationPrincipal AuthenticationUserDetails principal) {
+        UserDto user = userService.getById(principal.getId());
+        UserEditRequestDto editRequest = userService.getEditRequestById(principal.getId());
 
         ModelAndView modelAndView = new ModelAndView("profile");
         modelAndView.addObject("user", user);
@@ -49,48 +40,23 @@ public class UserController {
     @PutMapping("/profile")
     public ModelAndView updateProfile(@Valid @ModelAttribute("userEditRequest") UserEditRequestDto userEditRequest,
                                       BindingResult bindingResult,
-                                      HttpSession session) {
-        // check if user is logged in
-        UserDto user = getLoggedInUser(session);
-        if (user == null) {
-            return new ModelAndView("redirect:/login");
-        }
+                                      @AuthenticationPrincipal AuthenticationUserDetails principal) {
         // check if form is valid
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("profile");
-            modelAndView.addObject("user", userService.getById(user.getId()));
+            modelAndView.addObject("user", userService.getById(principal.getId()));
             modelAndView.addObject("userEditRequest", userEditRequest);
             return modelAndView;
         }
         // update user
-        UserDto updatedUser = userService.updateProfile(user.getId(), userEditRequest);
-        session.setAttribute("user", updatedUser);
-        session.setAttribute("user_id", updatedUser.getId());
+        userService.updateProfile(principal.getId(), userEditRequest);
         return new ModelAndView("redirect:/home");
-    }
-
-    @GetMapping("/logout")
-    public ModelAndView logout(HttpSession session) {
-        session.invalidate();
-        return new ModelAndView("redirect:/");
-    }
-
-    private UserDto getLoggedInUser(HttpSession session) {
-        Object sessionUser = session.getAttribute("user");
-        if (sessionUser instanceof UserDto user) {
-            return user;
-        }
-        return null;
     }
 
     @Transactional
     @GetMapping("/progress")
-    public ModelAndView showProgress(HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-        User user = userService.getEntityById(userId);
+    public ModelAndView showProgress(@AuthenticationPrincipal AuthenticationUserDetails principal) {
+        User user = userService.getEntityById(principal.getId());
         UserProgressDto progressDto = UserMapper.toUserProgressDto(user);
 
         ModelAndView modelAndView = new ModelAndView("progress");

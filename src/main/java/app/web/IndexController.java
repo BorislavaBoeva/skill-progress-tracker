@@ -1,21 +1,19 @@
 package app.web;
 
-import app.exception.ApplicationException;
+import app.model.dto.user.AuthenticationUserDetails;
 import app.model.dto.user.UserDto;
 import app.model.dto.user.UserLoginRequestDto;
 import app.model.dto.user.UserRegisterRequestDto;
 import app.service.user.UserService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
-
-import java.util.UUID;
 
 @Slf4j
 @Controller
@@ -70,39 +68,13 @@ public class IndexController {
         return modelAndView;
     }
 
-    @PostMapping("/login")
-    public ModelAndView loginUser(@Valid UserLoginRequestDto userLoginRequest,
-                                  BindingResult bindingResult,
-                                  HttpSession session) {
-        if (bindingResult.hasErrors()) {
-            ModelAndView modelAndView = new ModelAndView("login");
-            modelAndView.addObject("userLoginRequest", userLoginRequest);
-            return modelAndView;
-        }
-
-        try {
-            UserDto user = userService.login(userLoginRequest);
-            session.setAttribute("user_id", user.getId());
-            session.setAttribute("user", user);
-            return new ModelAndView("redirect:/home");
-
-        } catch (ApplicationException ex) {
-            //Wrong username or password → stay on login
-            ModelAndView modelAndView = new ModelAndView("login");
-            modelAndView.addObject("userLoginRequest", userLoginRequest);
-            modelAndView.addObject("loginError", ex.getMessage());
-            return modelAndView;
-        }
-    }
-
     @GetMapping("/home")
-    public ModelAndView getHomePage(HttpSession session) {
-        UUID userUUID = (UUID) session.getAttribute("user_id");
-        if (userUUID == null) {
+    public ModelAndView getHomePage(@AuthenticationPrincipal AuthenticationUserDetails principal) {
+        UserDto user = userService.getById(principal.getId());
+        if (user == null) {
             return new ModelAndView("redirect:/login");
         }
 
-        UserDto user = userService.getById(userUUID);
         ModelAndView modelAndView = new ModelAndView("home");
         modelAndView.addObject("user", user);
         modelAndView.addObject("firstName", user.getFirstName());

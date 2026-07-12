@@ -1,10 +1,7 @@
 package app.service.user;
 
 import app.exception.*;
-import app.model.dto.user.UserEditRequestDto;
-import app.model.dto.user.UserDto;
-import app.model.dto.user.UserLoginRequestDto;
-import app.model.dto.user.UserRegisterRequestDto;
+import app.model.dto.user.*;
 import app.model.entity.user.User;
 import app.model.entity.user.UserRole;
 import app.model.mapper.user.UserMapper;
@@ -12,16 +9,18 @@ import app.repository.user.UserRepository;
 
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
 @Transactional
-public class UserService {
+public class UserService implements UserDetailsService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
@@ -57,20 +56,17 @@ public class UserService {
         userRepository.save(userEntity);
     }
 
-    //log in registered user
-    public UserDto login(UserLoginRequestDto userLoginRequestDto) {
-        //1.Verify the username exists and confirm the password matches securely
-        Optional<User> optionalUser = userRepository.findByUsername(userLoginRequestDto.getUsername());
-        if (optionalUser.isEmpty() ||
-                !passwordEncoder.matches(userLoginRequestDto.getPassword(), optionalUser.get().getPassword())) {
-            throw new InvalidCredentialsException("Username or password is mismatch!");
-        }
-        User user = optionalUser.get();
-        if (!user.isEnabled()) {
-            throw new AccountDisabledException("This account has been disabled. Please contact support.");
-        }
-        //2.Return the logged-in optionalUser
-        return UserMapper.toUserDto(user);
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new UsernameNotFoundException(username));
+        return AuthenticationUserDetails.builder()
+                .id(user.getId())
+                .username(user.getUsername())
+                .password(user.getPassword())
+                .role(user.getRole())
+                .enabled(user.isEnabled())
+                .build();
     }
 
     public UserDto getById(UUID id) {
@@ -80,8 +76,8 @@ public class UserService {
     public User getEntityById(UUID id) {
         return getUserOrThrow(id);
     }
-
     //check why build edit request is needed
+
     public UserEditRequestDto getEditRequestById(UUID id) {
         UserDto user = getById(id);
         return UserMapper.toEditRequestDto(user);
@@ -140,8 +136,8 @@ public class UserService {
                 .map(UserMapper::toUserDto)
                 .toList();
     }
-
     // общ helper — премахва дублирането от 5 метода
+
     private User getUserOrThrow(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(

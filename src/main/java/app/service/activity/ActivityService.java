@@ -56,8 +56,8 @@ public class ActivityService {
         //4.Entity → DB
         activityRepository.save(newActivity);
 
-        //5.Return the created activity Entity → DTO
-        ActivityMapper.toDto(newActivity);
+//        //5.Return the created activity Entity → DTO
+//        ActivityMapper.toDto(newActivity);
     }
 
     public List<ActivityDto> getActivitiesByCategoryNameAndUser(String categoryName, UUID userId) {

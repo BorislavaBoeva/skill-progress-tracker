@@ -31,8 +31,13 @@
                 <a th:href="@{/users/progress}" class="button">
                     <img src="/images/reports.png" alt="reports" class="icon">Progress</a>
 
-                <a href="/users/logout" class="button">
+                <a th:href="@{/logout}" class="button">
                     <img src="/images/logout.png" alt="logout" class="icon">Logout</a>
+                <!--                <form th:action="@{/users/logout}" method="post" style="display: contents;">-->
+                <!--                    <button type="submit" class="button">-->
+                <!--                        <img src="/images/logout.png" alt="logout" class="icon">Logout-->
+                <!--                    </button>-->
+                <!--                </form>-->
             </div>
         </form>
         <!-- Дясна колона – формата -->

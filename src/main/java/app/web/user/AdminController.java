@@ -1,12 +1,11 @@
 package app.web.user;
 
-import app.model.entity.user.User;
-import app.model.entity.user.UserRole;
+import app.model.dto.user.AuthenticationUserDetails;
 import app.service.activity.ActivityService;
 import app.service.skill.SkillProgressService;
 import app.service.user.UserService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
@@ -29,19 +28,14 @@ public class AdminController {
     }
 
     @GetMapping("/users")
-    public ModelAndView listUsers(HttpSession session) {
-        ModelAndView authCheck = requireAdmin(session);
-        if (authCheck != null) return authCheck;
-
+    public ModelAndView listUsers() {
         ModelAndView modelAndView = new ModelAndView("admin/users");
         modelAndView.addObject("users", userService.getAllUsers());
         return modelAndView;
     }
 
     @PutMapping("/users/{id}/status")
-    public ModelAndView switchUserStatus(@PathVariable String id, HttpSession session) {
-        ModelAndView authCheck = requireAdmin(session);
-        if (authCheck != null) return authCheck;
+    public ModelAndView switchUserStatus(@PathVariable String id) {
 
         try {
             userService.switchStatus(UUID.fromString(id));
@@ -53,11 +47,9 @@ public class AdminController {
     }
 
     @PostMapping("/users/delete")
-    public ModelAndView deleteUser(@RequestParam UUID id, HttpSession session) {
-        ModelAndView authCheck = requireAdmin(session);
-        if (authCheck != null) return authCheck;
-
-        UUID userId = (UUID) session.getAttribute("user_id");
+    public ModelAndView deleteUser(@RequestParam UUID id,
+                                   @AuthenticationPrincipal AuthenticationUserDetails principal) {
+        UUID userId = principal.getId();
         try {
             //delete: skillProgress → activity → user
             skillProgressService.deleteAllByUser(id);
@@ -66,19 +58,6 @@ public class AdminController {
         } catch (IllegalArgumentException e) {
             return new ModelAndView("redirect:/admin/users?error=" + e.getMessage());
         }
-
         return new ModelAndView("redirect:/admin/users?deleted=true");
-    }
-
-    private ModelAndView requireAdmin(HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-        User currentUser = userService.getEntityById(userId);
-        if (currentUser.getRole() != UserRole.ADMIN) {
-            return new ModelAndView("redirect:/home?error=forbidden");
-        }
-        return null;
     }
 }

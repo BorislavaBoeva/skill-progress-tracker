@@ -29,7 +29,8 @@
         <p class="alert-warning" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></p>
 
         <button type="submit">Log In</button>
-        <p class="alert-warning" th:if="${loginError}" th:text="${loginError}"></p>
+<!--        <p class="alert-warning" th:if="${loginError}" th:text="${loginError}"></p>-->
+        <p class="alert-warning" th:if="${param.error != null}">Invalid username or password</p>
         <p class="form-already">Don't have an account? <a href="/register">Register now</a>!</p>
     </form>
 </main>

@@ -1,16 +1,18 @@
 package app.web.activity;
 
+import app.exception.UnauthorizedActionException;
 import app.model.dto.activity.ActivityDto;
 import app.model.dto.activity.ActivitySelectDto;
 import app.model.dto.skill.SkillProgressDto;
 import app.model.dto.skill.SkillProgressEditDto;
+import app.model.dto.user.AuthenticationUserDetails;
 import app.service.activity.ActivityService;
 import app.service.category.CategoryService;
 import app.service.skill.SkillProgressService;
-import jakarta.servlet.http.HttpSession;
 import jakarta.transaction.Transactional;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
@@ -36,12 +38,8 @@ public class ActivityController {
     @PostMapping("/add")
     public ModelAndView addActivity(@Valid @ModelAttribute("activityDto") ActivityDto activityDto,
                                     BindingResult bindingResult,
-                                    HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
+                                    @AuthenticationPrincipal AuthenticationUserDetails principal) {
+        UUID userId = principal.getId();
         UUID categoryId = activityDto.getCategoryId();
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
 
@@ -79,12 +77,8 @@ public class ActivityController {
     @PostMapping("/delete")
     public ModelAndView deleteActivity(@RequestParam(required = false) String id,
                                        @RequestParam UUID categoryId,
-                                       HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
+                                       @AuthenticationPrincipal AuthenticationUserDetails principal) {
+        UUID userId = principal.getId();
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
 
         if (id == null || id.isBlank()) {
@@ -98,12 +92,8 @@ public class ActivityController {
     @PostMapping("/select")
     public ModelAndView selectActivity(@ Valid @ModelAttribute ActivitySelectDto activitySelectDto,
                                        BindingResult bindingResult,
-                                       HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
+                                       @AuthenticationPrincipal AuthenticationUserDetails principal) {
+        UUID userId = principal.getId();
         UUID categoryId = activitySelectDto.getCategoryId();
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
 
@@ -125,12 +115,9 @@ public class ActivityController {
     @PostMapping("/log")
     public ModelAndView saveLog(@Valid @ModelAttribute SkillProgressDto skillProgressDto,
                                 BindingResult result,
-                                HttpSession session) {
+                                @AuthenticationPrincipal AuthenticationUserDetails principal) {
 
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
+        UUID userId = principal.getId();
         UUID categoryId = skillProgressDto.getCategoryId();
         String categoryName = categoryService.getById(categoryId).getName().toLowerCase();
 
@@ -154,12 +141,8 @@ public class ActivityController {
     }
 
     @GetMapping("/log/history")
-    public ModelAndView viewLogHistory(HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
+    public ModelAndView viewLogHistory(@AuthenticationPrincipal AuthenticationUserDetails principal) {
+        UUID userId = principal.getId();
         ModelAndView modelAndView = new ModelAndView("activity/log-history");
         modelAndView.addObject("logs", skillProgressService.getLogsByUser(userId));
         modelAndView.addObject("skillProgressEditDto", new SkillProgressEditDto());
@@ -170,12 +153,8 @@ public class ActivityController {
     public ModelAndView editLogDescription(@PathVariable UUID id,
                                            @Valid @ModelAttribute SkillProgressEditDto editDto,
                                            BindingResult bindingResult,
-                                           HttpSession session) {
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
+                                           @AuthenticationPrincipal AuthenticationUserDetails principal) {
+        UUID userId = principal.getId();
         if (bindingResult.hasErrors()) {
             ModelAndView modelAndView = new ModelAndView("activity/log-history");
             modelAndView.addObject("logs", skillProgressService.getLogsByUser(userId));
@@ -185,7 +164,7 @@ public class ActivityController {
 
         try {
             skillProgressService.updateDescription(id, editDto.getDescription(), userId);
-        } catch (RuntimeException e) {
+        } catch (UnauthorizedActionException e) {
             return new ModelAndView("redirect:/activity/log/history?error=" + e.getMessage());
         }
         //  skillProgressService.updateDescription(id, editDto.getDescription(), userId);

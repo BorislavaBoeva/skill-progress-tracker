@@ -1,12 +1,13 @@
 package app.web.category;
 
+import app.model.dto.user.AuthenticationUserDetails;
 import app.model.entity.category.Category;
 import app.model.dto.activity.ActivityDto;
 import app.model.dto.activity.ActivitySelectDto;
 import app.service.activity.ActivityService;
 import app.service.category.CategoryService;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -42,13 +43,9 @@ public class CategoryController {
 
     @GetMapping("/{name}")
     public ModelAndView getCategoryPage(@PathVariable String name,
-                                        HttpSession session) {
+                                        @AuthenticationPrincipal AuthenticationUserDetails principal) {
 
-        UUID userId = (UUID) session.getAttribute("user_id");
-        if (userId == null) {
-            return new ModelAndView("redirect:/login");
-        }
-
+        UUID userId = principal.getId();
         Category category = categoryService.getByName(name);
         List<ActivityDto> activities = activityService.getActivitiesByCategoryNameAndUser(name, userId);
 
