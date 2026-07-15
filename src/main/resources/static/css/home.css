@@ -78,7 +78,13 @@ h2 {
     overflow: hidden;
     background: transparent;
 }
-
+.dashboard-form button.button {
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    color: inherit;
+    cursor: pointer;
+}
 .container-buttons {
     display: flex;
     flex-direction: row;
@@ -113,4 +119,3 @@ h2 {
     filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.35));
     transition: 0.25s ease;
 }
-

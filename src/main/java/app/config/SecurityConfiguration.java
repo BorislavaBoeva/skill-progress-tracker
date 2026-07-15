@@ -9,7 +9,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfiguration {
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(matchers -> matchers
                         .requestMatchers(PathRequest.toStaticResources().atCommonLocations())
@@ -17,6 +17,7 @@ public class SecurityConfiguration {
                         .requestMatchers("/", "/login", "/register", "/error")
                         .permitAll()
                         .requestMatchers("/admin/**").hasRole("ADMIN")
+                        .requestMatchers("/activity/**").hasAnyRole("USER", "ADMIN")
                         .anyRequest()
                         .authenticated()
                 )
@@ -33,7 +34,6 @@ public class SecurityConfiguration {
                         .logoutSuccessUrl("/")
                         .permitAll()
                 );
-
-        return http.build();
+          return http.build();
     }
 }

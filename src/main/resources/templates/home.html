@@ -21,7 +21,7 @@
     <div class="container">
         <h2>Choose What You Want To Do Today <span th:text="${firstName}"></span></h2>
         <!-- Лява колона с двата бутона -->
-        <form class="form dashboard-form">
+        <div class="form dashboard-form">
             <h3 class="subtitle-dashbord">Dashboard</h3>
 
             <div class="container-dashboard">
@@ -31,17 +31,16 @@
                 <a th:href="@{/users/progress}" class="button">
                     <img src="/images/reports.png" alt="reports" class="icon">Progress</a>
 
-                <a th:href="@{/logout}" class="button">
-                    <img src="/images/logout.png" alt="logout" class="icon">Logout</a>
-                <!--                <form th:action="@{/users/logout}" method="post" style="display: contents;">-->
-                <!--                    <button type="submit" class="button">-->
-                <!--                        <img src="/images/logout.png" alt="logout" class="icon">Logout-->
-                <!--                    </button>-->
-                <!--                </form>-->
+
+                <form th:action="@{/users/logout}" method="post" style="display: contents;">
+                    <button type="submit" class="button">
+                        <img src="/images/logout.png" alt="logout" class="icon">Logout
+                    </button>
+                </form>
             </div>
-        </form>
+        </div>
         <!-- Дясна колона – формата -->
-        <form class="form">
+        <div class="form">
             <h3 class="subtitle-category">Add Skill Progress</h3>
 
             <div class="container-activity">
@@ -57,7 +56,7 @@
                 <a th:href="@{/category/hobby}" class="button">
                     <img src="/images/hobby.png" alt="Hobby" class="icon">Hobby</a>
             </div>
-        </form>
+        </div>
     </div>
     <div class="container-buttons">
         <a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/admin/users}" class="button menage-users">Manage Users</a>
