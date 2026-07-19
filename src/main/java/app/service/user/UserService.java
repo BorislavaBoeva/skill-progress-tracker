@@ -8,7 +8,9 @@ import app.model.mapper.user.UserMapper;
 import app.repository.user.UserRepository;
 
 import jakarta.transaction.Transactional;
+import org.jspecify.annotations.NonNull;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -57,7 +59,8 @@ public class UserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    @NonNull
+    public UserDetails loadUserByUsername(@NonNull String username) throws UsernameNotFoundException {
         User user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new UsernameNotFoundException(username));
         return AuthenticationUserDetails.builder()
@@ -105,6 +108,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void switchStatus(UUID userId) {
         User user = getUserOrThrow(userId);
 
@@ -116,6 +120,7 @@ public class UserService implements UserDetailsService {
         userRepository.save(user);
     }
 
+    @PreAuthorize("hasRole('ADMIN')")
     public void deleteUser(UUID userId, UUID requestingUserId) {
         if (userId.equals(requestingUserId)) {
             throw new UnauthorizedActionException("You cannot delete your own account");
@@ -137,7 +142,6 @@ public class UserService implements UserDetailsService {
                 .toList();
     }
     // общ helper — премахва дублирането от 5 метода
-
     private User getUserOrThrow(UUID id) {
         return userRepository.findById(id)
                 .orElseThrow(() -> new UserNotFoundException(

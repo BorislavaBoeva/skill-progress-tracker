@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export Details</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/form.css">
+    <link rel="stylesheet" type="text/css" href="/css/profile.css">
+    <link rel="stylesheet" type="text/css" href="/css/export.css">
+</head>
+<body>
+<header>
+    <div class="logo-left">
+        <a href="/home">
+            <img src="/images/logo.png" alt="Logo">
+        </a>
+    </div>
+</header>
+<main>
+    <div class="home-section">
+        <!-- SUCCESS / ERROR MESSAGE -->
+        <p th:if="${record != null and record.exportStatus.name() == 'SUCCEEDED'}" class="alert-success">
+            ✔ Your file was generated successfully!
+        </p>
+        <p th:if="${record != null and record.exportStatus.name() == 'FAILED'}" class="alert-warning">
+            ✖ Export failed. Please try again.
+        </p>
+
+        <!-- RECORDS DETAILS FORM -->
+        <form class="form">
+            <label for="exportType">Format</label>
+            <input id="exportType" type="text"
+                   th:value="${record != null ? record.exportType : ''}"
+                   disabled>
+
+            <label for="fileName">File Name</label>
+            <input id="fileName" type="text"
+                   th:value="${record != null ? record.fileName : ''}"
+                   disabled>
+
+            <label for="description">Description</label>
+            <input id="description" type="text"
+                   th:value="${record != null ? record.description : ''}"
+                   disabled>
+
+            <label for="createdOn">Created On</label>
+            <input id="createdOn" type="text"
+                   th:value="${record != null and record.exportDate != null
+            ? #temporals.format(record.exportDate, 'yyyy-MM-dd HH:mm')
+            : ''}"
+                   disabled>
+
+            <label for="updatedOn">Last Updated</label>
+            <input id="updatedOn" type="text"
+                   th:value="${record != null and record.updatedOn != null
+                      ? #temporals.format(record.updatedOn, 'yyyy-MM-dd HH:mm')
+                      : ''}"
+                   disabled>
+
+            <label for="status">Status</label>
+            <input id="status" type="text"
+                   th:value="${record != null ? record.exportStatus : ''}"
+                   disabled>
+        </form>
+
+        <!-- ACTIONS BUTTONS-->
+        <div class="profile-actions">
+            <!-- UPDATE -->
+            <a th:href="@{/exportRecord/update/{id}(id=${record.id})}"
+               class="profile-actions-button">Update Record</a>
+
+            <!-- EXPORT -->
+            <a th:if="${record.exportStatus.name() == 'SUCCEEDED'}"
+               th:href="@{/exportRecord/download/{id}(id=${record.id})}"
+               class="profile-actions-button">Export File</a>
+
+            <!--Retry Failed-->
+            <form th:if="${record.exportStatus.name() == 'FAILED'}"
+                  th:action="@{/exportRecord/retry/{id}(id=${record.id})}" method="post" style="display:inline;">
+                <input type="hidden" name="_method" value="put"/>
+                <button type="submit" class="profile-actions-button">Try Again</button>
+            </form>
+
+            <!-- DELETE -->
+            <form th:action="@{/exportRecord/delete/{id}(id=${record.id})}" method="post" style="display:inline;">
+                <button type="submit" class="profile-actions-button delete-btn">Delete Record</button>
+            </form>
+        </div>
+    </div>
+</main>
+<footer class="footer">©Skill Progress Tracker. All rights reserved.</footer>
+
+</body>
+</html>

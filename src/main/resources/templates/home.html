@@ -1,5 +1,7 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -20,18 +22,16 @@
 <main>
     <div class="container">
         <h2>Choose What You Want To Do Today <span th:text="${firstName}"></span></h2>
-        <!-- Лява колона с двата бутона -->
+        <!-- left site dashboard -->
         <div class="form dashboard-form">
             <h3 class="subtitle-dashbord">Dashboard</h3>
-
             <div class="container-dashboard">
                 <a th:href="@{/users/profile}" class="button">
                     <img th:src="@{${user.profilePicture}}" alt="picture" class="icon">Edit Profile</a>
-
                 <a th:href="@{/users/progress}" class="button">
                     <img src="/images/reports.png" alt="reports" class="icon">Progress</a>
-
-
+                <a th:href="@{/activity/log/history}" class="button">
+                    <img src="/images/log_history.png" alt="history" class="icon">Log History</a>
                 <form th:action="@{/users/logout}" method="post" style="display: contents;">
                     <button type="submit" class="button">
                         <img src="/images/logout.png" alt="logout" class="icon">Logout
@@ -39,10 +39,9 @@
                 </form>
             </div>
         </div>
-        <!-- Дясна колона – формата -->
+        <!-- right site add skill progress -->
         <div class="form">
             <h3 class="subtitle-category">Add Skill Progress</h3>
-
             <div class="container-activity">
                 <a th:href="@{/category/education}" class="button">
                     <img src="/images/education.png" alt="Education" class="icon">Education</a>
@@ -56,14 +55,17 @@
                 <a th:href="@{/category/hobby}" class="button">
                     <img src="/images/hobby.png" alt="Hobby" class="icon">Hobby</a>
             </div>
+            <div class="container-export">
+                <a th:href="@{/exportRecord}" class="button menage-users">Export Your Data</a>
+                <!--        <form th:action="@{/export}" method="post" style="display:inline;">-->
+                <!--            <input type="hidden" name="format" value="CSV">-->
+                <!--            <button type="submit" class="button menage-users">Export Your Data</button>-->
+                <!--        </form>-->
+                <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/users}" class="button menage-users">Manage Users</a>
+            </div>
         </div>
     </div>
-    <div class="container-buttons">
-        <a th:if="${user.role.name() == 'ADMIN'}" th:href="@{/admin/users}" class="button menage-users">Manage Users</a>
-        <a th:href="@{/activity/log/history}" class="button log-history">Log Activity History</a>
-    </div>
 </main>
-
-<footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
+<footer class="footer">©Skill Progress Tracker. All rights reserved.</footer>
 </body>
 </html>

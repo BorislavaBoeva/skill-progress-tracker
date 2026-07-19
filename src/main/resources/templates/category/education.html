@@ -11,7 +11,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Education Activities</title>
-
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
     <link rel="stylesheet" type="text/css" href="/css/common.css">
     <link rel="stylesheet" type="text/css" href="/css/form.css">
@@ -45,7 +44,6 @@
 
             <button type="submit" class="profile-actions-button">Add</button>
         </form>
-
         <!-- Form: List activities + Delete -->
         <form th:action="@{/activity/delete}" method="post" class="form form-delete">
             <div class="form-group">
@@ -57,17 +55,14 @@
                             th:value="${activity.id}">
                     </option>
                 </select>
-
                 <div class="error" th:if="${param.error != null and param.error[0] == 'noSelection'}">
                     <span>Please select an activity to delete</span>
                 </div>
                 <div class="success" th:if="${param.deleted}">
                     <span>Activity deleted successfully</span>
                 </div>
-
             </div>
             <input type="hidden" name="categoryId" th:value="${category.id}">
-
             <button type="submit" class="profile-actions-button">Delete</button>
         </form>
     </div>
@@ -92,29 +87,24 @@
             <button type="submit" class="profile-actions-button">Select</button>
         </form>
     </div>
-
     <!-- LOG PROGRESS FORM -->
     <div th:if="${skillProgressDto != null}" class="form form-log">
         <form th:action="@{/activity/log}" method="post" th:object="${skillProgressDto}">
-
             <!-- activityId идва от Select -->
             <input type="hidden" th:field="*{activityId}"/>
             <input type="hidden" th:field="*{categoryId}"/>
-
             <div class="form-group">
                 <label for="hours">Hours:</label>
                 <input type="number" id="hours" th:field="*{hours}" min="1" required>
                 <div class="error" th:if="${#fields.hasErrors('hours')}"
                      th:errors="*{hours}"></div>
             </div>
-
             <div class="form-group">
                 <label for="description">Description:</label>
                 <textarea id="description" th:field="*{description}" required></textarea>
                 <div class="error" th:if="${#fields.hasErrors('description')}"
                      th:errors="*{description}"></div>
             </div>
-
             <button type="submit" class="submit-btn">Save</button>
         </form>
     </div>

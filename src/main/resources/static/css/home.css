@@ -9,9 +9,9 @@ header {
 .container {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-between;
     align-items: center;
-    gap: 80px;
+    gap: 130px;
 }
 
 h2 {
@@ -38,8 +38,8 @@ h2 {
 }
 
 .dashboard-form {
-    width: 250px;
-    height: 600px;
+    width: 300px;
+    height: 800px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -47,11 +47,11 @@ h2 {
 }
 
 .container-dashboard {
-    width: 250px;
+    width: 300px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 30px;
+    gap: 20px;
     overflow: hidden;
 }
 
@@ -78,6 +78,7 @@ h2 {
     overflow: hidden;
     background: transparent;
 }
+
 .dashboard-form button.button {
     border: none;
     background: transparent;
@@ -85,25 +86,22 @@ h2 {
     color: inherit;
     cursor: pointer;
 }
-.container-buttons {
+
+.container-export {
     display: flex;
     flex-direction: row;
-    justify-content: space-around;
+    justify-content: space-evenly;
     align-items: center;
     text-align: center;
-    gap: 40px;
-    margin-top: -80px;
-    overflow: hidden;
-}
+    gap: 60px;
+  }
 
-.menage-users,
-.log-history {
-    width: 180px;
+.menage-users {
+    width: 350px;
     height: 60px;
     font-size: 16px;
-    padding: 6px 12px;
-    background-color: #add0f3;
-}
+    padding: 8px 16px;
+    }
 
 .icon {
     width: 140%;

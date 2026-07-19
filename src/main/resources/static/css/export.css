@@ -1,0 +1,91 @@
+.home-section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+    padding: 20px 16px 40px;
+    box-sizing: border-box;
+}
+
+.home-section .form {
+    width: 800px;
+    height: auto;
+    min-height: unset;
+    margin: 20px auto 0;
+    padding: 28px 36px 32px;
+    box-sizing: border-box;
+    text-align: left;
+    overflow: visible;
+}
+
+.home-section .form label {
+    display: block;
+    margin-top: 4px;
+    margin-bottom: 6px;
+}
+
+.home-section .form input {
+    display: block;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 14px;
+}
+
+.home-section .form input:last-of-type {
+    margin-bottom: 0;
+}
+
+.home-section .profile-actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    width: min(550px, 100%);
+    margin: 0 auto 20px;
+    padding-top: 8px;
+    position: relative;
+    z-index: 1;
+}
+
+.home-section .profile-actions-button {
+    display: inline-block;
+    padding: 12px 22px;
+    font-size: 16px;
+    font-weight: 600;
+    color: #0d1b4c;
+    background-color: #A7C7E7;
+    border: none;
+    border-radius: 8px;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+    text-align: center;
+}
+
+.home-section .profile-actions-button:hover {
+    background-color: #8FB4D6;
+}
+
+.home-section .profile-actions-button.delete-btn {
+    background-color: #e8a0a0;
+    color: #4a1010;
+}
+
+.home-section .profile-actions-button.delete-btn:hover {
+    background-color: #d98989;
+}
+
+.profile-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+}
+
+.profile-name {
+    margin: 0;
+    font-size: 28px;
+    font-weight: 600;
+    color: #0d1b4c;
+}

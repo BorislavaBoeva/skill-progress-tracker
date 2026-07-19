@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +14,9 @@
         <a href="/home">
             <img src="/images/logo.png" alt="Logo">
         </a>
+    </div>
+     <div sec:authorize="isAuthenticated()">
+        Logged in as: <span sec:authentication="name"></span>
     </div>
 </header>
 <main>
