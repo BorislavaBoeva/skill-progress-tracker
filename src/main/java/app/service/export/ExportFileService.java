@@ -5,7 +5,6 @@ import app.model.dto.export.ExportResponseDto;
 import app.model.dto.export.ExportStatus;
 import app.model.dto.export.ExportType;
 import app.model.dto.skill.SkillProgressLogDto;
-import app.service.export.client.ExportClient;
 import app.service.skill.SkillProgressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
