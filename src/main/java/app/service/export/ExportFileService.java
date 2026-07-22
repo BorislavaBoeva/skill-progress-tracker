@@ -1,5 +1,6 @@
 package app.service.export;
 
+import app.exception.ApplicationException;
 import app.exception.ExportGenerationException;
 import app.model.dto.export.ExportCreateRequestDto;
 import app.model.dto.export.ExportResponseDto;
@@ -34,6 +35,8 @@ public class ExportFileService {
     }
 
     public ExportResponseDto createExportRecord(UUID userId, ExportType type) {
+        validateUserId(userId);
+        validateType(type);
         ExportStatus status;
         try {
             generateFile(userId, type);
@@ -47,6 +50,8 @@ public class ExportFileService {
     }
 
     public byte[] generateFile(UUID userId, ExportType type) {
+        validateUserId(userId);
+        validateType(type);
         return switch (type) {
             case CSV -> generateCsv(userId);
             case PDF -> generatePdf(userId);
@@ -54,6 +59,7 @@ public class ExportFileService {
     }
 
     public byte[] generateCsv(UUID userId) {
+        validateUserId(userId);
         List<SkillProgressLogDto> logs = skillProgressService.getLogsByUser(userId);
         StringBuilder csv = new StringBuilder();
         csv.append("Activity,Description\n");
@@ -68,6 +74,7 @@ public class ExportFileService {
     }
 
     public byte[] generatePdf(UUID userId) {
+        validateUserId(userId);
         List<SkillProgressLogDto> logs = skillProgressService.getLogsByUser(userId);
 
         try (PDDocument document = new PDDocument()) {
@@ -120,6 +127,17 @@ public class ExportFileService {
                 .exportType(type)
                 .exportStatus(status)
                 .build();
+    }
+    private void validateUserId(UUID userId) {
+        if (userId == null) {
+            throw new ApplicationException("User ID cannot be null");
+        }
+    }
+
+    private void validateType(ExportType type) {
+        if (type == null) {
+            throw new ApplicationException("Export type cannot be null");
+        }
     }
 
     private String escape(String value) {
