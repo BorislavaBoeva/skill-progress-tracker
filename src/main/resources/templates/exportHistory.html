@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Export History</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400&display=swap">
+    <link rel="stylesheet" type="text/css" href="/css/common.css">
+    <link rel="stylesheet" type="text/css" href="/css/log-history.css">
+</head>
+<body>
+<header>
+    <div class="logo-left">
+        <a href="/home"><img src="/images/logo.png" alt="Logo"></a>
+    </div>
+</header>
+<main>
+    <h2>Export History</h2>
+
+    <div th:if="${recordsHistory.isEmpty()}" class="success">You haven't exported any data yet.</div>
+
+    <table th:if="${!recordsHistory.isEmpty()}">
+        <tr>
+            <th>File Name</th>
+            <th>Format</th>
+            <th>Status</th>
+            <th>Actions</th>
+        </tr>
+        <tr th:each="record : ${recordsHistory}">
+            <td th:text="${record.fileName}"></td>
+            <td th:text="${record.exportType}"></td>
+            <td th:text="${record.exportStatus}"></td>
+            <td>
+                <a th:href="@{/exportRecord/details/{id}(id=${record.id})}">View</a>
+                <form th:if="${record.exportStatus.name() == 'FAILED'}"
+                      th:action="@{/exportRecord/retry/{id}(id=${record.id})}" method="post">
+                    <input type="hidden" name="_method" value="PUT"/>
+                    <button type="submit">Try Again</button>
+                </form>
+            </td>
+        </tr>
+    </table>
+</main>
+<footer class="footer">©Skill Progress Tracker. All rights reserved.</footer>
+</body>
+</html>

@@ -13,12 +13,11 @@
 <body>
 <header>
     <div class="logo-left">
-        <a href="/home">
-            <img src="/images/logo.png" alt="Logo">
-        </a>
+        <a href="/home"><img src="/images/logo.png" alt="Logo"></a>
     </div>
 </header>
 <main>
+    <h2>Export Details</h2>
     <div class="home-section">
         <!-- SUCCESS / ERROR MESSAGE -->
         <p th:if="${record != null and record.exportStatus.name() == 'SUCCEEDED'}" class="alert-success">
@@ -27,9 +26,8 @@
         <p th:if="${record != null and record.exportStatus.name() == 'FAILED'}" class="alert-warning">
             ✖ Export failed. Please try again.
         </p>
-
-        <!-- RECORDS DETAILS FORM -->
         <form class="form">
+            <!-- RECORDS DETAILS FORM -->
             <label for="exportType">Format</label>
             <input id="exportType" type="text"
                    th:value="${record != null ? record.exportType : ''}"
@@ -48,15 +46,13 @@
             <label for="createdOn">Created On</label>
             <input id="createdOn" type="text"
                    th:value="${record != null and record.exportDate != null
-            ? #temporals.format(record.exportDate, 'yyyy-MM-dd HH:mm')
-            : ''}"
+            ? #temporals.format(record.exportDate, 'yyyy-MM-dd HH:mm') : ''}"
                    disabled>
 
             <label for="updatedOn">Last Updated</label>
             <input id="updatedOn" type="text"
                    th:value="${record != null and record.updatedOn != null
-                      ? #temporals.format(record.updatedOn, 'yyyy-MM-dd HH:mm')
-                      : ''}"
+                      ? #temporals.format(record.updatedOn, 'yyyy-MM-dd HH:mm') : ''}"
                    disabled>
 
             <label for="status">Status</label>
@@ -68,29 +64,30 @@
         <!-- ACTIONS BUTTONS-->
         <div class="profile-actions">
             <!-- UPDATE -->
-            <a th:href="@{/exportRecord/update/{id}(id=${record.id})}"
+            <a th:if="${record != null}"
+               th:href="@{/exportRecord/update/{id}(id=${record.id})}"
                class="profile-actions-button">Update Record</a>
 
             <!-- EXPORT -->
-            <a th:if="${record.exportStatus.name() == 'SUCCEEDED'}"
+            <a th:if="${record != null and record.exportStatus.name() == 'SUCCEEDED'}"
                th:href="@{/exportRecord/download/{id}(id=${record.id})}"
                class="profile-actions-button">Export File</a>
 
             <!--Retry Failed-->
-            <form th:if="${record.exportStatus.name() == 'FAILED'}"
+            <form th:if="${record != null and record.exportStatus.name() == 'FAILED'}"
                   th:action="@{/exportRecord/retry/{id}(id=${record.id})}" method="post" style="display:inline;">
                 <input type="hidden" name="_method" value="put"/>
                 <button type="submit" class="profile-actions-button">Try Again</button>
             </form>
 
             <!-- DELETE -->
-            <form th:action="@{/exportRecord/delete/{id}(id=${record.id})}" method="post" style="display:inline;">
+            <form th:if="${record != null}"
+                    th:action="@{/exportRecord/delete/{id}(id=${record.id})}" method="post" style="display:inline;">
                 <button type="submit" class="profile-actions-button delete-btn">Delete Record</button>
             </form>
         </div>
     </div>
 </main>
 <footer class="footer">©Skill Progress Tracker. All rights reserved.</footer>
-
 </body>
 </html>

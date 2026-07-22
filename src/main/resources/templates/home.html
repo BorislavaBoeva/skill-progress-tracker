@@ -56,11 +56,16 @@
                     <img src="/images/hobby.png" alt="Hobby" class="icon">Hobby</a>
             </div>
             <div class="container-export">
-                <a th:href="@{/exportRecord}" class="button menage-users">Export Your Data</a>
-                <!--        <form th:action="@{/export}" method="post" style="display:inline;">-->
-                <!--            <input type="hidden" name="format" value="CSV">-->
-                <!--            <button type="submit" class="button menage-users">Export Your Data</button>-->
-                <!--        </form>-->
+                 <form th:action="@{/exportRecord}" method="get">
+                     <label>
+                         <select name="type" class="menage-users">
+                             <option value="CSV">CSV</option>
+                             <option value="PDF">PDF</option>
+                         </select>
+                     </label>
+                     <button type="submit" class="button menage-users">Export Your Data</button>
+                </form>
+                <a th:href="@{/exportRecord/history}" class="button menage-users">Export History</a>
                 <a sec:authorize="hasRole('ADMIN')" th:href="@{/admin/users}" class="button menage-users">Manage Users</a>
             </div>
         </div>

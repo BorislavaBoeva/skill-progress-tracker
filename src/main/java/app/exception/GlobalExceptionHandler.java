@@ -21,27 +21,6 @@ public class GlobalExceptionHandler {
         return mav;
     }
 
-    @ExceptionHandler(DuplicateResourceException.class)
-    public ModelAndView handleDuplicate(DuplicateResourceException ex) {
-        ModelAndView mav = new ModelAndView("error");
-        mav.addObject("error", ex.getMessage());
-        return mav;
-    }
-
-    @ExceptionHandler(EntityNotFoundException.class)
-    public ModelAndView handleNotFound(EntityNotFoundException ex) {
-        ModelAndView mav = new ModelAndView("error");
-        mav.addObject("error", ex.getMessage());
-        return mav;
-    }
-
-    @ExceptionHandler(UnauthorizedActionException.class)
-    public ModelAndView handleUnauthorized(UnauthorizedActionException ex) {
-        ModelAndView mav = new ModelAndView("error");
-        mav.addObject("error", ex.getMessage());
-        return mav;
-    }
-
     @ExceptionHandler(ApplicationException.class)
     public ModelAndView handleApplicationException(ApplicationException ex) {
         ModelAndView mav = new ModelAndView("error");

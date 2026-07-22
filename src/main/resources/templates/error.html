@@ -15,9 +15,9 @@
 </header>
 <main>
     <h2>Something went wrong</h2>
-    <div class="error" th:text="${error}"></div>
+    <div class="error" th:text="${error != null ? error : 'An unexpected error occurred.'}"></div>
     <a href="/home" class="profile-actions-button">Back to Home</a>
 </main>
-<footer class="footer">© Skill Progress Tracker. All rights reserved.</footer>
+<footer class="footer">©Skill Progress Tracker. All rights reserved.</footer>
 </body>
 </html>

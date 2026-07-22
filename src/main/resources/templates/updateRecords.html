@@ -13,63 +13,41 @@
 <body>
 <header>
     <div class="logo-left">
-        <a href="/home">
-            <img src="/images/logo.png" alt="Logo">
-        </a>
-    </div>
-    <div class="profile-header">
-        <h2 class="profile-name">Edit Export Record</h2>
-        <img src="/images/reports.png" alt="Export Icon" class="profile-avatar">
+        <a href="/home"><img src="/images/logo.png" alt="Logo"></a>
     </div>
 </header>
 <main>
+    <h2>Update Details</h2>
     <div class="home-section">
-        <!-- SUCCESS / ERROR MESSAGE -->
-        <p th:if="${param.updated}" class="alert-success">✔ Export record updated successfully!</p>
-        <p th:if="${param.error}" class="alert-warning" th:text="${param.error}"></p>
-        <!-- UPDATE FORM -->
         <form class="form"
+              th:if="${record != null}"
               th:action="@{/exportRecord/update/{id}(id=${record.id})}"
               method="post">
             <input type="hidden" name="_method" value="put"/>
             <!-- Editable fields -->
             <label for="fileName">File Name</label>
             <input id="fileName" name="fileName" type="text"
-                   th:value="${record.fileName}" placeholder="File Name">
+                   th:value="${record != null ? record.fileName : ''}" placeholder="File Name">
+
             <label for="description">Description</label>
             <input id="description" name="description" type="text"
-                   th:value="${record.description}" placeholder="Description">
+                   th:value="${record != null ? record.description : ''}" placeholder="Description">
+
             <label for="exportType">Format</label>
-            <input id="exportType" name="exportType" type="text"
-                   th:value="${record.exportType}" placeholder="CSV / PDF">
-            <!-- Disabled system fields -->
-            <label for="status">Status</label>
-            <input id="status" type="text" th:value="${record.exportStatus}" disabled>
-            <label for="createdOn">Created On</label>
-            <input id="createdOn" type="text"
-                   th:value="${#temporals.format(record.exportDate, 'yyyy-MM-dd HH:mm')}"
-                   disabled>
-            <label for="updatedOn">Last Updated</label>
-            <input id="updatedOn" type="text"
-                   th:value="${#temporals.format(record.updatedOn, 'yyyy-MM-dd HH:mm')}"
-                   disabled>
+            <input id="exportType" type="text"
+                   th:value="${record != null ? record.exportType : ''}" disabled>
+            <input type="hidden" name="exportType"
+                   th:value="${record != null ? record.exportType : ''}"/>
+
             <button type="submit" class="profile-actions-button">Save Changes</button>
         </form>
-        <!-- ACTION BUTTONS -->
         <div class="profile-actions">
-            <!-- Download -->
-            <a th:if="${record.exportStatus.name() == 'SUCCEEDED'}"
-               th:href="@{/exportRecord/download/{id}(id=${record.id})}"
-               class="profile-actions-button">Download File</a>
-            <!-- Delete -->
-            <form th:action="@{/exportRecord/delete/{id}(id=${record.id})}" method="post" style="display:inline;">
-                <button type="submit" class="profile-actions-button delete-btn">Delete Record</button>
-            </form>
-            <!-- Back -->
-            <a th:href="@{/exportRecord/details/{id}(id=${record.id})}"
-               class="profile-actions-button">Back to Details</a>
+            <a th:if="${record != null}"
+               th:href="@{/exportRecord/details/{id}(id=${record.id})}"
+               class="profile-actions-button">Cancel</a>
         </div>
     </div>
 </main>
+<footer class="footer">©Skill Progress Tracker. All rights reserved.</footer>
 </body>
 </html>

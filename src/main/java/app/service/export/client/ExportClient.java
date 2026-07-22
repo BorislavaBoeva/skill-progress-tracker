@@ -11,22 +11,23 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 import java.util.UUID;
 
-@FeignClient(name = "export-record",url = "${export-record.service.url}")
+@FeignClient(name = "export-record", url = "${export-record.service.url}")
 public interface ExportClient {
 
     String X_API_KEY = "X-API-Key";
+
     @GetMapping("/{id}")
     ResponseEntity<ExportResponseDto> getById(@PathVariable UUID id,
                                               @RequestParam UUID userId,
                                               @RequestHeader(X_API_KEY) String xApiKey);
 
-    @GetMapping
-    ResponseEntity<List<ExportResponseDto>> getAllByUser(@RequestParam UUID userId,
-                                                         @RequestHeader(X_API_KEY) String xApiKey);
-
     @PostMapping
     ResponseEntity<ExportResponseDto> create(@RequestBody ExportCreateRequestDto createDto,
                                              @RequestHeader(X_API_KEY) String xApiKey);
+
+    @GetMapping
+    ResponseEntity<List<ExportResponseDto>> getHistory(@RequestParam UUID userId,
+                                                       @RequestHeader(X_API_KEY) String xApiKey);
 
     @PutMapping("/{id}")
     ResponseEntity<ExportResponseDto> update(@PathVariable UUID id,
@@ -35,7 +36,7 @@ public interface ExportClient {
                                              @RequestHeader(X_API_KEY) String xApiKey);
 
     @PutMapping("/{id}/retry")
-    ResponseEntity<ExportResponseDto> retry(@PathVariable UUID id,
+    ResponseEntity<Void> retry(@PathVariable UUID id,
                                             @RequestParam ExportStatus status,
                                             @RequestParam UUID userId,
                                             @RequestHeader(X_API_KEY) String xApiKey);
@@ -44,4 +45,4 @@ public interface ExportClient {
     ResponseEntity<Void> delete(@PathVariable UUID id,
                                 @RequestParam UUID userId,
                                 @RequestHeader(X_API_KEY) String xApiKey);
-  }
+}

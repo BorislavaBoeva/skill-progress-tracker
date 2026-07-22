@@ -1,22 +1,19 @@
 package app.web.export;
 
-import app.exception.ExportNotFoundException;
 import app.model.dto.export.ExportResponseDto;
 import app.model.dto.export.ExportStatus;
-import app.model.dto.export.ExportUpdateRequestDto;
+import app.model.dto.export.ExportType;
 import app.model.dto.user.AuthenticationUserDetails;
 import app.service.export.ExportFileService;
 import app.service.export.ExportService;
-import feign.FeignException;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
 import java.util.UUID;
 
 @Controller
@@ -31,98 +28,66 @@ public class ExportController {
         this.exportFileService = exportFileService;
     }
 
-    // 0) CREATE — triggered by "Export Your Data" button on home.html
+    //from "Export Your Data" page
     @GetMapping
-    public ModelAndView createExport(@AuthenticationPrincipal AuthenticationUserDetails principal) {
-        ExportResponseDto created = exportFileService.createExport(principal.getId());
+    public ModelAndView createExport(@RequestParam(defaultValue = "CSV") ExportType type,
+                                     @AuthenticationPrincipal AuthenticationUserDetails principal) {
+        ExportResponseDto created = exportFileService.createExportRecord(principal.getId(), type);
         return new ModelAndView("redirect:/exportRecord/details/" + created.getId());
     }
 
-    // 1) DETAILS PAGE
+    // Details view
     @GetMapping("/details/{id}")
     public ModelAndView showDetails(@PathVariable UUID id,
                                     @AuthenticationPrincipal AuthenticationUserDetails principal) {
-        ExportResponseDto record = fetchOrThrow(id, principal.getId());
-
-        ModelAndView mav = new ModelAndView("exportRecord");
-        mav.addObject("record", record);
-        return mav;
+        ExportResponseDto record = exportService.getRecordByIdOrThrow(id, principal.getId());
+        ModelAndView modelAndView = new ModelAndView("exportRecord");
+        modelAndView.addObject("record", record);
+        return modelAndView;
     }
 
-    // 2) UPDATE PAGE (GET)
-    @GetMapping("/update/{id}")
-    public ModelAndView showUpdateForm(@PathVariable UUID id,
-                                       @AuthenticationPrincipal AuthenticationUserDetails principal) {
-        ExportResponseDto record = fetchOrThrow(id, principal.getId());
-
-        ModelAndView mav = new ModelAndView("updateRecords");
-        mav.addObject("record", record);
-        return mav;
+    @GetMapping("/history")
+    public ModelAndView showHistory(@AuthenticationPrincipal AuthenticationUserDetails principal) {
+        List<ExportResponseDto> recordsHistory = exportService.getHistory(principal.getId());
+        ModelAndView modelAndView = new ModelAndView("exportHistory");
+        modelAndView.addObject("recordsHistory", recordsHistory);
+        return modelAndView;
     }
 
-    // 3) UPDATE (PUT)
-    @PutMapping("/update/{id}")
-    public ModelAndView updateRecord(@PathVariable UUID id,
-                                     @Valid @ModelAttribute ExportUpdateRequestDto updateDto,
-                                     BindingResult bindingResult,
-                                     @AuthenticationPrincipal AuthenticationUserDetails principal) {
-        if (bindingResult.hasErrors()) {
-            ModelAndView mav = new ModelAndView("updateRecords");
-            mav.addObject("record", fetchOrThrow(id, principal.getId()));
-            return mav;
-        }
-
-        try {
-            exportService.update(id, updateDto, principal.getId());
-        } catch (FeignException.NotFound e) {
-            return new ModelAndView("redirect:/exportRecord/update/" + id + "?error=Update failed");
-        }
-
-        return new ModelAndView("redirect:/exportRecord/update/" + id + "?updated=true");
-    }
-
-    // 4) RETRY
+    // Try Again button
     @PutMapping("/retry/{id}")
     public ModelAndView retryRecord(@PathVariable UUID id,
                                     @AuthenticationPrincipal AuthenticationUserDetails principal) {
+        ExportResponseDto record = exportService.getRecordByIdOrThrow(id, principal.getId());
         ExportStatus newStatus;
         try {
-            exportFileService.generateCsv(principal.getId());
+            exportFileService.generateFile(principal.getId(), record.getExportType());
             newStatus = ExportStatus.SUCCEEDED;
         } catch (Exception e) {
             newStatus = ExportStatus.FAILED;
         }
-
-        exportService.retry(id, newStatus, principal.getId());
+        exportService.retryRecord(id, newStatus, principal.getId());
         return new ModelAndView("redirect:/exportRecord/details/" + id);
     }
 
-    // 5) DELETE
-    @PostMapping("/delete/{id}")
-    public ModelAndView deleteRecord(@PathVariable UUID id,
-                                     @AuthenticationPrincipal AuthenticationUserDetails principal) {
-        exportService.delete(id, principal.getId());
-        return new ModelAndView("redirect:/users/progress");
-    }
-
-    // 6) DOWNLOAD — regenerates on-demand
+    // Export File Download button
     @GetMapping("/download/{id}")
     public ResponseEntity<byte[]> download(@PathVariable UUID id,
                                            @AuthenticationPrincipal AuthenticationUserDetails principal) {
-        ExportResponseDto record = fetchOrThrow(id, principal.getId());
-        byte[] content = exportFileService.generateCsv(principal.getId());
-
+        ExportResponseDto record = exportService.getRecordByIdOrThrow(id, principal.getId());
+        byte[] content = exportFileService.generateFile(principal.getId(), record.getExportType());
+        String contentType = record.getExportType() == ExportType.PDF ? "application/pdf" : "text/csv";
         return ResponseEntity.ok()
                 .header("Content-Disposition", "attachment; filename=\"" + record.getFileName() + "\"")
-                .header("Content-Type", "text/csv")
+                .header("Content-Type", contentType)
                 .body(content);
     }
 
-    private ExportResponseDto fetchOrThrow(UUID id, UUID userId) {
-        try {
-            return exportService.getById(id, userId);
-        } catch (FeignException.NotFound e) {
-            throw new ExportNotFoundException("Export record not found");
-        }
+    // Delete Record button
+    @PostMapping("/delete/{id}")
+    public ModelAndView deleteRecord(@PathVariable UUID id,
+                                     @AuthenticationPrincipal AuthenticationUserDetails principal) {
+        exportService.deleteRecord(id, principal.getId());
+        return new ModelAndView("redirect:/users/progress");
     }
 }
